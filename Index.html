@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinkRepo</title>
+  <style>
+    :root {
+      --blue: #145dff;
+      --blue-dark: #0f4dde;
+      --text: #0e1726;
+      --muted: #64748b;
+      --border: #e5e7eb;
+      --card: #ffffff;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #ffffff 0%, #f7faff 100%);
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 24px 56px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .brand {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--blue);
+      line-height: 1;
+    }
+
+    .add-link-btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .add-link-btn:hover {
+      transform: translateY(-1px);
+      border-color: #cbd5e1;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+    }
+
+    .hero {
+      text-align: center;
+      margin: 24px auto 32px;
+      max-width: 760px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 56px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      margin: 14px auto 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 660px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin: 34px 0 34px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid #edf2f7;
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 24px 20px;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+      text-align: left;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 38px rgba(15, 23, 42, 0.12);
+      border-color: #dbeafe;
+    }
+
+    .icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #eff6ff;
+      color: var(--blue);
+      font-size: 26px;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .search-panel {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid #eef2f7;
+      box-shadow: var(--shadow);
+      border-radius: 28px;
+      padding: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      max-width: 980px;
+    }
+
+    .field {
+      flex: 1 1 260px;
+      min-width: 220px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0 0 8px;
+      font-weight: 600;
+    }
+
+    .field input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 18px;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      background: #fff;
+    }
+
+    .field input:focus {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 4px rgba(20, 93, 255, 0.12);
+    }
+
+    .primary-btn {
+      border: 0;
+      background: var(--blue);
+      color: white;
+      padding: 18px 28px;
+      border-radius: 18px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      min-width: 190px;
+      align-self: flex-end;
+      transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 12px 24px rgba(20, 93, 255, 0.22);
+    }
+
+    .primary-btn:hover {
+      background: var(--blue-dark);
+      transform: translateY(-1px);
+    }
+
+    .results {
+      margin: 34px auto 0;
+      max-width: 980px;
+      background: rgba(255,255,255,0.95);
+      border: 1px solid #eef2f7;
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 26px;
+      display: none;
+    }
+
+    .results.active {
+      display: block;
+    }
+
+    .results-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .results-head h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .results-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    .pill {
+      background: #eff6ff;
+      color: var(--blue);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .link-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .link-item {
+      border: 1px solid #edf2f7;
+      border-radius: 18px;
+      padding: 16px 18px;
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 14px;
+      align-items: start;
+      background: #fff;
+    }
+
+    .rank {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: #eff6ff;
+      color: var(--blue);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .link-item a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .link-item a:hover {
+      color: var(--blue);
+    }
+
+    .meta {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 20px 16px 44px;
+      }
+
+      .topbar {
+        margin-bottom: 22px;
+      }
+
+      .brand {
+        font-size: 34px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .search-panel {
+        padding: 18px;
+      }
+
+      .primary-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">LINKREPO</div>
+      <button
+        class="add-link-btn"
+        type="button"
+        onclick="alert('Dummy flow: submit a link, choose a category, and optionally add a location. Each link stays live for 5 days.')"
+      >
+        Add Your Link
+      </button>
+    </header>
+
+    <section class="hero">
+      <h1>Find active links — instantly.</h1>
+      <p>
+        Discover what people are selling, dropping, or promoting right now.
+        Fresh links only. Clean search. No noise.
+      </p>
+    </section>
+
+    <section class="cards">
+      <button class="card" type="button" onclick="showCategory('rentals')">
+        <div class="icon">🏠</div>
+        <h3>Rentals</h3>
+        <p>Homes, rooms, and spaces people are advertising right now.</p>
+      </button>
+
+      <button class="card" type="button" onclick="showCategory('music')">
+        <div class="icon">🎵</div>
+        <h3>Music</h3>
+        <p>Fresh songs, new videos, and music drops people want seen today.</p>
+      </button>
+
+      <button class="card" type="button" onclick="showCategory('tech')">
+        <div class="icon">📱</div>
+        <h3>Tech</h3>
+        <p>Phones, laptops, gadgets, and electronics people are selling now.</p>
+      </button>
+
+      <button class="card" type="button" onclick="showCategory('lifestyle')">
+        <div class="icon">✨</div>
+        <h3>Lifestyle</h3>
+        <p>Fashion, food, beauty, and everyday items people want to sell.</p>
+      </button>
+    </section>
+
+    <section class="search-panel">
+      <div class="field">
+        <label for="query">What are you looking for?</label>
+        <input id="query" type="text" placeholder="Try song, iPhone, apartment, dress" />
+      </div>
+
+      <div class="field">
+        <label for="location">Location (optional)</label>
+        <input id="location" type="text" placeholder="Lagos, Houston, Remote, Online" />
+      </div>
+
+      <button class="primary-btn" type="button" onclick="runSearch()">Find Links →</button>
+    </section>
+
+    <section id="results" class="results">
+      <div class="results-head">
+        <div>
+          <h2 id="resultsTitle">Top links</h2>
+          <p id="resultsSubtitle">Curated results will appear here.</p>
+        </div>
+        <div class="pill" id="resultsPill">0 links</div>
+      </div>
+
+      <div class="link-list" id="linkList"></div>
+      <div class="footer-note">These are dummy links for preview. Replace them with Supabase or Airtable data later.</div>
+    </section>
+  </div>
+
+  <script>
+    const categoryData = {
+      rentals: {
+        title: 'Top Rental Links',
+        subtitle: 'Active links to rooms, apartments, and spaces available right now.',
+        items: [
+          {
+            title: 'New Rent at Rolla',
+            url: 'https://facebook.com/marketplace/item/123456789',
+            meta: 'Rental link • Rolla, Missouri • 2 days left'
+          },
+          {
+            title: '1 Bedroom Apartment in Lagos',
+            url: 'https://example.com/lagos-rent-1',
+            meta: 'Rental link • Lagos • 3 days left'
+          },
+          {
+            title: 'Student Room Near Campus',
+            url: 'https://example.com/student-room',
+            meta: 'Rental link • Student housing • 4 days left'
+          }
+        ]
+      },
+      music: {
+        title: 'Top Music Links',
+        subtitle: 'Fresh songs, drops, and music releases active right now.',
+        items: [
+          {
+            title: 'New Song By Tedi',
+            url: 'https://youtube.com/watch?v=dQw4w9WgXcQ',
+            meta: 'Music drop • Lagos • 5 days left'
+          },
+          {
+            title: 'Afrobeats Single Out Now',
+            url: 'https://open.spotify.com/',
+            meta: 'Spotify release • Online • 4 days left'
+          },
+          {
+            title: 'New Music Video This Week',
+            url: 'https://instagram.com/',
+            meta: 'Music video link • Online • 2 days left'
+          }
+        ]
+      },
+      tech: {
+        title: 'Top Tech Links',
+        subtitle: 'Active links to phones, laptops, gadgets, and electronics for sale.',
+        items: [
+          {
+            title: 'iPhone 13 for Sale',
+            url: 'https://wa.me/2348012345678',
+            meta: 'Tech link • Houston • 2 days left'
+          },
+          {
+            title: 'MacBook Air Clearance',
+            url: 'https://example.com/macbook-air',
+            meta: 'Tech link • Online • 4 days left'
+          },
+          {
+            title: 'Used Samsung S21',
+            url: 'https://example.com/samsung-s21',
+            meta: 'Tech link • Lagos • 3 days left'
+          }
+        ]
+      },
+      lifestyle: {
+        title: 'Top Lifestyle Links',
+        subtitle: 'Active links to clothes, food, beauty products, and items for sale right now.',
+        items: [
+          {
+            title: 'New Ankara for Sale',
+            url: 'https://instagram.com/fashionhub.ng',
+            meta: 'Lifestyle link • New York • 2 days left'
+          },
+          {
+            title: 'Weekend Food Tray Sale',
+            url: 'https://example.com/food-tray',
+            meta: 'Food link • Local • 1 day left'
+          },
+          {
+            title: 'Beauty Product Bundle',
+            url: 'https://example.com/beauty-bundle',
+            meta: 'Lifestyle link • Online • 5 days left'
+          }
+        ]
+      }
+    };
+
+    function renderResults(title, subtitle, items) {
+      const results = document.getElementById('results');
+      const titleEl = document.getElementById('resultsTitle');
+      const subtitleEl = document.getElementById('resultsSubtitle');
+      const listEl = document.getElementById('linkList');
+      const pillEl = document.getElementById('resultsPill');
+
+      titleEl.textContent = title;
+      subtitleEl.textContent = subtitle;
+      pillEl.textContent = `${items.length} links`;
+
+      listEl.innerHTML = items.map((item, index) => {
+        return `
+          <div class="link-item">
+            <div class="rank">${index + 1}</div>
+            <div>
+              <a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>
+              <div class="meta">${item.meta}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      results.classList.add('active');
+      results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function showCategory(category) {
+      const data = categoryData[category];
+      if (!data) return;
+
+      renderResults(data.title, data.subtitle, data.items);
+      document.getElementById('query').value = data.title.replace('Top ', '').replace(' Links', '');
+    }
+
+    function runSearch() {
+      const query = document.getElementById('query').value.trim().toLowerCase();
+      const location = document.getElementById('location').value.trim();
+
+      let picked = categoryData.tech;
+
+      if (query.includes('rent') || query.includes('apartment') || query.includes('housing') || query.includes('room')) {
+        picked = categoryData.rentals;
+      } else if (query.includes('music') || query.includes('song') || query.includes('album') || query.includes('video')) {
+        picked = categoryData.music;
+      } else if (
+        query.includes('fashion') ||
+        query.includes('food') ||
+        query.includes('beauty') ||
+        query.includes('lifestyle') ||
+        query.includes('dress') ||
+        query.includes('bag')
+      ) {
+        picked = categoryData.lifestyle;
+      } else if (
+        query.includes('phone') ||
+        query.includes('laptop') ||
+        query.includes('iphone') ||
+        query.includes('macbook') ||
+        query.includes('tech') ||
+        query.includes('android')
+      ) {
+        picked = categoryData.tech;
+      }
+
+      const updatedItems = picked.items.map((item) => {
+        if (!location) return item;
+        return {
+          ...item,
+          meta: `${item.meta} • Filter: ${location}`
+        };
+      });
+
+      const title = location ? `${picked.title} in ${location}` : picked.title;
+      const subtitle = query ? `Showing dummy links for “${query}”.` : picked.subtitle;
+
+      renderResults(title, subtitle, updatedItems);
+    }
+
+    function runSmokeTests() {
+      console.assert(categoryData.rentals.items.length > 0, 'Rentals should have items');
+      console.assert(categoryData.music.items.length > 0, 'Music should have items');
+      console.assert(categoryData.tech.items.length > 0, 'Tech should have items');
+      console.assert(categoryData.lifestyle.items.length > 0, 'Lifestyle should have items');
+      console.assert(typeof showCategory === 'function', 'showCategory should exist');
+      console.assert(typeof runSearch === 'function', 'runSearch should exist');
+    }
+
+    runSmokeTests();
+  </script>
+</body>
+</html>
