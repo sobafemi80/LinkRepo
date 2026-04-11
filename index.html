@@ -39,50 +39,50 @@
     }
 
     .brand {
-      font-size: 42px;
+      font-size: 24px;
       font-weight: 800;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       color: var(--blue);
       line-height: 1;
     }
 
-    .add-link-btn {
-      border: 1px solid var(--border);
-      background: #fff;
-      color: var(--text);
-      padding: 12px 18px;
+    .drop-btn {
+      border: none;
+      background: var(--blue);
+      color: #fff;
+      padding: 12px 20px;
       border-radius: 999px;
-      font-weight: 600;
+      font-weight: 700;
+      font-size: 14px;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
-      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      font-family: inherit;
+      transition: background 0.15s ease, transform 0.15s ease;
+      box-shadow: 0 4px 14px rgba(20, 93, 255, 0.25);
     }
 
-    .add-link-btn:hover {
+    .drop-btn:hover {
+      background: var(--blue-dark);
       transform: translateY(-1px);
-      border-color: #cbd5e1;
-      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
     }
 
     .hero {
       text-align: center;
-      margin: 24px auto 32px;
+      margin: 32px auto 32px;
       max-width: 760px;
     }
 
     .hero h1 {
-      margin: 0;
-      font-size: clamp(34px, 5vw, 56px);
-      line-height: 1.08;
-      letter-spacing: -0.03em;
+      margin: 0 0 10px;
+      font-size: clamp(24px, 3.5vw, 38px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      font-weight: 800;
     }
 
     .hero p {
-      margin: 14px auto 0;
+      margin: 0;
       color: var(--muted);
-      font-size: 18px;
-      line-height: 1.6;
-      max-width: 660px;
+      font-size: 16px;
     }
 
     .cards {
@@ -100,7 +100,10 @@
       padding: 24px 20px;
       cursor: pointer;
       transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
-      text-align: left;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .card:hover {
@@ -117,22 +120,12 @@
       align-items: center;
       justify-content: center;
       background: #eff6ff;
-      color: var(--blue);
       font-size: 26px;
       margin-bottom: 18px;
     }
 
-    .card h3 {
-      margin: 0 0 8px;
-      font-size: 20px;
-    }
-
-    .card p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.55;
-      font-size: 15px;
-    }
+    .card h3 { margin: 0 0 8px; font-size: 20px; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.55; font-size: 15px; }
 
     .search-panel {
       background: rgba(255,255,255,0.92);
@@ -149,10 +142,7 @@
       max-width: 980px;
     }
 
-    .field {
-      flex: 1 1 260px;
-      min-width: 220px;
-    }
+    .field { flex: 1 1 260px; min-width: 220px; }
 
     .field label {
       display: block;
@@ -171,6 +161,7 @@
       outline: none;
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
       background: #fff;
+      font-family: inherit;
     }
 
     .field input:focus {
@@ -189,14 +180,12 @@
       cursor: pointer;
       min-width: 190px;
       align-self: flex-end;
-      transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+      transition: transform 0.15s ease, background 0.15s ease;
       box-shadow: 0 12px 24px rgba(20, 93, 255, 0.22);
+      font-family: inherit;
     }
 
-    .primary-btn:hover {
-      background: var(--blue-dark);
-      transform: translateY(-1px);
-    }
+    .primary-btn:hover { background: var(--blue-dark); transform: translateY(-1px); }
 
     .results {
       margin: 34px auto 0;
@@ -209,9 +198,7 @@
       display: none;
     }
 
-    .results.active {
-      display: block;
-    }
+    .results.active { display: block; }
 
     .results-head {
       display: flex;
@@ -222,15 +209,8 @@
       flex-wrap: wrap;
     }
 
-    .results-head h2 {
-      margin: 0;
-      font-size: 24px;
-    }
-
-    .results-head p {
-      margin: 6px 0 0;
-      color: var(--muted);
-    }
+    .results-head h2 { margin: 0; font-size: 24px; }
+    .results-head p { margin: 6px 0 0; color: var(--muted); }
 
     .pill {
       background: #eff6ff;
@@ -242,10 +222,7 @@
       white-space: nowrap;
     }
 
-    .link-list {
-      display: grid;
-      gap: 14px;
-    }
+    .link-list { display: grid; gap: 14px; }
 
     .link-item {
       border: 1px solid #edf2f7;
@@ -271,82 +248,221 @@
       font-size: 15px;
     }
 
-    .link-item a {
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 16px;
+    .link-item a { color: var(--text); text-decoration: none; font-weight: 700; font-size: 16px; }
+    .link-item a:hover { color: var(--blue); }
+    .meta { margin-top: 4px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .footer-note { margin-top: 14px; color: var(--muted); font-size: 13px; }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(14, 23, 42, 0.45);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
     }
 
-    .link-item a:hover {
-      color: var(--blue);
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: #fff;
+      border-radius: 24px;
+      padding: 32px;
+      width: 100%;
+      max-width: 460px;
+      margin: 16px;
+      box-shadow: 0 24px 60px rgba(14, 23, 42, 0.18);
     }
 
-    .meta {
-      margin-top: 4px;
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .modal-header h2 { margin: 0; font-size: 22px; font-weight: 800; }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
       color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
+      line-height: 1;
+      padding: 4px;
+      margin-top: -2px;
     }
 
-    .footer-note {
-      margin-top: 14px;
+    .modal-tagline {
       color: var(--muted);
       font-size: 13px;
+      margin: 0 0 24px;
     }
 
-    @media (max-width: 980px) {
-      .cards {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+    .modal-field { margin-bottom: 16px; }
+
+    .modal-field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
     }
+
+    .modal-field input,
+    .modal-field select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 13px 16px;
+      font-size: 15px;
+      outline: none;
+      background: #fff;
+      font-family: inherit;
+      color: var(--text);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .modal-field input:focus,
+    .modal-field select:focus {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 4px rgba(20, 93, 255, 0.10);
+    }
+
+    .modal-field select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+
+    .modal-category-display {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .select-wrap { position: relative; }
+
+    .select-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      pointer-events: none;
+    }
+
+    .select-with-icon { padding-left: 40px; }
+
+    .modal-error {
+      color: #dc2626;
+      font-size: 13px;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    .modal-submit {
+      width: 100%;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s ease, transform 0.15s ease;
+      margin-top: 4px;
+      box-shadow: 0 8px 20px rgba(20, 93, 255, 0.22);
+    }
+
+    .modal-submit:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .modal-submit:disabled { background: #93c5fd; cursor: not-allowed; transform: none; }
+
+    .modal-footer-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 980px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
     @media (max-width: 640px) {
-      .page {
-        padding: 20px 16px 44px;
-      }
-
-      .topbar {
-        margin-bottom: 22px;
-      }
-
-      .brand {
-        font-size: 34px;
-      }
-
-      .cards {
-        grid-template-columns: 1fr;
-      }
-
-      .search-panel {
-        padding: 18px;
-      }
-
-      .primary-btn {
-        width: 100%;
-      }
+      .page { padding: 20px 16px 44px; }
+      .topbar { margin-bottom: 22px; }
+      .brand { font-size: 20px; }
+      .cards { grid-template-columns: 1fr; }
+      .search-panel { padding: 18px; }
+      .primary-btn { width: 100%; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Drop Link Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Drop your link 🔥</h2>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <p class="modal-tagline">Takes 10 seconds. Goes live instantly.</p>
+
+      <div class="modal-field">
+        <label>What are you sharing?</label>
+        <input id="m_title" type="text" placeholder="e.g. iPhone 13 for sale, New song out now..." />
+      </div>
+
+      <div class="modal-field">
+        <label>Paste the link</label>
+        <input id="m_url" type="url" placeholder="https://..." />
+      </div>
+
+      <div class="modal-field">
+        <label>Where should we show it?</label>
+        <div class="select-wrap">
+          <span class="select-icon" id="categoryIcon">📱</span>
+          <select id="m_category" class="select-with-icon" onchange="updateCategoryIcon()">
+            <option value="tech">Tech</option>
+            <option value="rentals">Rentals</option>
+            <option value="music">Music</option>
+            <option value="lifestyle">Lifestyle</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-field">
+        <label>Who should see this? (optional)</label>
+        <input id="m_location" type="text" placeholder="e.g. Lagos, Houston, or leave blank for global" />
+      </div>
+
+      <div class="modal-error" id="m_error"></div>
+      <button class="modal-submit" id="m_submit" onclick="submitLink()">🚀 Go Live Now</button>
+      <p class="modal-footer-note">Your link stays active for 5 days.</p>
+    </div>
+  </div>
+
   <div class="page">
     <header class="topbar">
-      <div class="brand">LINKREPO</div>
-      <button
-        class="add-link-btn"
-        type="button"
-        onclick="alert('Dummy flow: submit a link, choose a category, and optionally add a location. Each link stays live for 5 days.')"
-      >
-        Add Your Link
-      </button>
+      <div class="brand">LinkRepo</div>
+      <button class="drop-btn" type="button" onclick="openModal()">Drop Your Link</button>
     </header>
 
     <section class="hero">
-      <h1>Find active links — instantly.</h1>
-      <p>
-        Discover what people are selling, dropping, or promoting right now.
-        Fresh links only. Clean search. No noise.
-      </p>
+      <h1>What are you looking for today?</h1>
+      <p>Fresh links only. Updated in real time.</p>
     </section>
 
     <section class="cards">
@@ -355,19 +471,16 @@
         <h3>Rentals</h3>
         <p>Homes, rooms, and spaces people are advertising right now.</p>
       </button>
-
       <button class="card" type="button" onclick="showCategory('music')">
         <div class="icon">🎵</div>
         <h3>Music</h3>
         <p>Fresh songs, new videos, and music drops people want seen today.</p>
       </button>
-
       <button class="card" type="button" onclick="showCategory('tech')">
         <div class="icon">📱</div>
         <h3>Tech</h3>
         <p>Phones, laptops, gadgets, and electronics people are selling now.</p>
       </button>
-
       <button class="card" type="button" onclick="showCategory('lifestyle')">
         <div class="icon">✨</div>
         <h3>Lifestyle</h3>
@@ -380,12 +493,10 @@
         <label for="query">What are you looking for?</label>
         <input id="query" type="text" placeholder="Try song, iPhone, apartment, dress" />
       </div>
-
       <div class="field">
         <label for="location">Location (optional)</label>
         <input id="location" type="text" placeholder="Lagos, Houston, Remote, Online" />
       </div>
-
       <button class="primary-btn" type="button" onclick="runSearch()">Find Links →</button>
     </section>
 
@@ -397,189 +508,167 @@
         </div>
         <div class="pill" id="resultsPill">0 links</div>
       </div>
-
       <div class="link-list" id="linkList"></div>
-      <div class="footer-note">These are dummy links for preview. Replace them with Supabase or Airtable data later.</div>
+      <div class="footer-note" id="footerNote"></div>
     </section>
   </div>
 
   <script>
-    const categoryData = {
-      rentals: {
-        title: 'Top Rental Links',
-        subtitle: 'Active links to rooms, apartments, and spaces available right now.',
-        items: [
-          {
-            title: 'New Rent at Rolla',
-            url: 'https://facebook.com/marketplace/item/123456789',
-            meta: 'Rental link • Rolla, Missouri • 2 days left'
+    const SUPABASE_URL = 'https://wdjepqcbeoikvhofqqvn.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_tp05ugPzlC_AsNyaAH3rmQ_BG-0EOCQ';
+
+    const categoryIcons = { tech: '📱', rentals: '🏠', music: '🎵', lifestyle: '✨' };
+
+    function updateCategoryIcon() {
+      const val = document.getElementById('m_category').value;
+      document.getElementById('categoryIcon').textContent = categoryIcons[val] || '📱';
+    }
+
+    function openModal() {
+      document.getElementById('modalOverlay').classList.add('open');
+      document.getElementById('m_title').focus();
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.getElementById('m_error').style.display = 'none';
+      document.getElementById('m_title').value = '';
+      document.getElementById('m_url').value = '';
+      document.getElementById('m_location').value = '';
+      document.getElementById('m_submit').disabled = false;
+      document.getElementById('m_submit').textContent = '🚀 Go Live Now';
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target === document.getElementById('modalOverlay')) closeModal();
+    }
+
+    async function submitLink() {
+      const title = document.getElementById('m_title').value.trim();
+      const url = document.getElementById('m_url').value.trim();
+      const category = document.getElementById('m_category').value;
+      const location = document.getElementById('m_location').value.trim();
+      const errorEl = document.getElementById('m_error');
+      const submitBtn = document.getElementById('m_submit');
+
+      errorEl.style.display = 'none';
+
+      if (!title) { errorEl.textContent = 'Please tell us what you are sharing.'; errorEl.style.display = 'block'; return; }
+      if (!url || !url.startsWith('http')) { errorEl.textContent = 'Please paste a valid link starting with https://'; errorEl.style.display = 'block'; return; }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Going live...';
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/links`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
           },
-          {
-            title: '1 Bedroom Apartment in Lagos',
-            url: 'https://example.com/lagos-rent-1',
-            meta: 'Rental link • Lagos • 3 days left'
-          },
-          {
-            title: 'Student Room Near Campus',
-            url: 'https://example.com/student-room',
-            meta: 'Rental link • Student housing • 4 days left'
-          }
-        ]
-      },
-      music: {
-        title: 'Top Music Links',
-        subtitle: 'Fresh songs, drops, and music releases active right now.',
-        items: [
-          {
-            title: 'New Song By Tedi',
-            url: 'https://youtube.com/watch?v=dQw4w9WgXcQ',
-            meta: 'Music drop • Lagos • 5 days left'
-          },
-          {
-            title: 'Afrobeats Single Out Now',
-            url: 'https://open.spotify.com/',
-            meta: 'Spotify release • Online • 4 days left'
-          },
-          {
-            title: 'New Music Video This Week',
-            url: 'https://instagram.com/',
-            meta: 'Music video link • Online • 2 days left'
-          }
-        ]
-      },
-      tech: {
-        title: 'Top Tech Links',
-        subtitle: 'Active links to phones, laptops, gadgets, and electronics for sale.',
-        items: [
-          {
-            title: 'iPhone 13 for Sale',
-            url: 'https://wa.me/2348012345678',
-            meta: 'Tech link • Houston • 2 days left'
-          },
-          {
-            title: 'MacBook Air Clearance',
-            url: 'https://example.com/macbook-air',
-            meta: 'Tech link • Online • 4 days left'
-          },
-          {
-            title: 'Used Samsung S21',
-            url: 'https://example.com/samsung-s21',
-            meta: 'Tech link • Lagos • 3 days left'
-          }
-        ]
-      },
-      lifestyle: {
-        title: 'Top Lifestyle Links',
-        subtitle: 'Active links to clothes, food, beauty products, and items for sale right now.',
-        items: [
-          {
-            title: 'New Ankara for Sale',
-            url: 'https://instagram.com/fashionhub.ng',
-            meta: 'Lifestyle link • New York • 2 days left'
-          },
-          {
-            title: 'Weekend Food Tray Sale',
-            url: 'https://example.com/food-tray',
-            meta: 'Food link • Local • 1 day left'
-          },
-          {
-            title: 'Beauty Product Bundle',
-            url: 'https://example.com/beauty-bundle',
-            meta: 'Lifestyle link • Online • 5 days left'
-          }
-        ]
+          body: JSON.stringify({ title, url, category, location: location || null })
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.message || 'Submission failed');
+        }
+
+        closeModal();
+        alert('Your link is live! Check the ' + category + ' category.');
+      } catch (err) {
+        errorEl.textContent = 'Error: ' + err.message;
+        errorEl.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = '🚀 Go Live Now';
       }
-    };
+    }
+
+    async function fetchLinks(category, locationFilter) {
+      let url = `${SUPABASE_URL}/rest/v1/links?category=eq.${category}&order=created_at.desc`;
+      if (locationFilter) url += `&location=ilike.*${encodeURIComponent(locationFilter)}*`;
+      const res = await fetch(url, {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+      });
+      if (!res.ok) throw new Error('Failed to fetch');
+      return await res.json();
+    }
 
     function renderResults(title, subtitle, items) {
-      const results = document.getElementById('results');
-      const titleEl = document.getElementById('resultsTitle');
-      const subtitleEl = document.getElementById('resultsSubtitle');
+      document.getElementById('resultsTitle').textContent = title;
+      document.getElementById('resultsSubtitle').textContent = subtitle;
+      document.getElementById('resultsPill').textContent = `${items.length} links`;
+      document.getElementById('footerNote').textContent = '';
+
       const listEl = document.getElementById('linkList');
-      const pillEl = document.getElementById('resultsPill');
-
-      titleEl.textContent = title;
-      subtitleEl.textContent = subtitle;
-      pillEl.textContent = `${items.length} links`;
-
-      listEl.innerHTML = items.map((item, index) => {
-        return `
+      if (items.length === 0) {
+        listEl.innerHTML = '<p style="color:var(--muted);font-size:15px;">No links here yet. Drop the first one!</p>';
+      } else {
+        listEl.innerHTML = items.map((item, i) => `
           <div class="link-item">
-            <div class="rank">${index + 1}</div>
+            <div class="rank">${i + 1}</div>
             <div>
               <a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>
-              <div class="meta">${item.meta}</div>
+              <div class="meta">${item.category}${item.location ? ' • ' + item.location : ''}</div>
             </div>
           </div>
-        `;
-      }).join('');
+        `).join('');
+      }
 
+      const results = document.getElementById('results');
       results.classList.add('active');
       results.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    function showCategory(category) {
-      const data = categoryData[category];
-      if (!data) return;
+    async function showCategory(category) {
+      const titles = { rentals: 'Top Rental Links', music: 'Top Music Links', tech: 'Top Tech Links', lifestyle: 'Top Lifestyle Links' };
+      const subtitles = {
+        rentals: 'Active links to rooms, apartments, and spaces available right now.',
+        music: 'Fresh songs, drops, and music releases active right now.',
+        tech: 'Active links to phones, laptops, gadgets, and electronics for sale.',
+        lifestyle: 'Active links to clothes, food, beauty products, and items for sale right now.'
+      };
 
-      renderResults(data.title, data.subtitle, data.items);
-      document.getElementById('query').value = data.title.replace('Top ', '').replace(' Links', '');
+      document.getElementById('query').value = category;
+      document.getElementById('resultsTitle').textContent = 'Loading...';
+      document.getElementById('linkList').innerHTML = '';
+      document.getElementById('results').classList.add('active');
+
+      try {
+        const items = await fetchLinks(category, '');
+        renderResults(titles[category], subtitles[category], items);
+      } catch (err) {
+        document.getElementById('linkList').innerHTML = '<p style="color:red;font-size:14px;">Could not load links. Check your Supabase connection.</p>';
+      }
     }
 
-    function runSearch() {
+    async function runSearch() {
       const query = document.getElementById('query').value.trim().toLowerCase();
       const location = document.getElementById('location').value.trim();
 
-      let picked = categoryData.tech;
+      let category = 'tech';
+      if (query.includes('rent') || query.includes('apartment') || query.includes('housing') || query.includes('room')) category = 'rentals';
+      else if (query.includes('music') || query.includes('song') || query.includes('album') || query.includes('video')) category = 'music';
+      else if (query.includes('fashion') || query.includes('food') || query.includes('beauty') || query.includes('lifestyle') || query.includes('dress') || query.includes('bag')) category = 'lifestyle';
 
-      if (query.includes('rent') || query.includes('apartment') || query.includes('housing') || query.includes('room')) {
-        picked = categoryData.rentals;
-      } else if (query.includes('music') || query.includes('song') || query.includes('album') || query.includes('video')) {
-        picked = categoryData.music;
-      } else if (
-        query.includes('fashion') ||
-        query.includes('food') ||
-        query.includes('beauty') ||
-        query.includes('lifestyle') ||
-        query.includes('dress') ||
-        query.includes('bag')
-      ) {
-        picked = categoryData.lifestyle;
-      } else if (
-        query.includes('phone') ||
-        query.includes('laptop') ||
-        query.includes('iphone') ||
-        query.includes('macbook') ||
-        query.includes('tech') ||
-        query.includes('android')
-      ) {
-        picked = categoryData.tech;
+      document.getElementById('resultsTitle').textContent = 'Searching...';
+      document.getElementById('linkList').innerHTML = '';
+      document.getElementById('results').classList.add('active');
+
+      try {
+        const items = await fetchLinks(category, location);
+        const cap = category.charAt(0).toUpperCase() + category.slice(1);
+        renderResults(
+          location ? `Top ${cap} Links in ${location}` : `Top ${cap} Links`,
+          query ? `Showing results for "${query}".` : 'Latest active links.',
+          items
+        );
+      } catch (err) {
+        document.getElementById('linkList').innerHTML = '<p style="color:red;font-size:14px;">Could not load links. Check your Supabase connection.</p>';
       }
-
-      const updatedItems = picked.items.map((item) => {
-        if (!location) return item;
-        return {
-          ...item,
-          meta: `${item.meta} • Filter: ${location}`
-        };
-      });
-
-      const title = location ? `${picked.title} in ${location}` : picked.title;
-      const subtitle = query ? `Showing dummy links for “${query}”.` : picked.subtitle;
-
-      renderResults(title, subtitle, updatedItems);
     }
-
-    function runSmokeTests() {
-      console.assert(categoryData.rentals.items.length > 0, 'Rentals should have items');
-      console.assert(categoryData.music.items.length > 0, 'Music should have items');
-      console.assert(categoryData.tech.items.length > 0, 'Tech should have items');
-      console.assert(categoryData.lifestyle.items.length > 0, 'Lifestyle should have items');
-      console.assert(typeof showCategory === 'function', 'showCategory should exist');
-      console.assert(typeof runSearch === 'function', 'runSearch should exist');
-    }
-
-    runSmokeTests();
   </script>
 </body>
 </html>
