@@ -525,7 +525,7 @@
           const urlObj = new URL(url);
           const redirected = urlObj.searchParams.get('url');
           if (redirected) cleanUrl = decodeURIComponent(redirected);
-        } catch(e) {}
+        } catch(e) { cleanUrl = url; }
       }
 
       submitBtn.disabled = true;
@@ -540,7 +540,7 @@
             'Content-Type': 'application/json',
             'Prefer': 'return=representation'
           },
-          body: JSON.stringify({ url: cleanUrl, category })
+          body: JSON.stringify({ url: cleanUrl, category, title: cleanUrl })
         });
 
         if (!res.ok) {
