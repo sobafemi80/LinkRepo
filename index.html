@@ -314,16 +314,19 @@
     .modal-grid .modal-field { margin-bottom: 0; }
 
     .modal-grid .modal-field label {
-      min-height: 36px;
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
+      align-items: baseline;
+      gap: 5px;
+      min-height: 20px;
+      margin-bottom: 7px;
     }
 
     .modal-field { margin-bottom: 14px; }
 
     .modal-field label {
-      display: block;
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
       font-size: 12px;
       font-weight: 700;
       color: var(--text);
@@ -331,12 +334,16 @@
       letter-spacing: 0.01em;
     }
 
+    .modal-field .req {
+      color: #dc2626;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
     .modal-field .hint {
-      display: block;
       font-size: 11px;
       font-weight: 400;
       color: var(--muted);
-      margin-top: 3px;
     }
 
     .modal-field input,
@@ -445,23 +452,20 @@
       <!-- Name + Social side by side -->
       <div class="modal-grid">
         <div class="modal-field">
-          <label>Your name <span style="color:#dc2626">*</span></label>
+          <label>Your name <span class="req">*</span></label>
           <input id="m_name" type="text" placeholder="e.g. Amara Osei" />
         </div>
         <div class="modal-field">
-          <label>Social handle <span class="hint">optional</span></label>
-          <div style="position:relative;">
-            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;font-weight:600;">@</span>
-            <input id="m_social" type="text" placeholder="yourhandle" style="padding-left:28px;" />
-          </div>
+          <label>Social media link <span class="hint">optional</span></label>
+          <input id="m_social" type="url" placeholder="https://linktr.ee/you" />
         </div>
       </div>
 
       <hr class="modal-divider" />
 
-      <!-- URL — paste first, auto-fills position -->
+      <!-- URL -->
       <div class="modal-field">
-        <label>Paste the link <span style="color:#dc2626">*</span></label>
+        <label>Paste the link <span class="req">*</span></label>
         <div style="position:relative;">
           <input id="m_url" type="url" placeholder="https://…" oninput="onUrlInput()" onpaste="onUrlPaste()" />
           <span id="fetchSpinner" style="display:none;position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);">⏳ fetching…</span>
@@ -470,30 +474,24 @@
 
       <!-- Position -->
       <div class="modal-field">
-        <label>
-          Position / Opportunity
-          <span class="hint" id="posHint">paste the link above — we'll try to fill this</span>
-        </label>
+        <label>Position / Opportunity <span class="hint" id="posHint">— paste link above, we'll try to fill this</span></label>
         <input id="m_position" type="text" placeholder="Auto-filled from link…" />
       </div>
 
       <!-- Organisation -->
       <div class="modal-field">
-        <label>University or Company <span class="hint">e.g. Oxford, Shell, Chevening</span></label>
-        <input id="m_org" type="text" placeholder="Oxford, Shell…" />
+        <label>University or Company</label>
+        <input id="m_org" type="text" placeholder="e.g. Oxford, Shell, Chevening…" />
       </div>
 
       <!-- Category + Location side by side -->
       <div class="modal-grid">
         <div class="modal-field">
           <label>Category</label>
-          <div class="select-wrap">
-            <span class="select-icon" id="categoryIcon">💼</span>
-            <select id="m_category" class="select-with-icon" onchange="updateCategoryIcon()">
-              <option value="jobs">Jobs</option>
-              <option value="scholarships">Scholarships</option>
-            </select>
-          </div>
+          <select id="m_category">
+            <option value="jobs">Jobs</option>
+            <option value="scholarships">Scholarships</option>
+          </select>
         </div>
         <div class="modal-field">
           <label>Location <span class="hint">optional</span></label>
@@ -502,7 +500,7 @@
       </div>
 
       <div class="modal-error" id="m_error"></div>
-      <button class="modal-submit" id="m_submit" onclick="submitLink()">🚀 Go Live Now</button>
+      <button class="modal-submit" id="m_submit" onclick="submitLink()" style="margin-top:24px;">🚀 Go Live Now</button>
       <p class="modal-footer-note">Your link stays active for 5 days.</p>
     </div>
   </div>
@@ -687,7 +685,7 @@
 
     async function submitLink() {
       const name     = document.getElementById('m_name').value.trim();
-      const social   = document.getElementById('m_social').value.trim().replace(/^@/, '');
+      const social   = document.getElementById('m_social').value.trim();
       const position = document.getElementById('m_position').value.trim();
       const org      = document.getElementById('m_org').value.trim();
       const url      = document.getElementById('m_url').value.trim();
@@ -802,10 +800,10 @@
             <div>
               <a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>
               <div class="meta">
-                ${item.category === 'jobs' ? '💼 Job' : '🎓 Scholarship'}${item.location ? ' • ' + item.location : ''}
+                ${item.category === 'jobs' ? 'Job' : 'Scholarship'}${item.location ? ' • ' + item.location : ''}
                 ${item.posted_by ? ` • shared by ${
                   item.social_handle
-                    ? `<strong>${item.posted_by}</strong> <span style="color:var(--blue);font-weight:600;">@${item.social_handle}</span>`
+                    ? `<a href="${item.social_handle}" target="_blank" rel="noopener noreferrer" style="color:var(--blue);font-weight:600;text-decoration:none;">${item.posted_by}</a>`
                     : `<strong>${item.posted_by}</strong>`
                 }` : ''}
               </div>
