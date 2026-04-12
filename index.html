@@ -436,6 +436,105 @@
       .primary-btn { width: 100%; }
       .modal-grid { grid-template-columns: 1fr; }
     }
+
+    /* Profile popup */
+    .profile-popup {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(14,23,42,0.45);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .profile-popup.open { display: flex; }
+    .profile-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 28px;
+      width: 100%;
+      max-width: 340px;
+      box-shadow: 0 24px 60px rgba(14,23,42,0.18);
+      text-align: center;
+    }
+    .profile-avatar {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: #eff6ff;
+      color: var(--blue);
+      font-size: 22px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .profile-name { font-size: 18px; font-weight: 800; margin: 0 0 6px; }
+    .profile-bio { font-size: 14px; color: var(--muted); margin: 0 0 16px; line-height: 1.5; }
+    .profile-social-btn {
+      display: inline-block;
+      background: var(--blue);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .profile-close {
+      display: block;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 13px;
+      cursor: pointer;
+      font-family: inherit;
+      margin-top: 4px;
+    }
+
+    /* Card actions */
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .vote-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      color: var(--muted);
+      transition: all 0.15s;
+    }
+    .vote-btn:hover { border-color: var(--blue); color: var(--blue); background: #eff6ff; }
+    .vote-btn.voted-up { border-color: #16a34a; color: #16a34a; background: #f0fdf4; }
+    .vote-btn.voted-down { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: inherit;
+      padding: 5px 8px;
+      border-radius: 999px;
+      transition: color 0.15s;
+    }
+    .share-btn:hover { color: var(--blue); }
   </style>
 </head>
 <body>
@@ -502,6 +601,16 @@
       <div class="modal-error" id="m_error"></div>
       <button class="modal-submit" id="m_submit" onclick="submitLink()" style="margin-top:24px;">🚀 Go Live Now</button>
       <p class="modal-footer-note">Your link stays active for 5 days.</p>
+    </div>
+  </div>
+
+  <!-- Profile Popup -->
+  <div class="profile-popup" id="profilePopup" onclick="closeProfile(event)">
+    <div class="profile-card">
+      <div class="profile-avatar" id="profileAvatar"></div>
+      <p class="profile-name" id="profileName"></p>
+      <div id="profileSocialWrap"></div>
+      <button class="profile-close" onclick="document.getElementById('profilePopup').classList.remove('open')">Close</button>
     </div>
   </div>
 
@@ -795,17 +904,18 @@
         listEl.innerHTML = '<p style="color:var(--muted);font-size:15px;">No links here yet. Drop the first one!</p>';
       } else {
         listEl.innerHTML = items.map((item, i) => `
-          <div class="link-item">
+          <div class="link-item" id="card-${item.id}">
             <div class="rank">${i + 1}</div>
             <div>
               <a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>
               <div class="meta">
                 ${item.category === 'jobs' ? 'Job' : 'Scholarship'}${item.location ? ' • ' + item.location : ''}
-                ${item.posted_by ? ` • shared by ${
-                  item.social_handle
-                    ? `<a href="${item.social_handle}" target="_blank" rel="noopener noreferrer" style="color:var(--blue);font-weight:600;text-decoration:none;">${item.posted_by}</a>`
-                    : `<strong>${item.posted_by}</strong>`
-                }` : ''}
+                ${item.posted_by ? ` • <button onclick='openProfile(${JSON.stringify(item)})' style="background:none;border:none;padding:0;font:inherit;font-size:13px;font-weight:700;color:var(--blue);cursor:pointer;">${item.posted_by}</button>` : ''}
+              </div>
+              <div class="card-actions">
+                <button class="vote-btn" id="up-${item.id}" onclick="vote('${item.id}','up')">▲ <span id="upcount-${item.id}">${item.upvotes || 0}</span></button>
+                <button class="vote-btn" id="dn-${item.id}" onclick="vote('${item.id}','down')">▼ <span id="dncount-${item.id}">${item.downvotes || 0}</span></button>
+                <button class="share-btn" onclick="shareLink('${item.url}','${(item.title||'').replace(/'/g,"\\'")}')">↗ Share</button>
               </div>
             </div>
           </div>
@@ -862,6 +972,75 @@
       } catch (err) {
         document.getElementById('linkList').innerHTML = '<p style="color:red;font-size:14px;">Could not load links. Check your Supabase connection.</p>';
       }
+    }
+
+    // Profile popup
+    function openProfile(item) {
+      const name = item.posted_by || 'Anonymous';
+      document.getElementById('profileAvatar').textContent = name.charAt(0).toUpperCase();
+      document.getElementById('profileName').textContent = name;
+      const wrap = document.getElementById('profileSocialWrap');
+      wrap.innerHTML = item.social_handle
+        ? `<a class="profile-social-btn" href="${item.social_handle}" target="_blank" rel="noopener noreferrer">Visit Profile →</a>`
+        : '<p style="color:var(--muted);font-size:13px;margin:0;">No social link added.</p>';
+      document.getElementById('profilePopup').classList.add('open');
+    }
+
+    function closeProfile(e) {
+      if (e.target === document.getElementById('profilePopup'))
+        document.getElementById('profilePopup').classList.remove('open');
+    }
+
+    // Voting — prevent double voting with localStorage
+    const voted = JSON.parse(localStorage.getItem('lr_voted') || '{}');
+
+    async function vote(id, dir) {
+      const key = `${id}_${dir}`;
+      const oppKey = `${id}_${dir === 'up' ? 'down' : 'up'}`;
+      if (voted[key]) return; // already voted this way
+
+      const field = dir === 'up' ? 'upvotes' : 'downvotes';
+      const countEl = document.getElementById(`${dir === 'up' ? 'up' : 'dn'}count-${id}`);
+      const btn = document.getElementById(`${dir === 'up' ? 'up' : 'dn'}-${id}`);
+
+      // Optimistic UI
+      const prev = parseInt(countEl.textContent) || 0;
+      countEl.textContent = prev + 1;
+      btn.classList.add(dir === 'up' ? 'voted-up' : 'voted-down');
+
+      // Remove opposite vote style if exists
+      if (voted[oppKey]) {
+        const oppBtn = document.getElementById(`${dir === 'up' ? 'dn' : 'up'}-${id}`);
+        const oppCount = document.getElementById(`${dir === 'up' ? 'dn' : 'up'}count-${id}`);
+        oppBtn.classList.remove('voted-up','voted-down');
+        oppCount.textContent = Math.max(0, parseInt(oppCount.textContent) - 1);
+        delete voted[oppKey];
+      }
+
+      voted[key] = true;
+      localStorage.setItem('lr_voted', JSON.stringify(voted));
+
+      // Persist to Supabase via RPC increment
+      try {
+        await fetch(`${SUPABASE_URL}/rest/v1/rpc/increment_vote`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ link_id: id, vote_field: field })
+        });
+      } catch(e) {}
+    }
+
+    // Share
+    async function shareLink(url, title) {
+      if (navigator.share) {
+        try { await navigator.share({ title, url }); return; } catch(e) {}
+      }
+      await navigator.clipboard.writeText(url);
+      alert('Link copied to clipboard!');
     }
   </script>
 </body>
