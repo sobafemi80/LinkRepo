@@ -407,6 +407,11 @@
       <p class="modal-tagline">Takes 10 seconds. Goes live instantly.</p>
 
       <div class="modal-field">
+        <label>Title or description</label>
+        <input id="m_title" type="text" placeholder="e.g. Software Engineer at Google, Chevening 2025..." />
+      </div>
+
+      <div class="modal-field">
         <label>Paste the link</label>
         <input id="m_url" type="url" placeholder="https://..." />
       </div>
@@ -491,12 +496,13 @@
 
     function openModal() {
       document.getElementById('modalOverlay').classList.add('open');
-      document.getElementById('m_url').focus();
+      document.getElementById('m_title').focus();
     }
 
     function closeModal() {
       document.getElementById('modalOverlay').classList.remove('open');
       document.getElementById('m_error').style.display = 'none';
+      document.getElementById('m_title').value = '';
       document.getElementById('m_url').value = '';
       document.getElementById('m_submit').disabled = false;
       document.getElementById('m_submit').textContent = '🚀 Go Live Now';
@@ -507,6 +513,7 @@
     }
 
     async function submitLink() {
+      const title = document.getElementById('m_title').value.trim();
       const url = document.getElementById('m_url').value.trim();
       const category = document.getElementById('m_category').value;
       const errorEl = document.getElementById('m_error');
@@ -514,6 +521,7 @@
 
       errorEl.style.display = 'none';
 
+      if (!title) { errorEl.textContent = 'Please add a title or description.'; errorEl.style.display = 'block'; return; }
       if (!url || !url.startsWith('http')) { errorEl.textContent = 'Please paste a valid link starting with https://'; errorEl.style.display = 'block'; return; }
 
       // Decode LinkedIn safety redirect URLs automatically
@@ -538,7 +546,7 @@
             'Content-Type': 'application/json',
             'Prefer': 'return=representation'
           },
-          body: JSON.stringify({ url: cleanUrl, category, title: cleanUrl })
+          body: JSON.stringify({ url: cleanUrl, category, title })
         });
 
         if (!res.ok) {
@@ -557,7 +565,7 @@
               'Authorization': `Bearer ${SUPABASE_KEY}`,
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ url: cleanUrl, category, id: newId })
+            body: JSON.stringify({ url: cleanUrl, category, title, id: newId })
           }).catch(() => {}) // fire and forget
         }
 
