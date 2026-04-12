@@ -434,8 +434,25 @@
       </div>
       <p class="modal-tagline">Takes 10 seconds. Goes live instantly.</p>
 
-      <!-- Row 1: Position + Organisation -->
+      <!-- Name + Social -->
       <div class="modal-grid">
+        <div class="modal-field">
+          <label>Your name <span style="color:#dc2626">*</span></label>
+          <input id="m_name" type="text" placeholder="e.g. Amara Osei" />
+        </div>
+        <div class="modal-field">
+          <label>
+            Social handle
+            <span class="hint">optional — LinkedIn, X, Instagram…</span>
+          </label>
+          <div style="position:relative;">
+            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;font-weight:600;">@</span>
+            <input id="m_social" type="text" placeholder="yourhandle" style="padding-left:28px;" />
+          </div>
+        </div>
+      </div>
+
+      <hr class="modal-divider" />
         <div class="modal-field">
           <label>
             Position / Opportunity
@@ -454,7 +471,8 @@
 
       <hr class="modal-divider" />
 
-      <!-- URL -->
+      <!-- Row 1: Position + Organisation -->
+      <div class="modal-grid">
       <div class="modal-field">
         <label>Paste the link</label>
         <div style="position:relative;">
@@ -650,13 +668,13 @@
 
     function openModal() {
       document.getElementById('modalOverlay').classList.add('open');
-      document.getElementById('m_position').focus();
+      document.getElementById('m_name').focus();
     }
 
     function closeModal() {
       document.getElementById('modalOverlay').classList.remove('open');
       document.getElementById('m_error').style.display = 'none';
-      ['m_position', 'm_org', 'm_url', 'm_location'].forEach(id => {
+      ['m_name', 'm_social', 'm_position', 'm_org', 'm_url', 'm_location'].forEach(id => {
         document.getElementById(id).value = '';
       });
       document.getElementById('posHint').textContent = 'paste the link below — we\'ll try to fill this';
@@ -669,6 +687,8 @@
     }
 
     async function submitLink() {
+      const name     = document.getElementById('m_name').value.trim();
+      const social   = document.getElementById('m_social').value.trim().replace(/^@/, '');
       const position = document.getElementById('m_position').value.trim();
       const org      = document.getElementById('m_org').value.trim();
       const url      = document.getElementById('m_url').value.trim();
@@ -679,6 +699,10 @@
 
       errorEl.style.display = 'none';
 
+      if (!name) {
+        errorEl.textContent = 'Please add your name so people know who shared this.';
+        errorEl.style.display = 'block'; return;
+      }
       if (!position) {
         errorEl.textContent = 'Please add a position or opportunity name.';
         errorEl.style.display = 'block'; return;
@@ -717,7 +741,9 @@
             url: cleanUrl,
             category,
             title,
-            location: location || null
+            location: location || null,
+            posted_by: name,
+            social_handle: social || null
           })
         });
 
@@ -776,7 +802,14 @@
             <div class="rank">${i + 1}</div>
             <div>
               <a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>
-              <div class="meta">${item.category === 'jobs' ? '💼 Job' : '🎓 Scholarship'}${item.location ? ' • ' + item.location : ''}</div>
+              <div class="meta">
+                ${item.category === 'jobs' ? '💼 Job' : '🎓 Scholarship'}${item.location ? ' • ' + item.location : ''}
+                ${item.posted_by ? ` • shared by ${
+                  item.social_handle
+                    ? `<strong>${item.posted_by}</strong> <span style="color:var(--blue);font-weight:600;">@${item.social_handle}</span>`
+                    : `<strong>${item.posted_by}</strong>`
+                }` : ''}
+              </div>
             </div>
           </div>
         `).join('');
