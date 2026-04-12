@@ -558,6 +558,40 @@
       fetchTimer = setTimeout(() => triggerTitleFetch(), 800);
     }
 
+    // Try to extract a readable title from a LinkedIn job URL slug
+    // e.g. /jobs/view/software-engineer-at-google-3847291234/ → "Software Engineer at Google"
+    function extractFromLinkedIn(url) {
+      try {
+        const u = new URL(url);
+        if (!u.hostname.includes('linkedin.com')) return null;
+
+        // Job listing: /jobs/view/<slug>-<id>/
+        const jobMatch = u.pathname.match(/\/jobs\/view\/([^/]+)/);
+        if (jobMatch) {
+          const slug = jobMatch[1];
+          // Strip trailing numeric ID (e.g. "-3847291234")
+          const withoutId = slug.replace(/-\d{7,}$/, '').trim();
+          if (!withoutId) return null;
+          // Kebab-case → Title Case, preserve "at / in / for / of"
+          const lower = ['at','in','for','of','and','with','the','a'];
+          return withoutId
+            .split('-')
+            .map((w, i) => (i === 0 || !lower.includes(w)) ? w.charAt(0).toUpperCase() + w.slice(1) : w)
+            .join(' ');
+        }
+
+        // School/scholarship pages: /school/<name>/
+        const schoolMatch = u.pathname.match(/\/school\/([^/]+)/);
+        if (schoolMatch) {
+          return schoolMatch[1].replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        }
+
+        return null;
+      } catch (e) {
+        return null;
+      }
+    }
+
     async function triggerTitleFetch() {
       const url = document.getElementById('m_url').value.trim();
       if (!url.startsWith('http')) return;
@@ -566,6 +600,23 @@
       const posInput = document.getElementById('m_position');
       const hint     = document.getElementById('posHint');
 
+      // --- LinkedIn: parse from URL slug (no network call needed) ---
+      if (url.includes('linkedin.com')) {
+        const extracted = extractFromLinkedIn(url);
+        if (extracted && !posInput.value.trim()) {
+          posInput.value = extracted;
+          posInput.style.borderColor = '#86efac';
+          setTimeout(() => posInput.style.borderColor = '', 1500);
+          hint.textContent = 'parsed from LinkedIn URL — edit if needed';
+        } else if (!extracted) {
+          hint.textContent = 'LinkedIn link detected — please type the title manually';
+          posInput.placeholder = 'e.g. PhD in Molecular Biology';
+          posInput.focus();
+        }
+        return; // don't call Microlink for LinkedIn
+      }
+
+      // --- All other sites: use Microlink ---
       spinner.style.display = 'inline';
       hint.textContent = 'fetching title…';
 
@@ -576,10 +627,9 @@
         const data = await res.json();
 
         if (data.status === 'success' && data.data?.title) {
-          // Only auto-fill if user hasn't typed anything
           if (!posInput.value.trim()) {
             posInput.value = data.data.title;
-            posInput.style.borderColor = '#86efac'; // green flash
+            posInput.style.borderColor = '#86efac';
             setTimeout(() => posInput.style.borderColor = '', 1500);
           }
           hint.textContent = 'auto-filled — edit if needed';
