@@ -408,7 +408,7 @@
 
       <div class="modal-field">
         <label>Paste the link</label>
-        <input id="m_url" type="url" placeholder="https://..." />
+        <input id="m_url" type="url" placeholder="https://..." onblur="this.value=cleanUrl(this.value)" />
       </div>
 
       <div class="modal-field">
@@ -518,6 +518,16 @@
 
       if (!url || !url.startsWith('http')) { errorEl.textContent = 'Please paste a valid link starting with https://'; errorEl.style.display = 'block'; return; }
 
+      // Decode LinkedIn safety redirect URLs automatically
+      let cleanUrl = url;
+      if (url.includes('linkedin.com/safety/go') || url.includes('linkedin.com/redir/')) {
+        try {
+          const urlObj = new URL(url);
+          const redirected = urlObj.searchParams.get('url');
+          if (redirected) cleanUrl = decodeURIComponent(redirected);
+        } catch(e) {}
+      }
+
       submitBtn.disabled = true;
       submitBtn.textContent = 'Going live...';
 
@@ -530,7 +540,7 @@
             'Content-Type': 'application/json',
             'Prefer': 'return=representation'
           },
-          body: JSON.stringify({ url, category })
+          body: JSON.stringify({ url: cleanUrl, category })
         });
 
         if (!res.ok) {
@@ -549,7 +559,7 @@
               'Authorization': `Bearer ${SUPABASE_KEY}`,
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ url, category, id: newId })
+            body: JSON.stringify({ url: cleanUrl, category, id: newId })
           }).catch(() => {}) // fire and forget
         }
 
