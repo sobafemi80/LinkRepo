@@ -491,7 +491,7 @@
 
     function openModal() {
       document.getElementById('modalOverlay').classList.add('open');
-      document.getElementById('m_title').focus();
+      document.getElementById('m_url').focus();
     }
 
     function closeModal() {
@@ -507,10 +507,8 @@
     }
 
     async function submitLink() {
-      const title = document.getElementById('m_title').value.trim();
       const url = document.getElementById('m_url').value.trim();
       const category = document.getElementById('m_category').value;
-      const location = document.getElementById('m_location').value.trim();
       const errorEl = document.getElementById('m_error');
       const submitBtn = document.getElementById('m_submit');
 
