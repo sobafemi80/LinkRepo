@@ -308,9 +308,17 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
+      align-items: end;
     }
 
     .modal-grid .modal-field { margin-bottom: 0; }
+
+    .modal-grid .modal-field label {
+      min-height: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
 
     .modal-field { margin-bottom: 14px; }
 
@@ -434,17 +442,14 @@
       </div>
       <p class="modal-tagline">Takes 10 seconds. Goes live instantly.</p>
 
-      <!-- Name + Social -->
+      <!-- Name + Social side by side -->
       <div class="modal-grid">
         <div class="modal-field">
           <label>Your name <span style="color:#dc2626">*</span></label>
           <input id="m_name" type="text" placeholder="e.g. Amara Osei" />
         </div>
         <div class="modal-field">
-          <label>
-            Social handle
-            <span class="hint">optional — LinkedIn, X, Instagram…</span>
-          </label>
+          <label>Social handle <span class="hint">optional</span></label>
           <div style="position:relative;">
             <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;font-weight:600;">@</span>
             <input id="m_social" type="text" placeholder="yourhandle" style="padding-left:28px;" />
@@ -453,38 +458,35 @@
       </div>
 
       <hr class="modal-divider" />
-        <div class="modal-field">
-          <label>
-            Position / Opportunity
-            <span class="hint" id="posHint">paste the link below — we'll try to fill this</span>
-          </label>
-          <input id="m_position" type="text" placeholder="Auto-filled from link…" />
-        </div>
-        <div class="modal-field">
-          <label>
-            University or Company
-            <span class="hint">e.g. "Oxford", "Shell", "Chevening"</span>
-          </label>
-          <input id="m_org" type="text" placeholder="Oxford, Shell…" />
-        </div>
-      </div>
 
-      <hr class="modal-divider" />
-
-      <!-- Row 1: Position + Organisation -->
-      <div class="modal-grid">
+      <!-- URL — paste first, auto-fills position -->
       <div class="modal-field">
-        <label>Paste the link</label>
+        <label>Paste the link <span style="color:#dc2626">*</span></label>
         <div style="position:relative;">
           <input id="m_url" type="url" placeholder="https://…" oninput="onUrlInput()" onpaste="onUrlPaste()" />
           <span id="fetchSpinner" style="display:none;position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);">⏳ fetching…</span>
         </div>
       </div>
 
-      <!-- Row 2: Category + Location -->
+      <!-- Position -->
+      <div class="modal-field">
+        <label>
+          Position / Opportunity
+          <span class="hint" id="posHint">paste the link above — we'll try to fill this</span>
+        </label>
+        <input id="m_position" type="text" placeholder="Auto-filled from link…" />
+      </div>
+
+      <!-- Organisation -->
+      <div class="modal-field">
+        <label>University or Company <span class="hint">e.g. Oxford, Shell, Chevening</span></label>
+        <input id="m_org" type="text" placeholder="Oxford, Shell…" />
+      </div>
+
+      <!-- Category + Location side by side -->
       <div class="modal-grid">
         <div class="modal-field">
-          <label>Jobs or Scholarships</label>
+          <label>Category</label>
           <div class="select-wrap">
             <span class="select-icon" id="categoryIcon">💼</span>
             <select id="m_category" class="select-with-icon" onchange="updateCategoryIcon()">
@@ -494,10 +496,7 @@
           </div>
         </div>
         <div class="modal-field">
-          <label>
-            Location
-            <span class="hint">optional</span>
-          </label>
+          <label>Location <span class="hint">optional</span></label>
           <input id="m_location" type="text" placeholder="UK, Remote, Nigeria…" />
         </div>
       </div>
