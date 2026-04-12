@@ -439,9 +439,9 @@
         <div class="modal-field">
           <label>
             Position / Opportunity
-            <span class="hint">e.g. "PhD in Geoscience", "Software Engineer"</span>
+            <span class="hint" id="posHint">paste the link below — we'll try to fill this</span>
           </label>
-          <input id="m_position" type="text" placeholder="PhD in Geoscience…" />
+          <input id="m_position" type="text" placeholder="Auto-filled from link…" />
         </div>
         <div class="modal-field">
           <label>
@@ -457,7 +457,10 @@
       <!-- URL -->
       <div class="modal-field">
         <label>Paste the link</label>
-        <input id="m_url" type="url" placeholder="https://…" />
+        <div style="position:relative;">
+          <input id="m_url" type="url" placeholder="https://…" oninput="onUrlInput()" onpaste="onUrlPaste()" />
+          <span id="fetchSpinner" style="display:none;position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);">⏳ fetching…</span>
+        </div>
       </div>
 
       <!-- Row 2: Category + Location -->
@@ -542,6 +545,54 @@
 
     const categoryIcons = { jobs: '💼', scholarships: '🎓' };
 
+    // Auto-fetch title from pasted URL
+    let fetchTimer = null;
+
+    function onUrlPaste() {
+      // Give browser time to populate the input value after paste event
+      setTimeout(() => triggerTitleFetch(), 100);
+    }
+
+    function onUrlInput() {
+      clearTimeout(fetchTimer);
+      fetchTimer = setTimeout(() => triggerTitleFetch(), 800);
+    }
+
+    async function triggerTitleFetch() {
+      const url = document.getElementById('m_url').value.trim();
+      if (!url.startsWith('http')) return;
+
+      const spinner  = document.getElementById('fetchSpinner');
+      const posInput = document.getElementById('m_position');
+      const hint     = document.getElementById('posHint');
+
+      spinner.style.display = 'inline';
+      hint.textContent = 'fetching title…';
+
+      try {
+        const res = await fetch(
+          `https://api.microlink.io?url=${encodeURIComponent(url)}&palette=false&screenshot=false`
+        );
+        const data = await res.json();
+
+        if (data.status === 'success' && data.data?.title) {
+          // Only auto-fill if user hasn't typed anything
+          if (!posInput.value.trim()) {
+            posInput.value = data.data.title;
+            posInput.style.borderColor = '#86efac'; // green flash
+            setTimeout(() => posInput.style.borderColor = '', 1500);
+          }
+          hint.textContent = 'auto-filled — edit if needed';
+        } else {
+          hint.textContent = 'could not auto-fill — type manually';
+        }
+      } catch (e) {
+        hint.textContent = 'could not auto-fill — type manually';
+      } finally {
+        spinner.style.display = 'none';
+      }
+    }
+
     function updateCategoryIcon() {
       const val = document.getElementById('m_category').value;
       document.getElementById('categoryIcon').textContent = categoryIcons[val] || '💼';
@@ -558,6 +609,7 @@
       ['m_position', 'm_org', 'm_url', 'm_location'].forEach(id => {
         document.getElementById(id).value = '';
       });
+      document.getElementById('posHint').textContent = 'paste the link below — we\'ll try to fill this';
       document.getElementById('m_submit').disabled = false;
       document.getElementById('m_submit').textContent = '🚀 Go Live Now';
     }
