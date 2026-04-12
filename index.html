@@ -551,7 +551,7 @@
 
         // Call Edge Function to auto-enrich the link
         if (newId) {
-          fetch(`${SUPABASE_URL}/functions/v1/enrich-link`, {
+          fetch(`${SUPABASE_URL}/functions/v1/dynamic-responder`, {
             method: 'POST',
             headers: {
               'Authorization': `Bearer ${SUPABASE_KEY}`,
