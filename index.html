@@ -1,518 +1,538 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Skim</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #f7f9fc;
-      --surface: #ffffff;
-      --text: #0f172a;
-      --muted: #64748b;
-      --line: #e7edf5;
-      --blue: #2563ff;
-      --blue-dark: #1d4ed8;
-      --shadow: 0 10px 30px rgba(37, 99, 255, 0.10);
-      --card-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; font-family: "Inter", sans-serif; background: linear-gradient(180deg, #fbfdff 0%, #f5f8fc 100%); color: var(--text); }
-    .container { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
-    .topbar { padding: 20px 0 8px; }
-    .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-    .brand { font-family: "Playfair Display", serif; font-style: italic; font-size: 32px; line-height: 1; color: var(--blue); text-decoration: none; letter-spacing: -0.02em; }
-    .cta { border: 0; background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%); color: white; font-weight: 700; font-size: 15px; padding: 15px 22px; border-radius: 999px; box-shadow: var(--shadow); cursor: pointer; font-family: inherit; transition: transform 0.18s ease, box-shadow 0.18s ease; }
-    .cta:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(37, 99, 255, 0.18); }
-    .hero { text-align: center; padding: 44px 0 26px; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(37, 99, 255, 0.08); color: var(--blue-dark); font-size: 13px; font-weight: 700; padding: 8px 12px; border-radius: 999px; margin-bottom: 18px; }
-    .hero h1 { margin: 0; font-size: clamp(22px, 3vw, 32px); line-height: 1.15; letter-spacing: -0.02em; font-weight: 700; }
-    .hero h1 .soft { display: block; font-weight: 400; color: #334155; margin-bottom: 4px; }
-    .hero h1 .strong { display: block; }
-    .sub { margin: 18px auto 0; max-width: 640px; color: var(--muted); font-size: 18px; line-height: 1.6; }
-    .category-grid { display: flex; justify-content: center; gap: 20px; margin-top: 28px; flex-wrap: nowrap; }
-    .cat-card { background: transparent; border: none; border-radius: 0; padding: 16px 18px; box-shadow: none; text-align: center; transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer; font-family: inherit; }
-    .cat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
-    .cat-card.active { opacity: 1; }
-    .icon { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; font-size: 18px; background: linear-gradient(180deg, rgba(37,99,255,0.10), rgba(37,99,255,0.05)); margin: 0 auto 10px; }
-    .cat-card h3 { margin: 0 0 5px; font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
-    .cat-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
-    .search-box { margin-top: 16px; background: rgba(255,255,255,0.92); border: 1px solid rgba(231,237,245,0.95); border-radius: 16px; box-shadow: var(--card-shadow); padding: 12px; }
-    .search-grid { display: grid; grid-template-columns: 1.4fr 1fr auto; gap: 14px; align-items: end; }
-    .field { display: flex; flex-direction: column; gap: 8px; text-align: left; }
-    .field label { font-size: 14px; font-weight: 600; color: #475569; }
-    .field input { width: 100%; border: 1px solid var(--line); outline: none; background: #fff; color: var(--text); border-radius: 10px; padding: 11px 14px; font-size: 14px; font-family: inherit; transition: border-color 0.18s ease, box-shadow 0.18s ease; }
-    .field input:focus { border-color: rgba(37,99,255,0.45); box-shadow: 0 0 0 4px rgba(37,99,255,0.08); }
-    .search-btn { height: 44px; border: 0; border-radius: 10px; padding: 0 14px; background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%); color: white; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; box-shadow: var(--shadow); transition: transform 0.18s ease, box-shadow 0.18s ease; white-space: nowrap; }
-    .search-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(37,99,255,0.18); }
-    .section { margin-top: 38px; background: rgba(255,255,255,0.88); border: 1px solid rgba(231,237,245,0.95); border-radius: 28px; box-shadow: var(--card-shadow); padding: 26px; display: none; }
-    .section.active { display: block; }
-    .section-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
-    .section-head h2 { margin: 0; font-size: 26px; letter-spacing: -0.03em; }
-    .section-head p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
-    .pill { background: rgba(37,99,255,0.08); color: var(--blue-dark); border-radius: 999px; padding: 9px 14px; font-size: 14px; font-weight: 700; white-space: nowrap; }
-    .link-card { display: block; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; margin-top: 10px; transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease; }
-    .link-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(15,23,42,0.07); border-color: rgba(37,99,255,0.18); }
-    .rank { display: none; }
-    .link-title-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 5px; }
-    .link-main a { display: block; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--text); text-decoration: none; line-height: 1.45; letter-spacing: -0.01em; }
-    .link-main a:hover { color: var(--blue); }
-    .meta { margin-top: 4px; color: var(--muted); font-size: 12px; line-height: 1.5; }
-    .poster { color: var(--blue-dark); font-weight: 600; background: none; border: none; padding: 0; font: inherit; font-size: 12px; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
-    .actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; }
-    .expires { border: 1px solid var(--line); color: #64748b; background: #f8fafc; padding: 4px 10px; font-size: 11px; font-weight: 600; border-radius: 999px; white-space: nowrap; }
-    .expires.soon { color: #92400e; background: #fffbeb; border-color: #fde68a; }
-    .expires.urgent { color: #991b1b; background: #fef2f2; border-color: #fecaca; }
-    .vote-row { display: flex; gap: 6px; }
-    .vote { border: 1px solid var(--line); background: #fff; color: #475569; border-radius: 999px; padding: 5px 10px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; transition: border-color 0.18s, color 0.18s, transform 0.18s; }
-    .vote:hover { border-color: rgba(37,99,255,0.28); color: var(--blue-dark); transform: translateY(-1px); }
-    .vote.voted-up { border-color: #16a34a; color: #16a34a; background: #f0fdf4; }
-    .vote.voted-down { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
+    :root{--blue:#2563ff;--blue-dark:#1d4ed8;--line:#e7edf5;--muted:#64748b;--text:#0f172a}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Inter",sans-serif;background:radial-gradient(circle at top,rgba(37,99,255,0.05),transparent 28%),linear-gradient(180deg,#fcfdff 0%,#f7f9fc 100%);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
+    .topbar{width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:1px solid rgba(231,237,245,0.7);background:rgba(255,255,255,0.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+    .brand{font-family:"Playfair Display",serif;font-style:italic;font-size:30px;color:var(--text);letter-spacing:-.02em;text-decoration:none}
+    .cta{border:none;background:none;color:var(--muted);font-weight:600;font-size:14px;padding:8px 0;cursor:pointer;font-family:inherit;transition:color .15s}
+    .cta:hover{color:var(--text)}
+    .search-wrap{width:100%;max-width:480px;padding:22px 32px 0}
+    .search-wrap input{width:100%;border:1px solid var(--line);outline:none;background:#fafafa;color:var(--text);border-radius:12px;padding:12px 16px;font-size:14px;font-family:inherit}
+    .search-wrap input:focus{border-color:rgba(37,99,255,.4);box-shadow:0 0 0 4px rgba(37,99,255,.08);background:#fff}
+    .pie-section{width:100%;max-width:700px;padding:16px 24px 0;position:relative}
+    #pieCanvas{display:block;width:100%;height:auto}
+    #tip{position:fixed;background:rgba(255,255,255,0.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(231,237,245,0.9);color:var(--text);padding:12px 15px;border-radius:16px;font-size:12px;pointer-events:none;display:none;max-width:250px;line-height:1.55;z-index:10;box-shadow:0 16px 40px rgba(15,23,42,.14)}
+    #status{text-align:center;font-size:12px;color:var(--muted);padding:10px 0 24px}
     /* Modal */
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px); }
-    .modal-overlay.open { display: flex; }
-    .modal { background: #fff; border-radius: 24px; padding: 32px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 64px rgba(0,0,0,0.18); }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-    .modal-header h2 { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
-    .modal-close { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--muted); padding: 4px; }
-    .modal-tagline { font-size: 13px; color: var(--muted); margin: 0 0 22px; }
-    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: end; }
-    .modal-grid .modal-field { margin-bottom: 0; }
-    .modal-grid .modal-field label { display: flex; align-items: baseline; gap: 4px; }
-    .modal-field { margin-bottom: 14px; }
-    .modal-field label { display: flex; align-items: baseline; gap: 4px; font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-    .req { color: #dc2626; font-size: 12px; }
-    .hint { font-size: 11px; font-weight: 400; color: var(--muted); }
-    .modal-field input, .modal-field select { width: 100%; border: 1.5px solid var(--line); border-radius: 12px; padding: 11px 13px; font-family: inherit; font-size: 14px; color: var(--text); background: #fff; outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
-    .modal-field input:focus, .modal-field select:focus { border-color: rgba(37,99,255,0.5); box-shadow: 0 0 0 4px rgba(37,99,255,0.08); }
-    .modal-field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; padding-right: 34px; }
-    .modal-divider { border: none; border-top: 1px solid var(--line); margin: 16px 0; }
-    .char-row { display: flex; justify-content: flex-end; margin-top: 4px; }
-    .char-count { font-size: 11px; color: var(--muted); }
-    .char-count.over { color: #dc2626; font-weight: 600; }
-    .modal-error { font-size: 13px; color: #dc2626; margin-bottom: 10px; display: none; }
-    .modal-submit { width: 100%; background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%); color: #fff; border: none; border-radius: 14px; padding: 15px; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 20px; box-shadow: var(--shadow); transition: transform 0.15s, box-shadow 0.15s; }
-    .modal-submit:hover { transform: translateY(-1px); box-shadow: 0 14px 34px rgba(37,99,255,0.18); }
-    .modal-submit:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
-    .modal-footer-note { text-align: center; font-size: 11px; color: var(--muted); margin-top: 10px; }
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
+    .modal-overlay.open{display:flex}
+    .modal{background:#fff;border-radius:24px;padding:32px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.18)}
+    .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+    .mh h2{margin:0;font-size:20px;font-weight:700}
+    .mc{background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted)}
+    .mtag{font-size:13px;color:var(--muted);margin:0 0 22px}
+    .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
+    .mf{margin-bottom:14px}
+    .mf label{display:flex;gap:4px;font-size:12px;font-weight:600;margin-bottom:6px}
+    .req{color:#dc2626}.hint{font-size:11px;font-weight:400;color:var(--muted)}
+    .mf input,.mf select{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;font-family:inherit;font-size:14px;color:var(--text);background:#fff;outline:none}
+    .mf input:focus,.mf select:focus{border-color:rgba(37,99,255,.5);box-shadow:0 0 0 4px rgba(37,99,255,.08)}
+    .mf select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px}
+    .mdiv{border:none;border-top:1px solid var(--line);margin:16px 0}
+    .crow{display:flex;justify-content:flex-end;margin-top:4px}
+    .cc{font-size:11px;color:var(--muted)}.cc.over{color:#dc2626;font-weight:600}
+    .merr{font-size:13px;color:#dc2626;margin-bottom:10px;display:none}
+    .msub{width:100%;background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:#fff;border:none;border-radius:14px;padding:15px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;margin-top:20px}
+    .msub:hover{opacity:.92}.msub:disabled{opacity:.45;cursor:not-allowed}
+    .mfn{text-align:center;font-size:11px;color:var(--muted);margin-top:10px}
     /* Profile */
-    .profile-popup { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300; align-items: center; justify-content: center; padding: 16px; }
-    .profile-popup.open { display: flex; }
-    .profile-card { background: #fff; border-radius: 20px; padding: 28px; width: 100%; max-width: 300px; text-align: center; box-shadow: 0 24px 64px rgba(0,0,0,0.18); }
-    .profile-avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--blue); color: #fff; font-size: 22px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; }
-    .profile-name { font-size: 17px; font-weight: 700; margin: 0 0 14px; letter-spacing: -0.02em; }
-    .profile-social-btn { display: inline-block; background: linear-gradient(135deg,var(--blue),var(--blue-dark)); color: #fff; text-decoration: none; padding: 10px 22px; border-radius: 999px; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
-    .profile-close { display: block; background: none; border: none; color: var(--muted); font-size: 13px; cursor: pointer; font-family: inherit; }
-    .footer-space { height: 40px; }
-    @media (max-width: 900px) {
-      .category-grid { grid-template-columns: repeat(2, 1fr); }
-      .search-grid { grid-template-columns: 1fr; }
-      .search-btn { width: 100%; }
-      .link-card { grid-template-columns: 1fr; }
-      .rank { display: none; }
-      .actions { align-items: flex-start; }
-      .vote-row { justify-content: flex-start; }
-      .section-head { flex-direction: column; align-items: flex-start; }
-    }
-    @media (max-width: 560px) {
-      .brand { font-size: 28px; }
-      .cta { padding: 13px 18px; font-size: 14px; }
-      .hero { padding-top: 28px; }
-      .hero h1 { font-size: 36px; }
-      .sub { font-size: 16px; }
-      .section, .search-box { padding: 18px; border-radius: 20px; }
-      .cat-card { padding: 16px 12px; }
-      .modal-grid { grid-template-columns: 1fr; }
+    .profile-popup{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:300;align-items:center;justify-content:center;padding:16px}
+    .profile-popup.open{display:flex}
+    .profile-card{background:#fff;border-radius:20px;padding:28px;width:100%;max-width:300px;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.18)}
+    .profile-avatar{width:52px;height:52px;border-radius:50%;background:var(--blue);color:#fff;font-size:22px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px}
+    .profile-name{font-size:17px;font-weight:700;margin:0 0 14px}
+    .profile-social-btn{display:inline-block;background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:#fff;text-decoration:none;padding:10px 22px;border-radius:999px;font-size:14px;font-weight:700;margin-bottom:12px}
+    .profile-close{display:block;background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;font-family:inherit}
+    @media(max-width:600px){
+      .topbar{padding:14px 18px}
+      .search-wrap{padding:14px 18px 0}
+      .pie-section{padding:8px 8px 0}
+      .mgrid{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
 
-  <!-- Drop Modal -->
-  <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
-    <div class="modal">
-      <div class="modal-header">
-        <h2>Drop a link</h2>
-        <button class="modal-close" onclick="closeModal()">✕</button>
-      </div>
-      <p class="modal-tagline">No noise. Just the link + a tight summary. Goes live instantly.</p>
-      <div class="modal-grid">
-        <div class="modal-field">
-          <label>Your name <span class="req">*</span></label>
-          <input id="m_name" type="text" placeholder="e.g. Amara Osei" />
-        </div>
-        <div class="modal-field">
-          <label>Social media link <span class="hint">optional</span></label>
-          <input id="m_social" type="url" placeholder="https://linktr.ee/you" />
-        </div>
-      </div>
-      <hr class="modal-divider" />
-      <div class="modal-field">
-        <label>Paste the link <span class="req">*</span></label>
-        <div style="position:relative;">
-          <input id="m_url" type="url" placeholder="https://..." oninput="onUrlInput()" onpaste="onUrlPaste()" />
-          <span id="fetchSpinner" style="display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted);">fetching...</span>
-        </div>
-      </div>
-      <div class="modal-field">
-        <label>Summary <span class="req">*</span> <span class="hint" id="posHint">max 150 chars, be sharp</span></label>
-        <input id="m_position" type="text" placeholder="Auto-filled from link - edit to be punchy" maxlength="150" oninput="updateCharCount()" />
-        <div class="char-row"><span class="char-count" id="charCount">0 / 150</span></div>
-      </div>
-      <div class="modal-field">
-        <label>Source <span class="hint">platform or organisation</span></label>
-        <input id="m_org" type="text" placeholder="e.g. YouTube, Google, Oxford..." />
-      </div>
-      <div class="modal-grid">
-        <div class="modal-field">
-          <label>Category <span class="req">*</span></label>
-          <select id="m_category">
-            <option value="opportunities">Opportunities</option>
-            <option value="tech">Tech</option>
-            <option value="entertainment">Entertainment</option>
-            <option value="lifestyle">Lifestyle</option>
-          </select>
-        </div>
-        <div class="modal-field">
-          <label>Location <span class="hint">optional</span></label>
-          <input id="m_location" type="text" placeholder="UK, Remote, Nigeria..." />
-        </div>
-      </div>
-      <div class="modal-error" id="m_error"></div>
-      <button class="modal-submit" id="m_submit" onclick="submitLink()">Go live</button>
-      <p class="modal-footer-note">Active for 5 days - No media - No comments</p>
+<!-- Drop Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mh"><h2>Drop a link</h2><button class="mc" onclick="closeModal()">✕</button></div>
+    <p class="mtag">No noise. Just the link + a tight summary. Goes live instantly.</p>
+    <div class="mgrid">
+      <div class="mf"><label>Your name <span class="req">*</span></label><input id="m_name" type="text" placeholder="e.g. Amara Osei"/></div>
+      <div class="mf"><label>Social link <span class="hint">optional</span></label><input id="m_social" type="url" placeholder="https://linktr.ee/you"/></div>
     </div>
-  </div>
-
-  <!-- Profile Popup -->
-  <div class="profile-popup" id="profilePopup" onclick="closeProfile(event)">
-    <div class="profile-card">
-      <div class="profile-avatar" id="profileAvatar"></div>
-      <p class="profile-name" id="profileName"></p>
-      <div id="profileSocialWrap"></div>
-      <button class="profile-close" onclick="document.getElementById('profilePopup').classList.remove('open')">Close</button>
+    <hr class="mdiv"/>
+    <div class="mf">
+      <label>Paste the link <span class="req">*</span></label>
+      <div style="position:relative">
+        <input id="m_url" type="url" placeholder="https://..." oninput="onUrlInput()" onpaste="onUrlPaste()"/>
+        <span id="fetchSpinner" style="display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted)">fetching...</span>
+      </div>
     </div>
+    <div class="mf">
+      <label>Summary <span class="req">*</span> <span class="hint" id="posHint">max 150 chars, be sharp</span></label>
+      <input id="m_position" type="text" placeholder="Auto-filled from link — edit to be punchy" maxlength="150" oninput="updateCharCount()"/>
+      <div class="crow"><span class="cc" id="charCount">0 / 150</span></div>
+    </div>
+    <div class="mf"><label>Source <span class="hint">platform or org</span></label><input id="m_org" type="text" placeholder="e.g. YouTube, Google, Oxford..."/></div>
+    <div class="mgrid">
+      <div class="mf"><label>Category <span class="req">*</span></label>
+        <select id="m_category">
+          <option value="opportunities">Opportunities</option>
+          <option value="tech">Tech</option>
+          <option value="entertainment">Entertainment</option>
+          <option value="lifestyle">Lifestyle</option>
+        </select>
+      </div>
+      <div class="mf"><label>Location <span class="hint">optional</span></label><input id="m_location" type="text" placeholder="UK, Remote, Nigeria..."/></div>
+    </div>
+    <div class="merr" id="m_error"></div>
+    <button class="msub" id="m_submit" onclick="submitLink()">Go live</button>
+    <p class="mfn">Active for 5 days · No media · No comments</p>
   </div>
+</div>
 
-  <div class="container">
-    <header class="topbar">
-      <div class="nav">
-        <a href="#" class="brand">Skim</a>
-        <button class="cta" onclick="openModal()">+ Drop your Link</button>
-      </div>
-    </header>
-
-    <section class="hero">
-      <h1>
-        <span class="strong">Choose what to skim.</span>
-      </h1>
-
-      <div class="category-grid">
-        <button class="cat-card" id="tab-opportunities" onclick="showCategory('opportunities')">
-          <div class="icon">🌍</div>
-          <h3>Opportunities</h3>
-          <p>Jobs & scholarships dropping now.</p>
-        </button>
-        <button class="cat-card" id="tab-tech" onclick="showCategory('tech')">
-          <div class="icon">💻</div>
-          <h3>Tech</h3>
-          <p>Tools, launches & reads.</p>
-        </button>
-        <button class="cat-card" id="tab-entertainment" onclick="showCategory('entertainment')">
-          <div class="icon">🎭</div>
-          <h3>Entertainment</h3>
-          <p>Films, shows & music.</p>
-        </button>
-        <button class="cat-card" id="tab-lifestyle" onclick="showCategory('lifestyle')">
-          <div class="icon">🌿</div>
-          <h3>Lifestyle</h3>
-          <p>Health, travel & food.</p>
-        </button>
-      </div>
-
-      <div class="search-box">
-        <div class="search-grid" style="grid-template-columns: 1fr auto;">
-          <div class="field">
-            <label>What are you looking for today?</label>
-            <input id="query" type="text" placeholder="e.g. engineering job, PhD scholarship, remote..." onkeydown="if(event.key==='Enter')runSearch()" />
-          </div>
-          <button class="search-btn" onclick="runSearch()">Skim Links</button>
-        </div>
-      </div>
-    </section>
-
-    <section id="results" class="section">
-      <div class="section-head">
-        <div>
-          <h2 id="resultsTitle">Links</h2>
-          <p id="resultsSubtitle"></p>
-        </div>
-        <div class="pill" id="resultsPill">0 links</div>
-      </div>
-      <div id="linkList"></div>
-    </section>
-
-    <div class="footer-space"></div>
+<!-- Profile Popup -->
+<div class="profile-popup" id="profilePopup" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="profile-card">
+    <div class="profile-avatar" id="profileAvatar"></div>
+    <p class="profile-name" id="profileName"></p>
+    <div id="profileSocialWrap"></div>
+    <button class="profile-close" onclick="document.getElementById('profilePopup').classList.remove('open')">Close</button>
   </div>
+</div>
 
-  <script>
-    const SB_URL = 'https://wdjepqcbeoikvhofqqvn.supabase.co';
-    const SB_KEY = 'sb_publishable_tp05ugPzlC_AsNyaAH3rmQ_BG-0EOCQ';
+<!-- App -->
+<header class="topbar">
+  <a href="#" class="brand">Skim</a>
+  <button class="cta" onclick="openModal()">+ Drop your Link</button>
+</header>
 
-    const CATS = {
-      opportunities: { label:'Opportunities', icon:'🌍', sub:'Job and Scholarship links people are sharing right now.' },
-      tech:          { label:'Tech',          icon:'💻', sub:'Tools, launches and reads from the tech world.' },
-      entertainment: { label:'Entertainment', icon:'🎭', sub:'Films, shows and music worth your time.' },
-      lifestyle:     { label:'Lifestyle',     icon:'🌿', sub:'Health, travel and food worth clicking.' },
-    };
+<div class="search-wrap">
+  <input id="query" type="text" placeholder="Search across all links..." oninput="onSearch()"/>
+</div>
 
-    let activeCategory = 'opportunities';
+<div class="pie-section" id="pieSection">
+  <canvas id="pieCanvas" width="700" height="700"></canvas>
+  <div id="tip"></div>
+</div>
+<div id="status">Loading...</div>
 
-    function updateCharCount() {
-      const n = document.getElementById('m_position').value.length;
-      const el = document.getElementById('charCount');
-      el.textContent = n + ' / 150';
-      el.classList.toggle('over', n >= 140);
+<script>
+const SB_URL='https://wdjepqcbeoikvhofqqvn.supabase.co';
+const SB_KEY='sb_publishable_tp05ugPzlC_AsNyaAH3rmQ_BG-0EOCQ';
+
+const CATS=[
+  {id:'opportunities',label:'Opportunities',dark:[10,30,90],   light:[190,215,255],angle:[-90,0]},
+  {id:'tech',         label:'Tech',         dark:[10,60,50],   light:[160,235,210],angle:[0,90]},
+  {id:'entertainment',label:'Entertainment',dark:[90,15,55],   light:[255,185,220],angle:[90,180]},
+  {id:'lifestyle',    label:'Lifestyle',    dark:[70,40,0],    light:[255,215,140],angle:[180,270]},
+];
+
+const S=700,CX=350,CY=350,R=255,INNER=0,BANDS=180;
+const canvas=document.getElementById('pieCanvas');
+const ctx=canvas.getContext('2d');
+let allDots=[],linksMap={},activeHit=null,srchHits=[];
+let zoom=1,panX=0,panY=0,isPanning=false,lastPan={x:0,y:0};
+
+const toRad=d=>d*Math.PI/180;
+function lerp(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t));}
+function rgb(c){return`rgb(${c[0]},${c[1]},${c[2]})`;}
+
+function draw(){
+  ctx.clearRect(0,0,S,S);
+  ctx.save();
+  ctx.translate(panX,panY);
+  ctx.scale(zoom,zoom);
+
+  // soft background halo
+  const bg=ctx.createRadialGradient(CX,CY,40,CX,CY,R+90);
+  bg.addColorStop(0,'rgba(255,255,255,0.92)');
+  bg.addColorStop(0.55,'rgba(248,250,255,0.72)');
+  bg.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.beginPath();ctx.arc(CX,CY,R+70,0,Math.PI*2);
+  ctx.fillStyle=bg;ctx.fill();
+
+  // gradient slices
+  CATS.forEach(cat=>{
+    const a1=toRad(cat.angle[0]),a2=toRad(cat.angle[1]);
+    for(let i=0;i<BANDS;i++){
+      const r0=INNER+(R-INNER)*(i/BANDS);
+      const r1=INNER+(R-INNER)*((i+1)/BANDS);
+      ctx.beginPath();
+      ctx.arc(CX,CY,r1,a1,a2);
+      ctx.arc(CX,CY,r0,a2,a1,true);
+      ctx.closePath();
+      const t=Math.pow(i/BANDS,1.9);
+      ctx.fillStyle=rgb(lerp(cat.dark,cat.light,t));
+      ctx.fill();
     }
+    // glossy bloom
+    const mid=toRad((cat.angle[0]+cat.angle[1])/2);
+    const gx=CX+Math.cos(mid)*(R*0.42),gy=CY+Math.sin(mid)*(R*0.42);
+    const glow=ctx.createRadialGradient(gx,gy,0,gx,gy,R*0.5);
+    glow.addColorStop(0,'rgba(255,255,255,0.16)');
+    glow.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.beginPath();ctx.moveTo(CX,CY);ctx.arc(CX,CY,R,a1,a2);ctx.closePath();
+    ctx.fillStyle=glow;ctx.fill();
+  });
 
-    let fetchTimer = null;
-    function onUrlPaste() { setTimeout(triggerTitleFetch, 100); }
-    function onUrlInput() { clearTimeout(fetchTimer); fetchTimer = setTimeout(triggerTitleFetch, 800); }
+  // thin outer ring
+  ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);
+  ctx.strokeStyle='rgba(15,23,42,0.08)';ctx.lineWidth=1.2;ctx.stroke();
 
-    function extractFromLinkedIn(url) {
-      try {
-        const u = new URL(url);
-        if (!u.hostname.includes('linkedin.com')) return null;
-        const m = u.pathname.match(/\/jobs\/view\/([^/]+)/);
-        if (!m) return null;
-        const slug = m[1].replace(/-\d{7,}$/, '');
-        const low = ['at','in','for','of','and','with','the','a'];
-        return slug.split('-').map(function(w,i){ return (!i||!low.includes(w)) ? w[0].toUpperCase()+w.slice(1) : w; }).join(' ');
-      } catch(e) { return null; }
+  // soft dividers
+  [-90,0,90,180].forEach(a=>{
+    const rad=toRad(a);
+    ctx.beginPath();ctx.moveTo(CX,CY);
+    ctx.lineTo(CX+R*Math.cos(rad),CY+R*Math.sin(rad));
+    ctx.strokeStyle='rgba(255,255,255,0.18)';ctx.lineWidth=1;ctx.stroke();
+  });
+
+  // search hits
+  if(srchHits.length){
+    srchHits.forEach(h=>{
+      const sg=ctx.createRadialGradient(h.x,h.y,0,h.x,h.y,20);
+      sg.addColorStop(0,'rgba(255,255,255,0.95)');
+      sg.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.beginPath();ctx.arc(h.x,h.y,20,0,Math.PI*2);
+      ctx.fillStyle=sg;ctx.fill();
+      ctx.beginPath();ctx.arc(h.x,h.y,5.5,0,Math.PI*2);
+      ctx.fillStyle='#ffffff';ctx.fill();
+      ctx.beginPath();ctx.arc(h.x,h.y,5.5,0,Math.PI*2);
+      ctx.strokeStyle=rgb(h.cat.dark);ctx.lineWidth=2;ctx.stroke();
+    });
+  }
+
+  // hover reveal
+  if(activeHit){
+    const g=ctx.createRadialGradient(activeHit.x,activeHit.y,0,activeHit.x,activeHit.y,24);
+    g.addColorStop(0,'rgba(255,255,255,0.92)');
+    g.addColorStop(0.55,'rgba(255,255,255,0.25)');
+    g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.beginPath();ctx.arc(activeHit.x,activeHit.y,24,0,Math.PI*2);
+    ctx.fillStyle=g;ctx.fill();
+    ctx.beginPath();ctx.arc(activeHit.x,activeHit.y,5,0,Math.PI*2);
+    ctx.fillStyle='#0f172a';ctx.fill();
+  }
+
+  // center shimmer
+  const centerGlow=ctx.createRadialGradient(CX,CY,0,CX,CY,26);
+  centerGlow.addColorStop(0,'rgba(255,255,255,0.22)');
+  centerGlow.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.beginPath();ctx.arc(CX,CY,26,0,Math.PI*2);
+  ctx.fillStyle=centerGlow;ctx.fill();
+
+  // center point
+  ctx.beginPath();ctx.arc(CX,CY,3.2,0,Math.PI*2);
+  ctx.fillStyle='rgba(15,23,42,0.75)';ctx.fill();
+
+  // outside labels
+  const LR=R+56;
+  CATS.forEach(cat=>{
+    const mid=(cat.angle[0]+cat.angle[1])/2;
+    const rad=toRad(mid);
+    const lx=CX+LR*Math.cos(rad),ly=CY+LR*Math.sin(rad);
+    const isLeft=lx<CX-5;
+    ctx.textAlign=isLeft?'right':lx>CX+5?'left':'center';
+    const ox=isLeft?-10:lx>CX+5?10:0;
+    ctx.beginPath();
+    ctx.moveTo(CX+(R+8)*Math.cos(rad),CY+(R+8)*Math.sin(rad));
+    ctx.lineTo(lx,ly);
+    ctx.strokeStyle='rgba(15,23,42,0.10)';ctx.lineWidth=1;ctx.stroke();
+    const cl=linksMap[cat.id]||[];
+    ctx.font='700 14px Inter,sans-serif';
+    ctx.fillStyle='rgba(15,23,42,0.92)';
+    ctx.fillText(cat.label,lx+ox,ly-3);
+    ctx.font='500 11px Inter,sans-serif';
+    ctx.fillStyle='rgba(100,116,139,0.9)';
+    ctx.fillText(cl.length+' links',lx+ox,ly+12);
+  });
+
+  // breathing sheen
+  const time=Date.now()*0.00022;
+  ctx.globalAlpha=0.035;
+  ctx.beginPath();ctx.arc(CX+Math.sin(time)*4,CY+Math.cos(time)*4,R,0,Math.PI*2);
+  ctx.fillStyle='#ffffff';ctx.fill();
+  ctx.globalAlpha=1;
+
+  ctx.restore();
+}
+
+function placeDots(links,a1,a2,cat){
+  if(!links.length)return[];
+  const n=links.length;
+  const nR=Math.max(2,Math.round(Math.sqrt(n*1.6)));
+  const nC=Math.ceil(n/nR);
+  const out=[];let k=0;
+  for(let ring=0;ring<nR&&k<n;ring++){
+    const r=INNER+28+(R-INNER-50)*((ring+0.5)/nR);
+    const rem=Math.min(nC,n-k);
+    const pad=7;
+    for(let i=0;i<rem&&k<n;i++){
+      const frac=rem===1?0.5:i/(rem-1);
+      const angle=a1+pad+(a2-a1-pad*2)*frac;
+      out.push({x:CX+r*Math.cos(toRad(angle)),y:CY+r*Math.sin(toRad(angle)),link:links[k++],cat});
     }
+  }
+  return out;
+}
 
-    async function triggerTitleFetch() {
-      const url = document.getElementById('m_url').value.trim();
-      if (!url.startsWith('http')) return;
-      const spinner = document.getElementById('fetchSpinner');
-      const pos = document.getElementById('m_position');
-      const hint = document.getElementById('posHint');
-      if (url.includes('linkedin.com')) {
-        const t = extractFromLinkedIn(url);
-        if (t && !pos.value.trim()) { pos.value = t.slice(0,150); updateCharCount(); hint.textContent = 'parsed from LinkedIn, edit to sharpen'; }
-        else if (!t) { hint.textContent = 'LinkedIn detected, type your summary'; pos.focus(); }
-        return;
-      }
-      spinner.style.display = 'inline';
-      hint.textContent = 'fetching...';
-      try {
-        const r = await fetch('https://api.microlink.io?url=' + encodeURIComponent(url) + '&palette=false&screenshot=false');
-        const d = await r.json();
-        if (d.status === 'success' && d.data && d.data.title && !pos.value.trim()) {
-          pos.value = d.data.title.slice(0,150);
-          updateCharCount();
-          hint.textContent = 'auto-filled, trim if needed';
-          pos.style.borderColor = '#16a34a';
-          setTimeout(function(){ pos.style.borderColor = ''; }, 1500);
-        } else { hint.textContent = 'could not auto-fill, type your summary'; }
-      } catch(e) { hint.textContent = 'could not auto-fill, type your summary'; }
-      finally { spinner.style.display = 'none'; }
-    }
+function buildDots(){
+  allDots=[];
+  CATS.forEach(cat=>placeDots(linksMap[cat.id]||[],cat.angle[0],cat.angle[1],cat).forEach(d=>allDots.push(d)));
+}
 
-    function openModal() { document.getElementById('modalOverlay').classList.add('open'); document.getElementById('m_name').focus(); }
-    function closeModal() {
-      document.getElementById('modalOverlay').classList.remove('open');
-      document.getElementById('m_error').style.display = 'none';
-      ['m_name','m_social','m_position','m_org','m_url','m_location'].forEach(function(id){ document.getElementById(id).value = ''; });
-      document.getElementById('posHint').textContent = 'max 150 chars, be sharp';
-      document.getElementById('charCount').textContent = '0 / 150';
-      document.getElementById('m_submit').disabled = false;
-      document.getElementById('m_submit').textContent = 'Go live';
-    }
-    function handleOverlayClick(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
+function nearest(mx,my){
+  let best=null,bd=1e9;
+  allDots.forEach(d=>{const dist=Math.hypot(d.x-mx,d.y-my);if(dist<bd){bd=dist;best={d,dist};}});
+  return best&&best.dist<30?best.d:null;
+}
 
-    async function submitLink() {
-      const name    = document.getElementById('m_name').value.trim();
-      const social  = document.getElementById('m_social').value.trim();
-      const summary = document.getElementById('m_position').value.trim();
-      const org     = document.getElementById('m_org').value.trim();
-      const url     = document.getElementById('m_url').value.trim();
-      const cat     = document.getElementById('m_category').value;
-      const loc     = document.getElementById('m_location').value.trim();
-      const errEl   = document.getElementById('m_error');
-      const btn     = document.getElementById('m_submit');
-      errEl.style.display = 'none';
-      if (!name) { errEl.textContent = 'Add your name.'; errEl.style.display = 'block'; return; }
-      if (!summary) { errEl.textContent = 'Add a summary.'; errEl.style.display = 'block'; return; }
-      if (summary.length > 150) { errEl.textContent = 'Summary over 150 chars.'; errEl.style.display = 'block'; return; }
-      if (!url || !url.startsWith('http')) { errEl.textContent = 'Paste a valid https:// link.'; errEl.style.display = 'block'; return; }
-      const title = org ? summary + ' - ' + org : summary;
-      let cleanUrl = url;
-      if (url.includes('linkedin.com/safety/go') || url.includes('linkedin.com/redir/')) {
-        try { const u = new URL(url); const r = u.searchParams.get('url'); if (r) cleanUrl = decodeURIComponent(r); } catch(e) {}
-      }
-      btn.disabled = true; btn.textContent = 'Going live...';
-      try {
-        const res = await fetch(SB_URL + '/rest/v1/links', {
-          method: 'POST',
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
-          body: JSON.stringify({ url: cleanUrl, category: cat, title: title, location: loc || null, posted_by: name, social_handle: social || null })
-        });
-        if (!res.ok) { const e = await res.json(); throw new Error(e.message || 'Failed'); }
-        closeModal();
-        alert('Live! Find it under ' + (CATS[cat] ? CATS[cat].label : cat) + '.');
-        showCategory(cat);
-      } catch(err) {
-        errEl.textContent = 'Error: ' + err.message; errEl.style.display = 'block';
-        btn.disabled = false; btn.textContent = 'Go live';
-      }
-    }
+function expiryTag(ts,cat){
+  if(cat.id!=='opportunities')return'';
+  const exp=new Date(new Date(ts).getTime()+5*864e5);
+  const d=Math.ceil((exp-new Date())/864e5);
+  if(d<=0)return' · Expired';
+  if(d===1)return' · Exp today';
+  return' · Exp '+exp.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+}
 
-    async function fetchLinks(category, q, loc) {
-      let url = SB_URL + '/rest/v1/links?select=id,url,title,category,location,posted_by,social_handle,upvotes,downvotes,created_at&category=eq.' + category + '&order=created_at.desc';
-      if (loc) url += '&location=ilike.*' + encodeURIComponent(loc) + '*';
-      const res = await fetch(url, { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } });
-      if (!res.ok) throw new Error('Fetch failed');
-      let items = await res.json();
-      if (q) items = items.filter(function(it){ return (it.title || '').toLowerCase().includes(q.toLowerCase()); });
-      return items;
-    }
+function canvasXY(e){
+  const rc=canvas.getBoundingClientRect();
+  const cx=(e.clientX-rc.left)*(S/rc.width);
+  const cy=(e.clientY-rc.top)*(S/rc.height);
+  return [(cx-panX)/zoom,(cy-panY)/zoom];
+}
+function rawXY(e){
+  const rc=canvas.getBoundingClientRect();
+  return [(e.clientX-rc.left)*(S/rc.width),(e.clientY-rc.top)*(S/rc.height)];
+}
 
-    function expiryTag(createdAt) {
-      const created = createdAt ? new Date(createdAt) : new Date();
-      const exp = new Date(created.getTime() + 5 * 864e5);
-      const days = Math.ceil((exp - new Date()) / 864e5);
-      const lbl = exp.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-      if (days <= 0)  return '<span class="expires urgent">Expired</span>';
-      if (days === 1) return '<span class="expires urgent">Exp today</span>';
-      if (days <= 2)  return '<span class="expires soon">Exp ' + lbl + '</span>';
-      return '<span class="expires">Exp ' + lbl + '</span>';
-    }
+function showTip(e,hit){
+  const tip=document.getElementById('tip');
+  const l=hit.link;
+  const title=(l.title||'').split(' — ')[0].split(' - ')[0];
+  tip.innerHTML=
+    `<div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:600;text-transform:uppercase;letter-spacing:.04em">${hit.cat.label}</div>`
+    +`<div style="font-weight:600;font-size:13px;color:#0f172a;line-height:1.4">${title}</div>`
+    +(l.location?`<div style="font-size:11px;color:#64748b;margin-top:3px">${l.location}</div>`:'')
+    +`<div style="font-size:11px;color:#64748b;margin-top:2px">by ${l.posted_by||'—'}${expiryTag(l.created_at,hit.cat)}</div>`
+    +`<div style="font-size:11px;color:#2563ff;margin-top:5px;font-weight:600">click to open ↗</div>`;
+  tip.style.left=(e.clientX+16)+'px';
+  tip.style.top=(e.clientY-16)+'px';
+  tip.style.display='block';
+}
 
-    function setActiveTab(cat) {
-      Object.keys(CATS).forEach(function(c) {
-        const t = document.getElementById('tab-' + c);
-        if (t) t.classList.toggle('active', c === cat);
-      });
-    }
+canvas.addEventListener('mousemove',e=>{
+  const[mx,my]=canvasXY(e);
+  const hit=nearest(mx,my);
+  if(hit!==activeHit){activeHit=hit;draw();}
+  const tip=document.getElementById('tip');
+  if(hit){showTip(e,hit);canvas.style.cursor='crosshair';}
+  else{tip.style.display='none';canvas.style.cursor='crosshair';}
+});
+canvas.addEventListener('mouseleave',()=>{activeHit=null;mousePos=null;draw();document.getElementById('tip').style.display='none';canvas.style.cursor='default';});
+canvas.addEventListener('click',e=>{
+  const[mx,my]=canvasXY(e);const h=nearest(mx,my);
+  if(h&&h.link.url)window.open(h.link.url,'_blank');
+});
 
-    function renderResults(title, subtitle, items, cat) {
-      document.getElementById('resultsTitle').textContent = title;
-      document.getElementById('resultsSubtitle').textContent = subtitle;
-      document.getElementById('resultsPill').textContent = items.length + ' links';
-      const listEl = document.getElementById('linkList');
-      const catInfo = CATS[cat] || {};
-      if (items.length === 0) {
-        listEl.innerHTML = '<p style="color:var(--muted);font-size:14px;padding:12px 0;">Nothing here yet - be first to drop a link.</p>';
-      } else {
-        listEl.innerHTML = items.map(function(item, i) {
-          const safeTitle = (item.title || '').replace(/'/g, "&#39;");
-          const safeUrl   = (item.url   || '').replace(/'/g, "&#39;");
-          const displayTitle = (item.title || '').split(' — ')[0].split(' - ')[0];
-          return '<div class="link-card" id="card-' + item.id + '">' +
-            '<div class="link-main">' +
-              '<div class="link-title-row">' +
-                '<a href="' + item.url + '" target="_blank" rel="noopener noreferrer">' + displayTitle + '</a>' +
-                expiryTag(item.created_at) +
-              '</div>' +
-              '<div class="meta">' +
-                (item.location ? item.location + ' · ' : '') +
-                (item.posted_by ? '<button class="poster" onclick="openProfile(' + JSON.stringify(item).replace(/"/g,'&quot;') + ')">' + item.posted_by + '</button>' : '') +
-              '</div>' +
-            '</div>' +
-            '<div class="actions">' +
-              '<div class="vote-row">' +
-                '<button class="vote" id="up-' + item.id + '" onclick="vote(\'' + item.id + '\',\'up\')">▲ ' + (item.upvotes || 0) + '</button>' +
-                '<button class="vote" id="dn-' + item.id + '" onclick="vote(\'' + item.id + '\',\'down\')">▼ ' + (item.downvotes || 0) + '</button>' +
-                '<button class="vote" onclick="shareLink(\'' + safeUrl + '\',\'' + safeTitle + '\')">↗ Share</button>' +
-              '</div>' +
-            '</div>' +
-          '</div>';
-        }).join('');
-      }
-      document.getElementById('results').classList.add('active');
-      document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+// Touch
+canvas.addEventListener('touchstart',e=>{
+  e.preventDefault();
+  const t=e.touches[0];
+  const[mx,my]=canvasXY(t);
+  const h=nearest(mx,my);
+  const tip=document.getElementById('tip');
+  if(h){
+    if(activeHit&&activeHit.link===h.link){window.open(h.link.url,'_blank');return;}
+    activeHit=h;draw();showTip(t,h);
+  } else {activeHit=null;draw();tip.style.display='none';}
+},{passive:false});
 
-    async function showCategory(cat) {
-      activeCategory = cat;
-      setActiveTab(cat);
-      document.getElementById('linkList').innerHTML = '';
-      document.getElementById('results').classList.add('active');
-      try {
-        const items = await fetchLinks(cat, '', '');
-        renderResults('Links', CATS[cat].sub, items, cat);
-      } catch(err) {
-        document.getElementById('linkList').innerHTML = '<p style="color:#dc2626;font-size:13px;">Could not load - check connection.</p>';
-      }
-    }
 
-    async function runSearch() {
-      const q   = document.getElementById('query').value.trim();
-      const loc = document.getElementById('location').value.trim();
-      if (!q && !loc) return;
-      document.getElementById('resultsTitle').textContent = 'Searching...';
-      document.getElementById('linkList').innerHTML = '';
-      document.getElementById('results').classList.add('active');
-      setActiveTab(activeCategory);
-      try {
-        const items = await fetchLinks(activeCategory, q, loc);
-        const label = loc ? CATS[activeCategory].label + ' in ' + loc : 'Results for "' + q + '"';
-        renderResults(label, items.length + ' links found.', items, activeCategory);
-      } catch(err) {
-        document.getElementById('linkList').innerHTML = '<p style="color:#dc2626;font-size:13px;">Could not load.</p>';
-      }
-    }
+// ── Zoom & Pan ──────────────────────────────────────────────
+const MIN_ZOOM=0.5, MAX_ZOOM=6;
 
-    function openProfile(item) {
-      const name = item.posted_by || 'Anonymous';
-      document.getElementById('profileAvatar').textContent = name.charAt(0).toUpperCase();
-      document.getElementById('profileName').textContent = name;
-      const wrap = document.getElementById('profileSocialWrap');
-      wrap.innerHTML = item.social_handle
-        ? '<a class="profile-social-btn" href="' + item.social_handle + '" target="_blank" rel="noopener noreferrer">Visit Profile</a>'
-        : '<p style="color:var(--muted);font-size:13px;margin:0 0 12px;">No social link added.</p>';
-      document.getElementById('profilePopup').classList.add('open');
-    }
-    function closeProfile(e) { if (e.target === document.getElementById('profilePopup')) document.getElementById('profilePopup').classList.remove('open'); }
+function clampPan(){
+  // keep disk visible
+  const margin=80;
+  panX=Math.max(-S*(zoom-1)-margin, Math.min(margin, panX));
+  panY=Math.max(-S*(zoom-1)-margin, Math.min(margin, panY));
+}
 
-    const voted = JSON.parse(localStorage.getItem('skim_voted') || '{}');
-    async function vote(id, dir) {
-      const key = id + '_' + dir;
-      const oppKey = id + '_' + (dir === 'up' ? 'down' : 'up');
-      if (voted[key]) return;
-      const btn = document.getElementById((dir === 'up' ? 'up' : 'dn') + '-' + id);
-      const curr = parseInt(btn.textContent.replace(/[▲▼\s]/g, '')) || 0;
-      btn.textContent = (dir === 'up' ? '▲ ' : '▼ ') + (curr + 1);
-      btn.classList.add(dir === 'up' ? 'voted-up' : 'voted-down');
-      if (voted[oppKey]) {
-        const ob = document.getElementById((dir === 'up' ? 'dn' : 'up') + '-' + id);
-        const oVal = parseInt(ob.textContent.replace(/[▲▼\s]/g, '')) || 0;
-        ob.textContent = (dir === 'up' ? '▼ ' : '▲ ') + Math.max(0, oVal - 1);
-        ob.classList.remove('voted-up', 'voted-down');
-        delete voted[oppKey];
-      }
-      voted[key] = true;
-      localStorage.setItem('skim_voted', JSON.stringify(voted));
-      try {
-        await fetch(SB_URL + '/rest/v1/rpc/increment_vote', {
-          method: 'POST',
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ link_id: id, vote_field: dir === 'up' ? 'upvotes' : 'downvotes' })
-        });
-      } catch(e) {}
-    }
+// Scroll wheel zoom
+canvas.addEventListener('wheel',e=>{
+  e.preventDefault();
+  const[rx,ry]=rawXY(e);
+  const delta=e.deltaY>0?0.9:1.1;
+  const newZoom=Math.max(MIN_ZOOM,Math.min(MAX_ZOOM,zoom*delta));
+  // Zoom toward cursor
+  panX=rx-(rx-panX)*(newZoom/zoom);
+  panY=ry-(ry-panY)*(newZoom/zoom);
+  zoom=newZoom;
+  clampPan();
+  draw();
+},{passive:false});
 
-    async function shareLink(url, title) {
-      if (navigator.share) { try { await navigator.share({ title: title, url: url }); return; } catch(e) {} }
-      await navigator.clipboard.writeText(url);
-      alert('Link copied!');
-    }
+// Mouse drag to pan
+canvas.addEventListener('mousedown',e=>{
+  // only pan if no hit nearby
+  const[mx,my]=canvasXY(e);
+  const h=nearest(mx,my);
+  if(!h){isPanning=true;lastPan={x:e.clientX,y:e.clientY};canvas.style.cursor='grabbing';}
+});
+window.addEventListener('mousemove',e=>{
+  if(!isPanning)return;
+  const rc=canvas.getBoundingClientRect();
+  const scl=S/rc.width;
+  panX+=(e.clientX-lastPan.x)*scl;
+  panY+=(e.clientY-lastPan.y)*scl;
+  lastPan={x:e.clientX,y:e.clientY};
+  clampPan();draw();
+});
+window.addEventListener('mouseup',()=>{
+  if(isPanning){isPanning=false;canvas.style.cursor='crosshair';}
+});
 
-    showCategory('opportunities');
-  </script>
+// Double-click to reset
+canvas.addEventListener('dblclick',()=>{
+  zoom=1;panX=0;panY=0;draw();
+});
+
+// Pinch to zoom (touch)
+let lastTouchDist=null, lastTouchMid=null;
+canvas.addEventListener('touchstart',e=>{
+  if(e.touches.length===2){
+    lastTouchDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    lastTouchMid={x:(e.touches[0].clientX+e.touches[1].clientX)/2,y:(e.touches[0].clientY+e.touches[1].clientY)/2};
+  }
+},{passive:true});
+canvas.addEventListener('touchmove',e=>{
+  if(e.touches.length!==2||!lastTouchDist)return;
+  e.preventDefault();
+  const rc=canvas.getBoundingClientRect();
+  const scl=S/rc.width;
+  const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+  const mid={x:(e.touches[0].clientX+e.touches[1].clientX)/2,y:(e.touches[0].clientY+e.touches[1].clientY)/2};
+  const delta=dist/lastTouchDist;
+  const newZoom=Math.max(MIN_ZOOM,Math.min(MAX_ZOOM,zoom*delta));
+  const rx=(mid.x-rc.left)*scl, ry=(mid.y-rc.top)*scl;
+  panX=rx-(rx-panX)*(newZoom/zoom);
+  panY=ry-(ry-panY)*(newZoom/zoom);
+  // pan
+  panX+=(mid.x-lastTouchMid.x)*scl;
+  panY+=(mid.y-lastTouchMid.y)*scl;
+  zoom=newZoom;
+  lastTouchDist=dist;lastTouchMid=mid;
+  clampPan();draw();
+},{passive:false});
+canvas.addEventListener('touchend',()=>{lastTouchDist=null;lastTouchMid=null;},{passive:true});
+
+function onSearch(){
+  const q=document.getElementById('query').value.toLowerCase().trim();
+  srchHits=[];
+  if(!q){draw();document.getElementById('status').textContent=allDots.length+' links — hover to reveal';return;}
+  srchHits=allDots.filter(d=>
+    (d.link.title||'').toLowerCase().includes(q)||
+    (d.link.location||'').toLowerCase().includes(q)||
+    (d.link.posted_by||'').toLowerCase().includes(q)
+  );
+  draw();
+  if(!srchHits.length){document.getElementById('status').textContent='No match found';return;}
+  // Count by category
+  const counts={};
+  srchHits.forEach(h=>{counts[h.cat.label]=(counts[h.cat.label]||0)+1;});
+  const summary=Object.entries(counts).map(([k,v])=>v+' '+k).join(' · ');
+  document.getElementById('status').textContent=srchHits.length+' matches — '+summary;
+}
+
+async function fetchCat(id){
+  try{
+    const res=await fetch(
+      SB_URL+'/rest/v1/links?select=id,url,title,category,location,posted_by,social_handle,upvotes,downvotes,created_at&category=eq.'+id+'&order=created_at.desc',
+      {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}}
+    );
+    return res.ok?res.json():[];
+  }catch{return[];}
+}
+
+async function loadAll(){
+  document.getElementById('status').textContent='Loading...';
+  const res=await Promise.all(CATS.map(c=>fetchCat(c.id)));
+  CATS.forEach((c,i)=>{linksMap[c.id]=res[i];});
+  buildDots();draw();
+  const total=res.reduce((s,a)=>s+a.length,0);
+  document.getElementById('status').textContent=(total||'0')+' links — hover anywhere to reveal';
+}
+
+function updateCharCount(){const n=document.getElementById('m_position').value.length;const el=document.getElementById('charCount');el.textContent=n+' / 150';el.classList.toggle('over',n>=140);}
+let ft=null;
+function onUrlPaste(){setTimeout(triggerTitleFetch,100);}
+function onUrlInput(){clearTimeout(ft);ft=setTimeout(triggerTitleFetch,800);}
+async function triggerTitleFetch(){
+  const url=document.getElementById('m_url').value.trim();if(!url.startsWith('http'))return;
+  const sp=document.getElementById('fetchSpinner'),pos=document.getElementById('m_position'),hint=document.getElementById('posHint');
+  sp.style.display='inline';hint.textContent='fetching...';
+  try{const r=await fetch('https://api.microlink.io?url='+encodeURIComponent(url)+'&palette=false&screenshot=false');
+    const d=await r.json();
+    if(d.status==='success'&&d.data?.title&&!pos.value.trim()){pos.value=d.data.title.slice(0,150);updateCharCount();hint.textContent='auto-filled, edit to sharpen';}
+    else hint.textContent='type your summary';
+  }catch{hint.textContent='type your summary';}
+  finally{sp.style.display='none';}
+}
+function openModal(){document.getElementById('modalOverlay').classList.add('open');document.getElementById('m_name').focus();}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.getElementById('m_error').style.display='none';
+  ['m_name','m_social','m_position','m_org','m_url','m_location'].forEach(id=>{document.getElementById(id).value='';});
+  document.getElementById('posHint').textContent='max 150 chars, be sharp';
+  document.getElementById('charCount').textContent='0 / 150';
+  const btn=document.getElementById('m_submit');btn.disabled=false;btn.textContent='Go live';
+}
+async function submitLink(){
+  const get=id=>document.getElementById(id).value.trim();
+  const name=get('m_name'),social=get('m_social'),summary=get('m_position'),org=get('m_org'),
+        url=get('m_url'),cat=document.getElementById('m_category').value,loc=get('m_location');
+  const errEl=document.getElementById('m_error'),btn=document.getElementById('m_submit');
+  errEl.style.display='none';
+  if(!name){errEl.textContent='Add your name.';errEl.style.display='block';return;}
+  if(!summary){errEl.textContent='Add a summary.';errEl.style.display='block';return;}
+  if(!url||!url.startsWith('http')){errEl.textContent='Paste a valid https:// link.';errEl.style.display='block';return;}
+  btn.disabled=true;btn.textContent='Going live...';
+  try{
+    const res=await fetch(SB_URL+'/rest/v1/links',{
+      method:'POST',
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=representation'},
+      body:JSON.stringify({url,category:cat,title:org?summary+' - '+org:summary,location:loc||null,posted_by:name,social_handle:social||null})
+    });
+    if(!res.ok){const e=await res.json();throw new Error(e.message||'Failed');}
+    closeModal();loadAll();
+  }catch(err){errEl.textContent='Error: '+err.message;errEl.style.display='block';btn.disabled=false;btn.textContent='Go live';}
+}
+
+function openProfile(item){
+  const name=item.posted_by||'Anonymous';
+  document.getElementById('profileAvatar').textContent=name[0].toUpperCase();
+  document.getElementById('profileName').textContent=name;
+  const wrap=document.getElementById('profileSocialWrap');
+  wrap.innerHTML=item.social_handle
+    ?`<a class="profile-social-btn" href="${item.social_handle}" target="_blank" rel="noopener">View Profile ↗</a>`
+    :'<p style="font-size:13px;color:var(--muted)">No profile link added.</p>';
+  document.getElementById('profilePopup').classList.add('open');
+}
+
+(function loop(){draw();requestAnimationFrame(loop);})();
+loadAll();
+</script>
 </body>
 </html>
