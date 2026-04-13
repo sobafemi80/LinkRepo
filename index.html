@@ -3,552 +3,141 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LinkRepo</title>
+  <title>Skim</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --blue: #145dff;
-      --blue-dark: #0f4dde;
-      --text: #0e1726;
+      --bg: #f7f9fc;
+      --surface: #ffffff;
+      --text: #0f172a;
       --muted: #64748b;
-      --border: #e5e7eb;
-      --card: #ffffff;
-      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --line: #e7edf5;
+      --blue: #2563ff;
+      --blue-dark: #1d4ed8;
+      --shadow: 0 10px 30px rgba(37, 99, 255, 0.10);
+      --card-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
     }
-
     * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background: linear-gradient(180deg, #ffffff 0%, #f7faff 100%);
-    }
-
-    .page {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 28px 24px 56px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 36px;
-    }
-
-    .brand {
-      font-size: 24px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      color: var(--blue);
-      line-height: 1;
-    }
-
-    .drop-btn {
-      border: none;
-      background: var(--blue);
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background 0.15s ease, transform 0.15s ease;
-      box-shadow: 0 4px 14px rgba(20, 93, 255, 0.25);
-    }
-
-    .drop-btn:hover {
-      background: var(--blue-dark);
-      transform: translateY(-1px);
-    }
-
-    .hero {
-      text-align: center;
-      margin: 32px auto 36px;
-      max-width: 760px;
-    }
-
-    .hero h1 {
-      margin: 0 0 10px;
-      font-size: clamp(24px, 3.5vw, 38px);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      font-weight: 800;
-    }
-
-    .hero p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 16px;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px;
-      margin: 0 auto 36px;
-      max-width: 700px;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid #edf2f7;
-      border-radius: 22px;
-      box-shadow: var(--shadow);
-      padding: 36px 28px;
-      cursor: pointer;
-      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 38px rgba(15, 23, 42, 0.12);
-      border-color: #dbeafe;
-    }
-
-    .icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 18px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: #eff6ff;
-      font-size: 28px;
-      margin-bottom: 16px;
-    }
-
-    .card h3 { margin: 0 0 8px; font-size: 22px; font-weight: 800; }
-    .card p { margin: 0; color: var(--muted); line-height: 1.55; font-size: 15px; }
-
-    .search-panel {
-      background: rgba(255,255,255,0.92);
-      border: 1px solid #eef2f7;
-      box-shadow: var(--shadow);
-      border-radius: 28px;
-      padding: 22px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto;
-      max-width: 860px;
-    }
-
-    .field { flex: 1 1 240px; min-width: 200px; }
-
-    .field label {
-      display: block;
-      font-size: 13px;
-      color: var(--muted);
-      margin: 0 0 8px;
-      font-weight: 600;
-    }
-
-    .field input {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px 18px;
-      font-size: 16px;
-      outline: none;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-      background: #fff;
-      font-family: inherit;
-    }
-
-    .field input:focus {
-      border-color: #93c5fd;
-      box-shadow: 0 0 0 4px rgba(20, 93, 255, 0.12);
-    }
-
-    .primary-btn {
-      border: 0;
-      background: var(--blue);
-      color: white;
-      padding: 18px 28px;
-      border-radius: 18px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      min-width: 160px;
-      align-self: flex-end;
-      transition: transform 0.15s ease, background 0.15s ease;
-      box-shadow: 0 12px 24px rgba(20, 93, 255, 0.22);
-      font-family: inherit;
-    }
-
-    .primary-btn:hover { background: var(--blue-dark); transform: translateY(-1px); }
-
-    .results {
-      margin: 34px auto 0;
-      max-width: 860px;
-      background: rgba(255,255,255,0.95);
-      border: 1px solid #eef2f7;
-      border-radius: 28px;
-      box-shadow: var(--shadow);
-      padding: 26px;
-      display: none;
-    }
-
-    .results.active { display: block; }
-
-    .results-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-
-    .results-head h2 { margin: 0; font-size: 22px; }
-    .results-head p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
-
-    .pill {
-      background: #eff6ff;
-      color: var(--blue);
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .link-list { display: grid; gap: 14px; }
-
-    .link-item {
-      border: 1px solid #edf2f7;
-      border-radius: 18px;
-      padding: 16px 18px;
-      display: grid;
-      grid-template-columns: 38px 1fr;
-      gap: 14px;
-      align-items: start;
-      background: #fff;
-    }
-
-    .rank {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      background: #eff6ff;
-      color: var(--blue);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 15px;
-    }
-
-    .link-item a { color: var(--text); text-decoration: none; font-weight: 700; font-size: 16px; }
-    .link-item a:hover { color: var(--blue); }
-    .meta { margin-top: 4px; color: var(--muted); font-size: 13px; line-height: 1.5; }
-
+    body { margin: 0; font-family: "Inter", sans-serif; background: linear-gradient(180deg, #fbfdff 0%, #f5f8fc 100%); color: var(--text); }
+    .container { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    .topbar { padding: 20px 0 8px; }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { font-family: "Playfair Display", serif; font-style: italic; font-size: 32px; line-height: 1; color: var(--blue); text-decoration: none; letter-spacing: -0.02em; }
+    .cta { border: 0; background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%); color: white; font-weight: 700; font-size: 15px; padding: 15px 22px; border-radius: 999px; box-shadow: var(--shadow); cursor: pointer; font-family: inherit; transition: transform 0.18s ease, box-shadow 0.18s ease; }
+    .cta:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(37, 99, 255, 0.18); }
+    .hero { text-align: center; padding: 44px 0 26px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(37, 99, 255, 0.08); color: var(--blue-dark); font-size: 13px; font-weight: 700; padding: 8px 12px; border-radius: 999px; margin-bottom: 18px; }
+    .hero h1 { margin: 0; font-size: clamp(22px, 3vw, 32px); line-height: 1.15; letter-spacing: -0.02em; font-weight: 700; }
+    .hero h1 .soft { display: block; font-weight: 400; color: #334155; margin-bottom: 4px; }
+    .hero h1 .strong { display: block; }
+    .sub { margin: 18px auto 0; max-width: 640px; color: var(--muted); font-size: 18px; line-height: 1.6; }
+    .category-grid { display: flex; justify-content: center; gap: 20px; margin-top: 28px; flex-wrap: nowrap; }
+    .cat-card { background: transparent; border: none; border-radius: 0; padding: 16px 18px; box-shadow: none; text-align: center; transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer; font-family: inherit; }
+    .cat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
+    .cat-card.active { opacity: 1; }
+    .icon { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; font-size: 18px; background: linear-gradient(180deg, rgba(37,99,255,0.10), rgba(37,99,255,0.05)); margin: 0 auto 10px; }
+    .cat-card h3 { margin: 0 0 5px; font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
+    .cat-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .search-box { margin-top: 16px; background: rgba(255,255,255,0.92); border: 1px solid rgba(231,237,245,0.95); border-radius: 16px; box-shadow: var(--card-shadow); padding: 12px; }
+    .search-grid { display: grid; grid-template-columns: 1.4fr 1fr auto; gap: 14px; align-items: end; }
+    .field { display: flex; flex-direction: column; gap: 8px; text-align: left; }
+    .field label { font-size: 14px; font-weight: 600; color: #475569; }
+    .field input { width: 100%; border: 1px solid var(--line); outline: none; background: #fff; color: var(--text); border-radius: 10px; padding: 11px 14px; font-size: 14px; font-family: inherit; transition: border-color 0.18s ease, box-shadow 0.18s ease; }
+    .field input:focus { border-color: rgba(37,99,255,0.45); box-shadow: 0 0 0 4px rgba(37,99,255,0.08); }
+    .search-btn { height: 44px; border: 0; border-radius: 10px; padding: 0 14px; background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%); color: white; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; box-shadow: var(--shadow); transition: transform 0.18s ease, box-shadow 0.18s ease; white-space: nowrap; }
+    .search-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(37,99,255,0.18); }
+    .section { margin-top: 38px; background: rgba(255,255,255,0.88); border: 1px solid rgba(231,237,245,0.95); border-radius: 28px; box-shadow: var(--card-shadow); padding: 26px; display: none; }
+    .section.active { display: block; }
+    .section-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+    .section-head h2 { margin: 0; font-size: 26px; letter-spacing: -0.03em; }
+    .section-head p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+    .pill { background: rgba(37,99,255,0.08); color: var(--blue-dark); border-radius: 999px; padding: 9px 14px; font-size: 14px; font-weight: 700; white-space: nowrap; }
+    .link-card { display: grid; grid-template-columns: 42px 1fr auto; gap: 18px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 18px 20px; margin-top: 12px; transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease; }
+    .link-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(15,23,42,0.07); border-color: rgba(37,99,255,0.18); }
+    .rank { width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; background: rgba(37,99,255,0.08); color: var(--blue); font-weight: 800; font-size: 15px; flex-shrink: 0; }
+    .link-main a { display: block; font-size: 16px; font-weight: 700; color: var(--text); text-decoration: none; line-height: 1.35; letter-spacing: -0.01em; }
+    .link-main a:hover { color: var(--blue); }
+    .meta { margin-top: 6px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .poster { color: var(--blue-dark); font-weight: 700; background: none; border: none; padding: 0; font: inherit; font-size: 13px; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+    .actions { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; flex-shrink: 0; }
+    .expires { border: 1px solid var(--line); color: #64748b; background: #f8fafc; padding: 6px 12px; font-size: 12px; font-weight: 600; border-radius: 999px; white-space: nowrap; }
+    .expires.soon { color: #92400e; background: #fffbeb; border-color: #fde68a; }
+    .expires.urgent { color: #991b1b; background: #fef2f2; border-color: #fecaca; }
+    .vote-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .vote { border: 1px solid var(--line); background: #fff; color: #475569; border-radius: 999px; padding: 7px 12px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; transition: border-color 0.18s, color 0.18s, transform 0.18s; }
+    .vote:hover { border-color: rgba(37,99,255,0.28); color: var(--blue-dark); transform: translateY(-1px); }
+    .vote.voted-up { border-color: #16a34a; color: #16a34a; background: #f0fdf4; }
+    .vote.voted-down { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
     /* Modal */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(14, 23, 42, 0.45);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px); }
     .modal-overlay.open { display: flex; }
-
-    .modal {
-      background: #fff;
-      border-radius: 24px;
-      padding: 32px;
-      width: 100%;
-      max-width: 500px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 24px 60px rgba(14, 23, 42, 0.18);
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 6px;
-    }
-
-    .modal-header h2 { margin: 0; font-size: 22px; font-weight: 800; }
-
-    .modal-close {
-      background: none;
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
-      color: var(--muted);
-      line-height: 1;
-      padding: 4px;
-    }
-
-    .modal-tagline {
-      color: var(--muted);
-      font-size: 13px;
-      margin: 0 0 24px;
-    }
-
-    /* Two-column grid for modal fields */
-    .modal-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      align-items: end;
-    }
-
+    .modal { background: #fff; border-radius: 24px; padding: 32px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 64px rgba(0,0,0,0.18); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .modal-header h2 { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+    .modal-close { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--muted); padding: 4px; }
+    .modal-tagline { font-size: 13px; color: var(--muted); margin: 0 0 22px; }
+    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: end; }
     .modal-grid .modal-field { margin-bottom: 0; }
-
-    .modal-grid .modal-field label {
-      display: flex;
-      align-items: baseline;
-      gap: 5px;
-      min-height: 20px;
-      margin-bottom: 7px;
-    }
-
+    .modal-grid .modal-field label { display: flex; align-items: baseline; gap: 4px; }
     .modal-field { margin-bottom: 14px; }
-
-    .modal-field label {
-      display: flex;
-      align-items: baseline;
-      gap: 5px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 7px;
-      letter-spacing: 0.01em;
+    .modal-field label { display: flex; align-items: baseline; gap: 4px; font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .req { color: #dc2626; font-size: 12px; }
+    .hint { font-size: 11px; font-weight: 400; color: var(--muted); }
+    .modal-field input, .modal-field select { width: 100%; border: 1.5px solid var(--line); border-radius: 12px; padding: 11px 13px; font-family: inherit; font-size: 14px; color: var(--text); background: #fff; outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+    .modal-field input:focus, .modal-field select:focus { border-color: rgba(37,99,255,0.5); box-shadow: 0 0 0 4px rgba(37,99,255,0.08); }
+    .modal-field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; padding-right: 34px; }
+    .modal-divider { border: none; border-top: 1px solid var(--line); margin: 16px 0; }
+    .char-row { display: flex; justify-content: flex-end; margin-top: 4px; }
+    .char-count { font-size: 11px; color: var(--muted); }
+    .char-count.over { color: #dc2626; font-weight: 600; }
+    .modal-error { font-size: 13px; color: #dc2626; margin-bottom: 10px; display: none; }
+    .modal-submit { width: 100%; background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%); color: #fff; border: none; border-radius: 14px; padding: 15px; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 20px; box-shadow: var(--shadow); transition: transform 0.15s, box-shadow 0.15s; }
+    .modal-submit:hover { transform: translateY(-1px); box-shadow: 0 14px 34px rgba(37,99,255,0.18); }
+    .modal-submit:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+    .modal-footer-note { text-align: center; font-size: 11px; color: var(--muted); margin-top: 10px; }
+    /* Profile */
+    .profile-popup { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300; align-items: center; justify-content: center; padding: 16px; }
+    .profile-popup.open { display: flex; }
+    .profile-card { background: #fff; border-radius: 20px; padding: 28px; width: 100%; max-width: 300px; text-align: center; box-shadow: 0 24px 64px rgba(0,0,0,0.18); }
+    .profile-avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--blue); color: #fff; font-size: 22px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+    .profile-name { font-size: 17px; font-weight: 700; margin: 0 0 14px; letter-spacing: -0.02em; }
+    .profile-social-btn { display: inline-block; background: linear-gradient(135deg,var(--blue),var(--blue-dark)); color: #fff; text-decoration: none; padding: 10px 22px; border-radius: 999px; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+    .profile-close { display: block; background: none; border: none; color: var(--muted); font-size: 13px; cursor: pointer; font-family: inherit; }
+    .footer-space { height: 40px; }
+    @media (max-width: 900px) {
+      .category-grid { grid-template-columns: repeat(2, 1fr); }
+      .search-grid { grid-template-columns: 1fr; }
+      .search-btn { width: 100%; }
+      .link-card { grid-template-columns: 1fr; }
+      .rank { display: none; }
+      .actions { align-items: flex-start; }
+      .vote-row { justify-content: flex-start; }
+      .section-head { flex-direction: column; align-items: flex-start; }
     }
-
-    .modal-field .req {
-      color: #dc2626;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .modal-field .hint {
-      font-size: 11px;
-      font-weight: 400;
-      color: var(--muted);
-    }
-
-    .modal-field input,
-    .modal-field select {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px;
-      font-size: 14px;
-      outline: none;
-      background: #fff;
-      font-family: inherit;
-      color: var(--text);
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .modal-field input:focus,
-    .modal-field select:focus {
-      border-color: #93c5fd;
-      box-shadow: 0 0 0 4px rgba(20, 93, 255, 0.10);
-    }
-
-    .modal-field select {
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      padding-right: 36px;
-    }
-
-    .select-wrap { position: relative; }
-
-    .select-icon {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 15px;
-      pointer-events: none;
-    }
-
-    .select-with-icon { padding-left: 36px; }
-
-    /* Divider */
-    .modal-divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 18px 0;
-    }
-
-    .modal-error {
-      color: #dc2626;
-      font-size: 13px;
-      margin-bottom: 12px;
-      display: none;
-    }
-
-    .modal-submit {
-      width: 100%;
-      background: var(--blue);
-      color: #fff;
-      border: none;
-      border-radius: 14px;
-      padding: 15px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background 0.15s ease, transform 0.15s ease;
-      margin-top: 4px;
-      box-shadow: 0 8px 20px rgba(20, 93, 255, 0.22);
-    }
-
-    .modal-submit:hover { background: var(--blue-dark); transform: translateY(-1px); }
-    .modal-submit:disabled { background: #93c5fd; cursor: not-allowed; transform: none; }
-
-    .modal-footer-note {
-      text-align: center;
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 12px;
-    }
-
-    @media (max-width: 640px) {
-      .page { padding: 20px 16px 44px; }
-      .topbar { margin-bottom: 22px; }
-      .brand { font-size: 20px; }
-      .cards { grid-template-columns: 1fr; max-width: 100%; }
-      .search-panel { padding: 18px; }
-      .primary-btn { width: 100%; }
+    @media (max-width: 560px) {
+      .brand { font-size: 28px; }
+      .cta { padding: 13px 18px; font-size: 14px; }
+      .hero { padding-top: 28px; }
+      .hero h1 { font-size: 36px; }
+      .sub { font-size: 16px; }
+      .section, .search-box { padding: 18px; border-radius: 20px; }
+      .cat-card { padding: 16px 12px; }
       .modal-grid { grid-template-columns: 1fr; }
     }
-
-    /* Profile popup */
-    .profile-popup {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(14,23,42,0.45);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-    .profile-popup.open { display: flex; }
-    .profile-card {
-      background: #fff;
-      border-radius: 20px;
-      padding: 28px;
-      width: 100%;
-      max-width: 340px;
-      box-shadow: 0 24px 60px rgba(14,23,42,0.18);
-      text-align: center;
-    }
-    .profile-avatar {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      background: #eff6ff;
-      color: var(--blue);
-      font-size: 22px;
-      font-weight: 800;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 12px;
-    }
-    .profile-name { font-size: 18px; font-weight: 800; margin: 0 0 6px; }
-    .profile-bio { font-size: 14px; color: var(--muted); margin: 0 0 16px; line-height: 1.5; }
-    .profile-social-btn {
-      display: inline-block;
-      background: var(--blue);
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-    .profile-close {
-      display: block;
-      background: none;
-      border: none;
-      color: var(--muted);
-      font-size: 13px;
-      cursor: pointer;
-      font-family: inherit;
-      margin-top: 4px;
-    }
-
-    /* Card actions */
-    .card-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .vote-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 5px 12px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      color: var(--muted);
-      transition: all 0.15s;
-    }
-    .vote-btn:hover { border-color: var(--blue); color: var(--blue); background: #eff6ff; }
-    .vote-btn.voted-up { border-color: #16a34a; color: #16a34a; background: #f0fdf4; }
-    .vote-btn.voted-down { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
-    .share-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: none;
-      border: none;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--muted);
-      cursor: pointer;
-      font-family: inherit;
-      padding: 5px 8px;
-      border-radius: 999px;
-      transition: color 0.15s;
-    }
-    .share-btn:hover { color: var(--blue); }
   </style>
 </head>
 <body>
 
-  <!-- Drop Link Modal -->
+  <!-- Drop Modal -->
   <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
     <div class="modal">
       <div class="modal-header">
-        <h2>Drop your link 🔥</h2>
+        <h2>Drop a link</h2>
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
-      <p class="modal-tagline">Takes 10 seconds. Goes live instantly.</p>
-
-      <!-- Name + Social side by side -->
+      <p class="modal-tagline">No noise. Just the link + a tight summary. Goes live instantly.</p>
       <div class="modal-grid">
         <div class="modal-field">
           <label>Your name <span class="req">*</span></label>
@@ -559,48 +148,41 @@
           <input id="m_social" type="url" placeholder="https://linktr.ee/you" />
         </div>
       </div>
-
       <hr class="modal-divider" />
-
-      <!-- URL -->
       <div class="modal-field">
         <label>Paste the link <span class="req">*</span></label>
         <div style="position:relative;">
-          <input id="m_url" type="url" placeholder="https://…" oninput="onUrlInput()" onpaste="onUrlPaste()" />
-          <span id="fetchSpinner" style="display:none;position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);">⏳ fetching…</span>
+          <input id="m_url" type="url" placeholder="https://..." oninput="onUrlInput()" onpaste="onUrlPaste()" />
+          <span id="fetchSpinner" style="display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted);">fetching...</span>
         </div>
       </div>
-
-      <!-- Position -->
       <div class="modal-field">
-        <label>Position / Opportunity <span class="hint" id="posHint">— paste link above, we'll try to fill this</span></label>
-        <input id="m_position" type="text" placeholder="Auto-filled from link…" />
+        <label>Summary <span class="req">*</span> <span class="hint" id="posHint">max 150 chars, be sharp</span></label>
+        <input id="m_position" type="text" placeholder="Auto-filled from link - edit to be punchy" maxlength="150" oninput="updateCharCount()" />
+        <div class="char-row"><span class="char-count" id="charCount">0 / 150</span></div>
       </div>
-
-      <!-- Organisation -->
       <div class="modal-field">
-        <label>University or Company</label>
-        <input id="m_org" type="text" placeholder="e.g. Oxford, Shell, Chevening…" />
+        <label>Source <span class="hint">platform or organisation</span></label>
+        <input id="m_org" type="text" placeholder="e.g. YouTube, Google, Oxford..." />
       </div>
-
-      <!-- Category + Location side by side -->
       <div class="modal-grid">
         <div class="modal-field">
-          <label>Category</label>
+          <label>Category <span class="req">*</span></label>
           <select id="m_category">
-            <option value="jobs">Jobs</option>
-            <option value="scholarships">Scholarships</option>
+            <option value="opportunities">Opportunities</option>
+            <option value="tech">Tech</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="lifestyle">Lifestyle</option>
           </select>
         </div>
         <div class="modal-field">
           <label>Location <span class="hint">optional</span></label>
-          <input id="m_location" type="text" placeholder="UK, Remote, Nigeria…" />
+          <input id="m_location" type="text" placeholder="UK, Remote, Nigeria..." />
         </div>
       </div>
-
       <div class="modal-error" id="m_error"></div>
-      <button class="modal-submit" id="m_submit" onclick="submitLink()" style="margin-top:24px;">🚀 Go Live Now</button>
-      <p class="modal-footer-note">Your link stays active for 5 days.</p>
+      <button class="modal-submit" id="m_submit" onclick="submitLink()">Go live</button>
+      <p class="modal-footer-note">Active for 5 days - No media - No comments</p>
     </div>
   </div>
 
@@ -614,434 +196,323 @@
     </div>
   </div>
 
-  <div class="page">
+  <div class="container">
     <header class="topbar">
-      <div class="brand">LinkRepo</div>
-      <button class="drop-btn" type="button" onclick="openModal()">Drop Your Link</button>
+      <div class="nav">
+        <a href="#" class="brand">Skim</a>
+        <button class="cta" onclick="openModal()">+ Drop your Link</button>
+      </div>
     </header>
 
     <section class="hero">
-      <h1>What are you looking for today?</h1>
-      <p>Fresh links only. Updated in real time.</p>
-    </section>
+      <h1>
+        <span class="strong">No noise. No algorithms. Just what matters.</span>
+      </h1>
+      <p class="sub">Fresh links. Worth your time.</p>
 
-    <section class="cards">
-      <button class="card" type="button" onclick="showCategory('jobs')">
-        <div class="icon">💼</div>
-        <h3>Jobs</h3>
-        <p>Active job listings people are sharing right now.</p>
-      </button>
-      <button class="card" type="button" onclick="showCategory('scholarships')">
-        <div class="icon">🎓</div>
-        <h3>Scholarships</h3>
-        <p>Fully funded and open scholarship opportunities dropping now.</p>
-      </button>
-    </section>
-
-    <section class="search-panel">
-      <div class="field">
-        <label for="query">What are you looking for?</label>
-        <input id="query" type="text" placeholder="e.g. engineering job, PhD scholarship, remote..." />
+      <div class="category-grid">
+        <button class="cat-card" id="tab-opportunities" onclick="showCategory('opportunities')">
+          <div class="icon">🌍</div>
+          <h3>Opportunities</h3>
+          <p>Jobs & scholarships dropping now.</p>
+        </button>
+        <button class="cat-card" id="tab-tech" onclick="showCategory('tech')">
+          <div class="icon">💻</div>
+          <h3>Tech</h3>
+          <p>Tools, launches & reads.</p>
+        </button>
+        <button class="cat-card" id="tab-entertainment" onclick="showCategory('entertainment')">
+          <div class="icon">🎭</div>
+          <h3>Entertainment</h3>
+          <p>Films, shows & music.</p>
+        </button>
+        <button class="cat-card" id="tab-lifestyle" onclick="showCategory('lifestyle')">
+          <div class="icon">🌿</div>
+          <h3>Lifestyle</h3>
+          <p>Health, travel & food.</p>
+        </button>
       </div>
-      <div class="field">
-        <label for="location">Location (optional)</label>
-        <input id="location" type="text" placeholder="Remote, UK, USA, Nigeria..." />
+
+      <div class="search-box">
+        <div class="search-grid" style="grid-template-columns: 1fr auto;">
+          <div class="field">
+            <label>What are you looking for today?</label>
+            <input id="query" type="text" placeholder="e.g. engineering job, PhD scholarship, remote..." onkeydown="if(event.key==='Enter')runSearch()" />
+          </div>
+          <button class="search-btn" onclick="runSearch()">Skim Links</button>
+        </div>
       </div>
-      <button class="primary-btn" type="button" onclick="runSearch()">Find Links →</button>
     </section>
 
-    <section id="results" class="results">
-      <div class="results-head">
+    <section id="results" class="section">
+      <div class="section-head">
         <div>
-          <h2 id="resultsTitle">Top links</h2>
-          <p id="resultsSubtitle">Results will appear here.</p>
+          <h2 id="resultsTitle">Links</h2>
+          <p id="resultsSubtitle"></p>
         </div>
         <div class="pill" id="resultsPill">0 links</div>
       </div>
-      <div class="link-list" id="linkList"></div>
-      <div class="footer-note" id="footerNote"></div>
+      <div id="linkList"></div>
     </section>
+
+    <div class="footer-space"></div>
   </div>
 
   <script>
-    const SUPABASE_URL = 'https://wdjepqcbeoikvhofqqvn.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_tp05ugPzlC_AsNyaAH3rmQ_BG-0EOCQ';
+    const SB_URL = 'https://wdjepqcbeoikvhofqqvn.supabase.co';
+    const SB_KEY = 'sb_publishable_tp05ugPzlC_AsNyaAH3rmQ_BG-0EOCQ';
 
-    const categoryIcons = { jobs: '💼', scholarships: '🎓' };
+    const CATS = {
+      opportunities: { label:'Opportunities', icon:'🌍', sub:'Job and Scholarship links people are sharing right now.' },
+      tech:          { label:'Tech',          icon:'💻', sub:'Tools, launches and reads from the tech world.' },
+      entertainment: { label:'Entertainment', icon:'🎭', sub:'Films, shows and music worth your time.' },
+      lifestyle:     { label:'Lifestyle',     icon:'🌿', sub:'Health, travel and food worth clicking.' },
+    };
 
-    // Auto-fetch title from pasted URL
+    let activeCategory = 'opportunities';
+
+    function updateCharCount() {
+      const n = document.getElementById('m_position').value.length;
+      const el = document.getElementById('charCount');
+      el.textContent = n + ' / 150';
+      el.classList.toggle('over', n >= 140);
+    }
+
     let fetchTimer = null;
+    function onUrlPaste() { setTimeout(triggerTitleFetch, 100); }
+    function onUrlInput() { clearTimeout(fetchTimer); fetchTimer = setTimeout(triggerTitleFetch, 800); }
 
-    function onUrlPaste() {
-      // Give browser time to populate the input value after paste event
-      setTimeout(() => triggerTitleFetch(), 100);
-    }
-
-    function onUrlInput() {
-      clearTimeout(fetchTimer);
-      fetchTimer = setTimeout(() => triggerTitleFetch(), 800);
-    }
-
-    // Try to extract a readable title from a LinkedIn job URL slug
-    // e.g. /jobs/view/software-engineer-at-google-3847291234/ → "Software Engineer at Google"
     function extractFromLinkedIn(url) {
       try {
         const u = new URL(url);
         if (!u.hostname.includes('linkedin.com')) return null;
-
-        // Job listing: /jobs/view/<slug>-<id>/
-        const jobMatch = u.pathname.match(/\/jobs\/view\/([^/]+)/);
-        if (jobMatch) {
-          const slug = jobMatch[1];
-          // Strip trailing numeric ID (e.g. "-3847291234")
-          const withoutId = slug.replace(/-\d{7,}$/, '').trim();
-          if (!withoutId) return null;
-          // Kebab-case → Title Case, preserve "at / in / for / of"
-          const lower = ['at','in','for','of','and','with','the','a'];
-          return withoutId
-            .split('-')
-            .map((w, i) => (i === 0 || !lower.includes(w)) ? w.charAt(0).toUpperCase() + w.slice(1) : w)
-            .join(' ');
-        }
-
-        // School/scholarship pages: /school/<name>/
-        const schoolMatch = u.pathname.match(/\/school\/([^/]+)/);
-        if (schoolMatch) {
-          return schoolMatch[1].replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-        }
-
-        return null;
-      } catch (e) {
-        return null;
-      }
+        const m = u.pathname.match(/\/jobs\/view\/([^/]+)/);
+        if (!m) return null;
+        const slug = m[1].replace(/-\d{7,}$/, '');
+        const low = ['at','in','for','of','and','with','the','a'];
+        return slug.split('-').map(function(w,i){ return (!i||!low.includes(w)) ? w[0].toUpperCase()+w.slice(1) : w; }).join(' ');
+      } catch(e) { return null; }
     }
 
     async function triggerTitleFetch() {
       const url = document.getElementById('m_url').value.trim();
       if (!url.startsWith('http')) return;
-
-      const spinner  = document.getElementById('fetchSpinner');
-      const posInput = document.getElementById('m_position');
-      const hint     = document.getElementById('posHint');
-
-      // --- LinkedIn: parse from URL slug (no network call needed) ---
+      const spinner = document.getElementById('fetchSpinner');
+      const pos = document.getElementById('m_position');
+      const hint = document.getElementById('posHint');
       if (url.includes('linkedin.com')) {
-        const extracted = extractFromLinkedIn(url);
-        if (extracted && !posInput.value.trim()) {
-          posInput.value = extracted;
-          posInput.style.borderColor = '#86efac';
-          setTimeout(() => posInput.style.borderColor = '', 1500);
-          hint.textContent = 'parsed from LinkedIn URL — edit if needed';
-        } else if (!extracted) {
-          hint.textContent = 'LinkedIn link detected — please type the title manually';
-          posInput.placeholder = 'e.g. PhD in Molecular Biology';
-          posInput.focus();
-        }
-        return; // don't call Microlink for LinkedIn
+        const t = extractFromLinkedIn(url);
+        if (t && !pos.value.trim()) { pos.value = t.slice(0,150); updateCharCount(); hint.textContent = 'parsed from LinkedIn, edit to sharpen'; }
+        else if (!t) { hint.textContent = 'LinkedIn detected, type your summary'; pos.focus(); }
+        return;
       }
-
-      // --- All other sites: use Microlink ---
       spinner.style.display = 'inline';
-      hint.textContent = 'fetching title…';
-
+      hint.textContent = 'fetching...';
       try {
-        const res = await fetch(
-          `https://api.microlink.io?url=${encodeURIComponent(url)}&palette=false&screenshot=false`
-        );
-        const data = await res.json();
-
-        if (data.status === 'success' && data.data?.title) {
-          if (!posInput.value.trim()) {
-            posInput.value = data.data.title;
-            posInput.style.borderColor = '#86efac';
-            setTimeout(() => posInput.style.borderColor = '', 1500);
-          }
-          hint.textContent = 'auto-filled — edit if needed';
-        } else {
-          hint.textContent = 'could not auto-fill — type manually';
-        }
-      } catch (e) {
-        hint.textContent = 'could not auto-fill — type manually';
-      } finally {
-        spinner.style.display = 'none';
-      }
+        const r = await fetch('https://api.microlink.io?url=' + encodeURIComponent(url) + '&palette=false&screenshot=false');
+        const d = await r.json();
+        if (d.status === 'success' && d.data && d.data.title && !pos.value.trim()) {
+          pos.value = d.data.title.slice(0,150);
+          updateCharCount();
+          hint.textContent = 'auto-filled, trim if needed';
+          pos.style.borderColor = '#16a34a';
+          setTimeout(function(){ pos.style.borderColor = ''; }, 1500);
+        } else { hint.textContent = 'could not auto-fill, type your summary'; }
+      } catch(e) { hint.textContent = 'could not auto-fill, type your summary'; }
+      finally { spinner.style.display = 'none'; }
     }
 
-    function updateCategoryIcon() {
-      const val = document.getElementById('m_category').value;
-      document.getElementById('categoryIcon').textContent = categoryIcons[val] || '💼';
-    }
-
-    function openModal() {
-      document.getElementById('modalOverlay').classList.add('open');
-      document.getElementById('m_name').focus();
-    }
-
+    function openModal() { document.getElementById('modalOverlay').classList.add('open'); document.getElementById('m_name').focus(); }
     function closeModal() {
       document.getElementById('modalOverlay').classList.remove('open');
       document.getElementById('m_error').style.display = 'none';
-      ['m_name', 'm_social', 'm_position', 'm_org', 'm_url', 'm_location'].forEach(id => {
-        document.getElementById(id).value = '';
-      });
-      document.getElementById('posHint').textContent = 'paste the link below — we\'ll try to fill this';
+      ['m_name','m_social','m_position','m_org','m_url','m_location'].forEach(function(id){ document.getElementById(id).value = ''; });
+      document.getElementById('posHint').textContent = 'max 150 chars, be sharp';
+      document.getElementById('charCount').textContent = '0 / 150';
       document.getElementById('m_submit').disabled = false;
-      document.getElementById('m_submit').textContent = '🚀 Go Live Now';
+      document.getElementById('m_submit').textContent = 'Go live';
     }
-
-    function handleOverlayClick(e) {
-      if (e.target === document.getElementById('modalOverlay')) closeModal();
-    }
+    function handleOverlayClick(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
 
     async function submitLink() {
-      const name     = document.getElementById('m_name').value.trim();
-      const social   = document.getElementById('m_social').value.trim();
-      const position = document.getElementById('m_position').value.trim();
-      const org      = document.getElementById('m_org').value.trim();
-      const url      = document.getElementById('m_url').value.trim();
-      const category = document.getElementById('m_category').value;
-      const location = document.getElementById('m_location').value.trim();
-      const errorEl  = document.getElementById('m_error');
-      const submitBtn = document.getElementById('m_submit');
-
-      errorEl.style.display = 'none';
-
-      if (!name) {
-        errorEl.textContent = 'Please add your name so people know who shared this.';
-        errorEl.style.display = 'block'; return;
-      }
-      if (!position) {
-        errorEl.textContent = 'Please add a position or opportunity name.';
-        errorEl.style.display = 'block'; return;
-      }
-      if (!url || !url.startsWith('http')) {
-        errorEl.textContent = 'Please paste a valid link starting with https://';
-        errorEl.style.display = 'block'; return;
-      }
-
-      // Build a clean title from position + org
-      const title = org ? `${position} — ${org}` : position;
-
-      // Decode LinkedIn safety redirect URLs automatically
+      const name    = document.getElementById('m_name').value.trim();
+      const social  = document.getElementById('m_social').value.trim();
+      const summary = document.getElementById('m_position').value.trim();
+      const org     = document.getElementById('m_org').value.trim();
+      const url     = document.getElementById('m_url').value.trim();
+      const cat     = document.getElementById('m_category').value;
+      const loc     = document.getElementById('m_location').value.trim();
+      const errEl   = document.getElementById('m_error');
+      const btn     = document.getElementById('m_submit');
+      errEl.style.display = 'none';
+      if (!name) { errEl.textContent = 'Add your name.'; errEl.style.display = 'block'; return; }
+      if (!summary) { errEl.textContent = 'Add a summary.'; errEl.style.display = 'block'; return; }
+      if (summary.length > 150) { errEl.textContent = 'Summary over 150 chars.'; errEl.style.display = 'block'; return; }
+      if (!url || !url.startsWith('http')) { errEl.textContent = 'Paste a valid https:// link.'; errEl.style.display = 'block'; return; }
+      const title = org ? summary + ' - ' + org : summary;
       let cleanUrl = url;
       if (url.includes('linkedin.com/safety/go') || url.includes('linkedin.com/redir/')) {
-        try {
-          const urlObj = new URL(url);
-          const redirected = urlObj.searchParams.get('url');
-          if (redirected) cleanUrl = decodeURIComponent(redirected);
-        } catch(e) { cleanUrl = url; }
+        try { const u = new URL(url); const r = u.searchParams.get('url'); if (r) cleanUrl = decodeURIComponent(r); } catch(e) {}
       }
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Going live...';
-
+      btn.disabled = true; btn.textContent = 'Going live...';
       try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/links`, {
+        const res = await fetch(SB_URL + '/rest/v1/links', {
           method: 'POST',
-          headers: {
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=representation'
-          },
-          body: JSON.stringify({
-            url: cleanUrl,
-            category,
-            title,
-            location: location || null,
-            posted_by: name,
-            social_handle: social || null
-          })
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+          body: JSON.stringify({ url: cleanUrl, category: cat, title: title, location: loc || null, posted_by: name, social_handle: social || null })
         });
-
-        if (!res.ok) {
-          const err = await res.json();
-          throw new Error(err.message || 'Submission failed');
-        }
-
-        const rows = await res.json();
-        const newId = rows[0]?.id;
-
-        // Fire-and-forget enrichment
-        if (newId) {
-          fetch(`${SUPABASE_URL}/functions/v1/dynamic-responder`, {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${SUPABASE_KEY}`,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ url: cleanUrl, category, title, location, id: newId })
-          }).catch(() => {});
-        }
-
+        if (!res.ok) { const e = await res.json(); throw new Error(e.message || 'Failed'); }
         closeModal();
-        alert('Your link is live! Find it in ' + (category === 'jobs' ? 'Jobs' : 'Scholarships') + '.');
-      } catch (err) {
-        errorEl.textContent = 'Error: ' + err.message;
-        errorEl.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.textContent = '🚀 Go Live Now';
+        alert('Live! Find it under ' + (CATS[cat] ? CATS[cat].label : cat) + '.');
+        showCategory(cat);
+      } catch(err) {
+        errEl.textContent = 'Error: ' + err.message; errEl.style.display = 'block';
+        btn.disabled = false; btn.textContent = 'Go live';
       }
     }
 
-    async function fetchLinks(category, locationFilter) {
-      let url = `${SUPABASE_URL}/rest/v1/links?category=eq.${category}&order=created_at.desc`;
-      if (locationFilter) url += `&location=ilike.*${encodeURIComponent(locationFilter)}*`;
-      const res = await fetch(url, {
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-      });
-      if (!res.ok) throw new Error('Failed to fetch');
-      return await res.json();
+    async function fetchLinks(category, q, loc) {
+      let url = SB_URL + '/rest/v1/links?select=id,url,title,category,location,posted_by,social_handle,upvotes,downvotes,created_at&category=eq.' + category + '&order=created_at.desc';
+      if (loc) url += '&location=ilike.*' + encodeURIComponent(loc) + '*';
+      const res = await fetch(url, { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } });
+      if (!res.ok) throw new Error('Fetch failed');
+      let items = await res.json();
+      if (q) items = items.filter(function(it){ return (it.title || '').toLowerCase().includes(q.toLowerCase()); });
+      return items;
     }
 
-    function renderResults(title, subtitle, items) {
+    function expiryTag(createdAt) {
+      const created = createdAt ? new Date(createdAt) : new Date();
+      const exp = new Date(created.getTime() + 5 * 864e5);
+      const days = Math.ceil((exp - new Date()) / 864e5);
+      const lbl = exp.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+      if (days <= 0)  return '<span class="expires urgent">Expired</span>';
+      if (days === 1) return '<span class="expires urgent">Exp today</span>';
+      if (days <= 2)  return '<span class="expires soon">Exp ' + lbl + '</span>';
+      return '<span class="expires">Exp ' + lbl + '</span>';
+    }
+
+    function setActiveTab(cat) {
+      Object.keys(CATS).forEach(function(c) {
+        const t = document.getElementById('tab-' + c);
+        if (t) t.classList.toggle('active', c === cat);
+      });
+    }
+
+    function renderResults(title, subtitle, items, cat) {
       document.getElementById('resultsTitle').textContent = title;
       document.getElementById('resultsSubtitle').textContent = subtitle;
-      document.getElementById('resultsPill').textContent = `${items.length} links`;
-      document.getElementById('footerNote').textContent = '';
-
+      document.getElementById('resultsPill').textContent = items.length + ' links';
       const listEl = document.getElementById('linkList');
+      const catInfo = CATS[cat] || {};
       if (items.length === 0) {
-        listEl.innerHTML = '<p style="color:var(--muted);font-size:15px;">No links here yet. Drop the first one!</p>';
+        listEl.innerHTML = '<p style="color:var(--muted);font-size:14px;padding:12px 0;">Nothing here yet - be first to drop a link.</p>';
       } else {
-        listEl.innerHTML = items.map((item, i) => `
-          <div class="link-item" id="card-${item.id}">
-            <div class="rank">${i + 1}</div>
-            <div>
-              <a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>
-              <div class="meta">
-                ${item.category === 'jobs' ? 'Job' : 'Scholarship'}${item.location ? ' • ' + item.location : ''}
-                ${item.posted_by ? ` • <button onclick='openProfile(${JSON.stringify(item)})' style="background:none;border:none;padding:0;font:inherit;font-size:13px;font-weight:700;color:var(--blue);cursor:pointer;">${item.posted_by}</button>` : ''}
-              </div>
-              <div class="card-actions">
-                <button class="vote-btn" id="up-${item.id}" onclick="vote('${item.id}','up')">▲ <span id="upcount-${item.id}">${item.upvotes || 0}</span></button>
-                <button class="vote-btn" id="dn-${item.id}" onclick="vote('${item.id}','down')">▼ <span id="dncount-${item.id}">${item.downvotes || 0}</span></button>
-                <button class="share-btn" onclick="shareLink('${item.url}','${(item.title||'').replace(/'/g,"\\'")}')">↗ Share</button>
-              </div>
-            </div>
-          </div>
-        `).join('');
+        listEl.innerHTML = items.map(function(item, i) {
+          const safeTitle = (item.title || '').replace(/'/g, "&#39;");
+          const safeUrl   = (item.url   || '').replace(/'/g, "&#39;");
+          return '<div class="link-card" id="card-' + item.id + '">' +
+            '<div class="rank">' + (i+1) + '</div>' +
+            '<div class="link-main">' +
+              '<a href="' + item.url + '" target="_blank" rel="noopener noreferrer">' + item.title + '</a>' +
+              '<div class="meta">' +
+                (catInfo.label || item.category) +
+                (item.location ? ' · ' + item.location : '') +
+                (item.posted_by ? ' · <button class="poster" onclick="openProfile(' + JSON.stringify(item).replace(/"/g,'&quot;') + ')">' + item.posted_by + '</button>' : '') +
+              '</div>' +
+            '</div>' +
+            '<div class="actions">' +
+              expiryTag(item.created_at) +
+              '<div class="vote-row">' +
+                '<button class="vote" id="up-' + item.id + '" onclick="vote(\'' + item.id + '\',\'up\')">▲ ' + (item.upvotes || 0) + '</button>' +
+                '<button class="vote" id="dn-' + item.id + '" onclick="vote(\'' + item.id + '\',\'down\')">▼ ' + (item.downvotes || 0) + '</button>' +
+                '<button class="vote" onclick="shareLink(\'' + safeUrl + '\',\'' + safeTitle + '\')">↗ Share</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        }).join('');
       }
-
-      const results = document.getElementById('results');
-      results.classList.add('active');
-      results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.getElementById('results').classList.add('active');
+      document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    async function showCategory(category) {
-      const titles = { jobs: 'Active Job Links', scholarships: 'Active Scholarship Links' };
-      const subtitles = {
-        jobs: 'Fresh job opportunities people are sharing right now.',
-        scholarships: 'Open scholarship links dropped in the last 5 days.'
-      };
-
-      document.getElementById('query').value = '';
-      document.getElementById('resultsTitle').textContent = 'Loading...';
+    async function showCategory(cat) {
+      activeCategory = cat;
+      setActiveTab(cat);
       document.getElementById('linkList').innerHTML = '';
       document.getElementById('results').classList.add('active');
-
       try {
-        const items = await fetchLinks(category, '');
-        renderResults(titles[category], subtitles[category], items);
-      } catch (err) {
-        document.getElementById('linkList').innerHTML = '<p style="color:red;font-size:14px;">Could not load links. Check your Supabase connection.</p>';
+        const items = await fetchLinks(cat, '', '');
+        renderResults((CATS[cat].icon + ' ' + CATS[cat].label), CATS[cat].sub, items, cat);
+      } catch(err) {
+        document.getElementById('linkList').innerHTML = '<p style="color:#dc2626;font-size:13px;">Could not load - check connection.</p>';
       }
     }
 
     async function runSearch() {
-      const query    = document.getElementById('query').value.trim().toLowerCase();
-      const location = document.getElementById('location').value.trim();
-
-      const category = (
-        query.includes('scholarship') || query.includes('phd') ||
-        query.includes('fellowship') || query.includes('grant') ||
-        query.includes('study')
-      ) ? 'scholarships' : 'jobs';
-
+      const q   = document.getElementById('query').value.trim();
+      const loc = document.getElementById('location').value.trim();
+      if (!q && !loc) return;
       document.getElementById('resultsTitle').textContent = 'Searching...';
       document.getElementById('linkList').innerHTML = '';
       document.getElementById('results').classList.add('active');
-
+      setActiveTab(activeCategory);
       try {
-        const items = await fetchLinks(category, location);
-        const cap = category === 'jobs' ? 'Job' : 'Scholarship';
-        renderResults(
-          location ? `${cap} Links in ${location}` : `${cap} Links`,
-          query ? `Showing results for "${query}".` : 'Latest active links.',
-          items
-        );
-      } catch (err) {
-        document.getElementById('linkList').innerHTML = '<p style="color:red;font-size:14px;">Could not load links. Check your Supabase connection.</p>';
+        const items = await fetchLinks(activeCategory, q, loc);
+        const label = loc ? CATS[activeCategory].label + ' in ' + loc : 'Results for "' + q + '"';
+        renderResults(label, items.length + ' links found.', items, activeCategory);
+      } catch(err) {
+        document.getElementById('linkList').innerHTML = '<p style="color:#dc2626;font-size:13px;">Could not load.</p>';
       }
     }
 
-    // Profile popup
     function openProfile(item) {
       const name = item.posted_by || 'Anonymous';
       document.getElementById('profileAvatar').textContent = name.charAt(0).toUpperCase();
       document.getElementById('profileName').textContent = name;
       const wrap = document.getElementById('profileSocialWrap');
       wrap.innerHTML = item.social_handle
-        ? `<a class="profile-social-btn" href="${item.social_handle}" target="_blank" rel="noopener noreferrer">Visit Profile →</a>`
-        : '<p style="color:var(--muted);font-size:13px;margin:0;">No social link added.</p>';
+        ? '<a class="profile-social-btn" href="' + item.social_handle + '" target="_blank" rel="noopener noreferrer">Visit Profile</a>'
+        : '<p style="color:var(--muted);font-size:13px;margin:0 0 12px;">No social link added.</p>';
       document.getElementById('profilePopup').classList.add('open');
     }
+    function closeProfile(e) { if (e.target === document.getElementById('profilePopup')) document.getElementById('profilePopup').classList.remove('open'); }
 
-    function closeProfile(e) {
-      if (e.target === document.getElementById('profilePopup'))
-        document.getElementById('profilePopup').classList.remove('open');
-    }
-
-    // Voting — prevent double voting with localStorage
-    const voted = JSON.parse(localStorage.getItem('lr_voted') || '{}');
-
+    const voted = JSON.parse(localStorage.getItem('skim_voted') || '{}');
     async function vote(id, dir) {
-      const key = `${id}_${dir}`;
-      const oppKey = `${id}_${dir === 'up' ? 'down' : 'up'}`;
-      if (voted[key]) return; // already voted this way
-
-      const field = dir === 'up' ? 'upvotes' : 'downvotes';
-      const countEl = document.getElementById(`${dir === 'up' ? 'up' : 'dn'}count-${id}`);
-      const btn = document.getElementById(`${dir === 'up' ? 'up' : 'dn'}-${id}`);
-
-      // Optimistic UI
-      const prev = parseInt(countEl.textContent) || 0;
-      countEl.textContent = prev + 1;
+      const key = id + '_' + dir;
+      const oppKey = id + '_' + (dir === 'up' ? 'down' : 'up');
+      if (voted[key]) return;
+      const btn = document.getElementById((dir === 'up' ? 'up' : 'dn') + '-' + id);
+      const curr = parseInt(btn.textContent.replace(/[▲▼\s]/g, '')) || 0;
+      btn.textContent = (dir === 'up' ? '▲ ' : '▼ ') + (curr + 1);
       btn.classList.add(dir === 'up' ? 'voted-up' : 'voted-down');
-
-      // Remove opposite vote style if exists
       if (voted[oppKey]) {
-        const oppBtn = document.getElementById(`${dir === 'up' ? 'dn' : 'up'}-${id}`);
-        const oppCount = document.getElementById(`${dir === 'up' ? 'dn' : 'up'}count-${id}`);
-        oppBtn.classList.remove('voted-up','voted-down');
-        oppCount.textContent = Math.max(0, parseInt(oppCount.textContent) - 1);
+        const ob = document.getElementById((dir === 'up' ? 'dn' : 'up') + '-' + id);
+        const oVal = parseInt(ob.textContent.replace(/[▲▼\s]/g, '')) || 0;
+        ob.textContent = (dir === 'up' ? '▼ ' : '▲ ') + Math.max(0, oVal - 1);
+        ob.classList.remove('voted-up', 'voted-down');
         delete voted[oppKey];
       }
-
       voted[key] = true;
-      localStorage.setItem('lr_voted', JSON.stringify(voted));
-
-      // Persist to Supabase via RPC increment
+      localStorage.setItem('skim_voted', JSON.stringify(voted));
       try {
-        await fetch(`${SUPABASE_URL}/rest/v1/rpc/increment_vote`, {
+        await fetch(SB_URL + '/rest/v1/rpc/increment_vote', {
           method: 'POST',
-          headers: {
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ link_id: id, vote_field: field })
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ link_id: id, vote_field: dir === 'up' ? 'upvotes' : 'downvotes' })
         });
       } catch(e) {}
     }
 
-    // Share
     async function shareLink(url, title) {
-      if (navigator.share) {
-        try { await navigator.share({ title, url }); return; } catch(e) {}
-      }
+      if (navigator.share) { try { await navigator.share({ title: title, url: url }); return; } catch(e) {} }
       await navigator.clipboard.writeText(url);
-      alert('Link copied to clipboard!');
+      alert('Link copied!');
     }
+
+    showCategory('opportunities');
   </script>
 </body>
 </html>
+
