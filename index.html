@@ -411,10 +411,11 @@
         listEl.innerHTML = items.map(function(item, i) {
           const safeTitle = (item.title || '').replace(/'/g, "&#39;");
           const safeUrl   = (item.url   || '').replace(/'/g, "&#39;");
+          const displayTitle = (item.title || '').split(' — ')[0].split(' - ')[0];
           return '<div class="link-card" id="card-' + item.id + '">' +
             '<div class="link-main">' +
               '<div class="link-title-row">' +
-                '<a href="' + item.url + '" target="_blank" rel="noopener noreferrer">' + item.title + '</a>' +
+                '<a href="' + item.url + '" target="_blank" rel="noopener noreferrer">' + displayTitle + '</a>' +
                 expiryTag(item.created_at) +
               '</div>' +
               '<div class="meta">' +
