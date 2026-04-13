@@ -6,7 +6,7 @@
   <title>Skim</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #f7f9fc;
@@ -54,19 +54,20 @@
     .section-head h2 { margin: 0; font-size: 26px; letter-spacing: -0.03em; }
     .section-head p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
     .pill { background: rgba(37,99,255,0.08); color: var(--blue-dark); border-radius: 999px; padding: 9px 14px; font-size: 14px; font-weight: 700; white-space: nowrap; }
-    .link-card { display: grid; grid-template-columns: 42px 1fr auto; gap: 18px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 18px 20px; margin-top: 12px; transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease; }
+    .link-card { display: block; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; margin-top: 10px; transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease; }
     .link-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(15,23,42,0.07); border-color: rgba(37,99,255,0.18); }
-    .rank { width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; background: rgba(37,99,255,0.08); color: var(--blue); font-weight: 800; font-size: 15px; flex-shrink: 0; }
-    .link-main a { display: block; font-size: 16px; font-weight: 700; color: var(--text); text-decoration: none; line-height: 1.35; letter-spacing: -0.01em; }
+    .rank { display: none; }
+    .link-title-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 5px; }
+    .link-main a { display: block; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--text); text-decoration: none; line-height: 1.45; letter-spacing: -0.01em; }
     .link-main a:hover { color: var(--blue); }
-    .meta { margin-top: 6px; color: var(--muted); font-size: 13px; line-height: 1.5; }
-    .poster { color: var(--blue-dark); font-weight: 700; background: none; border: none; padding: 0; font: inherit; font-size: 13px; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
-    .actions { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; flex-shrink: 0; }
-    .expires { border: 1px solid var(--line); color: #64748b; background: #f8fafc; padding: 6px 12px; font-size: 12px; font-weight: 600; border-radius: 999px; white-space: nowrap; }
+    .meta { margin-top: 4px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .poster { color: var(--blue-dark); font-weight: 600; background: none; border: none; padding: 0; font: inherit; font-size: 12px; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+    .actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; }
+    .expires { border: 1px solid var(--line); color: #64748b; background: #f8fafc; padding: 4px 10px; font-size: 11px; font-weight: 600; border-radius: 999px; white-space: nowrap; }
     .expires.soon { color: #92400e; background: #fffbeb; border-color: #fde68a; }
     .expires.urgent { color: #991b1b; background: #fef2f2; border-color: #fecaca; }
-    .vote-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-    .vote { border: 1px solid var(--line); background: #fff; color: #475569; border-radius: 999px; padding: 7px 12px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; transition: border-color 0.18s, color 0.18s, transform 0.18s; }
+    .vote-row { display: flex; gap: 6px; }
+    .vote { border: 1px solid var(--line); background: #fff; color: #475569; border-radius: 999px; padding: 5px 10px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; transition: border-color 0.18s, color 0.18s, transform 0.18s; }
     .vote:hover { border-color: rgba(37,99,255,0.28); color: var(--blue-dark); transform: translateY(-1px); }
     .vote.voted-up { border-color: #16a34a; color: #16a34a; background: #f0fdf4; }
     .vote.voted-down { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
@@ -206,9 +207,8 @@
 
     <section class="hero">
       <h1>
-        <span class="strong">No noise. No algorithms. Just what matters.</span>
+        <span class="strong">Choose what to skim.</span>
       </h1>
-      <p class="sub">Fresh links. Worth your time.</p>
 
       <div class="category-grid">
         <button class="cat-card" id="tab-opportunities" onclick="showCategory('opportunities')">
@@ -412,17 +412,17 @@
           const safeTitle = (item.title || '').replace(/'/g, "&#39;");
           const safeUrl   = (item.url   || '').replace(/'/g, "&#39;");
           return '<div class="link-card" id="card-' + item.id + '">' +
-            '<div class="rank">' + (i+1) + '</div>' +
             '<div class="link-main">' +
-              '<a href="' + item.url + '" target="_blank" rel="noopener noreferrer">' + item.title + '</a>' +
+              '<div class="link-title-row">' +
+                '<a href="' + item.url + '" target="_blank" rel="noopener noreferrer">' + item.title + '</a>' +
+                expiryTag(item.created_at) +
+              '</div>' +
               '<div class="meta">' +
-                (catInfo.label || item.category) +
-                (item.location ? ' · ' + item.location : '') +
-                (item.posted_by ? ' · <button class="poster" onclick="openProfile(' + JSON.stringify(item).replace(/"/g,'&quot;') + ')">' + item.posted_by + '</button>' : '') +
+                (item.location ? item.location + ' · ' : '') +
+                (item.posted_by ? '<button class="poster" onclick="openProfile(' + JSON.stringify(item).replace(/"/g,'&quot;') + ')">' + item.posted_by + '</button>' : '') +
               '</div>' +
             '</div>' +
             '<div class="actions">' +
-              expiryTag(item.created_at) +
               '<div class="vote-row">' +
                 '<button class="vote" id="up-' + item.id + '" onclick="vote(\'' + item.id + '\',\'up\')">▲ ' + (item.upvotes || 0) + '</button>' +
                 '<button class="vote" id="dn-' + item.id + '" onclick="vote(\'' + item.id + '\',\'down\')">▼ ' + (item.downvotes || 0) + '</button>' +
@@ -443,7 +443,7 @@
       document.getElementById('results').classList.add('active');
       try {
         const items = await fetchLinks(cat, '', '');
-        renderResults((CATS[cat].icon + ' ' + CATS[cat].label), CATS[cat].sub, items, cat);
+        renderResults('Links', CATS[cat].sub, items, cat);
       } catch(err) {
         document.getElementById('linkList').innerHTML = '<p style="color:#dc2626;font-size:13px;">Could not load - check connection.</p>';
       }
@@ -515,4 +515,3 @@
   </script>
 </body>
 </html>
-
