@@ -49,23 +49,23 @@
     .search input::placeholder{color:#97a3b8}
     .content{display:grid;grid-template-columns:220px minmax(320px,1fr) 220px;gap:14px;align-items:center}
     .panel{border:1px solid var(--stroke);background:var(--card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:24px;padding:18px;box-shadow:var(--shadow);transition:background 0.4s,border-color 0.4s}
-    .panel h3{margin:0 0 14px;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;color:#7a869d;font-weight:700}
+    .panel h3{margin:0 0 10px;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:#7a869d;font-weight:700}
     .stat-list{display:grid;gap:10px}
     .stat{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:16px;background:var(--card);border:1px solid var(--stroke);transition:background 0.3s}
     .stat .left{display:flex;align-items:center;gap:10px}
     .sdot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
-    .stat b{font-size:0.93rem;color:var(--text)}
+    .stat b{font-size:0.93rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px}
     .stat span{color:var(--muted);font-size:0.85rem;font-weight:600}
     .wheel-wrap{display:flex;align-items:center;justify-content:center;padding:8px;width:100%}
-    #pieCanvas{display:block;width:min(58vw,600px);height:min(58vw,600px);cursor:crosshair}
+    #pieCanvas{display:block;width:min(58vw,660px);height:min(58vw,660px);cursor:crosshair}
     #tip{position:fixed;background:rgba(255,255,255,0.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(231,237,245,0.9);color:var(--text);padding:12px 15px;border-radius:16px;font-size:12px;pointer-events:none;display:none;max-width:250px;line-height:1.55;z-index:100;box-shadow:0 16px 40px rgba(15,23,42,.14)}
     #status{text-align:center;font-size:12px;color:var(--muted);padding:8px 0 0;min-height:20px}
     .badge-grid{display:grid;gap:10px}
     .pill{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;border-radius:18px;background:var(--card);border:1px solid var(--stroke);cursor:pointer;transition:box-shadow .15s,background 0.3s}
     .pill:hover{box-shadow:0 4px 16px rgba(37,99,255,0.10)}
-    .pill strong{font-size:0.9rem;display:block;margin-bottom:3px;color:var(--text)}
+    .pill strong{font-size:0.9rem;display:block;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .pill small{color:var(--muted);font-size:0.82rem;transition:color 0.3s}
-    .pill .count{padding:8px 10px;border-radius:999px;background:#eef3ff;color:#53698f;font-weight:800;font-size:0.82rem;min-width:44px;text-align:center;white-space:nowrap}
+    .pill .count{padding:6px 10px;border-radius:999px;background:#eef3ff;color:#53698f;font-weight:800;font-size:0.82rem;min-width:40px;text-align:center;white-space:nowrap;flex-shrink:0}
 
     /* Modal */
     .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
@@ -100,7 +100,7 @@
 
     @media(max-width:1100px){
       .content{grid-template-columns:1fr}
-      #pieCanvas{width:min(86vw,620px);height:min(86vw,620px)}
+      #pieCanvas{width:min(90vw,660px);height:min(90vw,660px)}
       .wheel-wrap{order:1;margin:8px 0 16px}
       .panel:first-of-type{order:2}
       .panel:last-of-type{order:3}
@@ -110,7 +110,7 @@
       .hero{padding:14px;border-radius:24px}
       .hero-head{flex-direction:column}
       .mgrid{grid-template-columns:1fr}
-      #pieCanvas{width:min(98vw,500px);height:min(98vw,500px)}
+      #pieCanvas{width:min(96vw,540px);height:min(96vw,540px)}
       .wheel-wrap{padding:0}
       .content{gap:10px}
     }
@@ -205,7 +205,7 @@
 
       <!-- Wheel -->
       <div class="wheel-wrap">
-        <canvas id="pieCanvas" width="1600" height="1600"></canvas>
+        <canvas id="pieCanvas" width="1200" height="1200"></canvas>
         <div id="tip"></div>
       </div>
 
@@ -214,23 +214,23 @@
         <h3>Quick actions</h3>
         <div class="badge-grid">
           <div class="pill" onclick="openModal()">
-            <div><strong>Drop a link</strong><small>Share something worth skimming</small></div>
+            <div><strong>Drop a link</strong></div>
             <div class="count">+ Add</div>
           </div>
           <div class="pill" onclick="document.getElementById('query').focus()">
-            <div><strong>Search by topic</strong><small>Jump straight to a match</small></div>
+            <div><strong>Search by topic</strong></div>
             <div class="count">Search</div>
           </div>
           <div class="pill" onclick="zoom=1;panX=0;panY=0;draw()">
-            <div><strong>Reset view</strong><small>Scroll to zoom &middot; drag to pan</small></div>
+            <div><strong>Reset view</strong></div>
             <div class="count">Reset</div>
           </div>
           <div class="pill" id="threadTogglePill" onclick="showThreads=!showThreads;document.getElementById('threadToggleCount').textContent=showThreads?'On':'Off';document.getElementById('threadTogglePill').style.opacity=showThreads?'1':'0.55';draw()">
-            <div><strong>Radii &amp; dots</strong><small>Show / hide radial guides</small></div>
+            <div><strong>Radii &amp; dots</strong></div>
             <div class="count" id="threadToggleCount">On</div>
           </div>
           <div class="pill" id="shapePill" onclick="shapeIdx=(shapeIdx+1)%SHAPES.length;const names=['Circle','Heart','Star','Diamond'];document.getElementById('shapeLabel').textContent=names[shapeIdx];draw()">
-            <div><strong>Shape</strong><small>Cycle the wheel shape</small></div>
+            <div><strong>Shape</strong></div>
             <div class="count" id="shapeLabel">Circle</div>
           </div>
         </div>
@@ -252,7 +252,7 @@ const CATS=[
   {id:'lifestyle',    label:'Lifestyle',    dark:[70,40,0],   light:[255,215,140],angle:[180,270]},
 ];
 
-const S=1600,CX=800,CY=800,R=420,INNER=0,BANDS=180;
+const S=1200,CX=600,CY=600,R=520,INNER=0,BANDS=180;
 const canvas=document.getElementById('pieCanvas');
 const ctx=canvas.getContext('2d');
 let allDots=[],linksMap={},activeHit=null,srchHits=[];
@@ -455,31 +455,7 @@ function draw(){
   ctx.beginPath();ctx.arc(CX,CY,5.5,0,Math.PI*2);
   ctx.fillStyle='#0f172a';ctx.fill();
 
-  // outside labels
-  const isDarkMode=document.body.classList.contains('dark');
-  const labelColor=isDarkMode?'rgba(235,242,255,0.98)':'rgba(15,23,42,0.95)';
-  const countColor=isDarkMode?'rgba(180,200,230,0.75)':'rgba(15,23,42,0.45)';
-  const LR=R+115;
-  CATS.forEach(cat=>{
-    const mid=(cat.angle[0]+cat.angle[1])/2;
-    const rad=toRad(mid);
-    const lx=CX+LR*Math.cos(rad), ly=CY+LR*Math.sin(rad);
-    // tick
-    ctx.beginPath();
-    ctx.moveTo(CX+(R+8)*Math.cos(rad),CY+(R+8)*Math.sin(rad));
-    ctx.lineTo(lx,ly);
-    ctx.strokeStyle=isDarkMode?'rgba(255,255,255,0.18)':'rgba(15,23,42,0.13)';
-    ctx.lineWidth=1;ctx.stroke();
-    const cl=linksMap[cat.id]||[];
-    // always center-align at the label anchor point
-    ctx.textAlign='center';
-    ctx.font='800 52px Inter,sans-serif';
-    ctx.fillStyle=labelColor;
-    ctx.fillText(cat.label,lx,ly-6);
-    ctx.font='700 28px Inter,sans-serif';
-    ctx.fillStyle=countColor;
-    ctx.fillText(cl.length+' links',lx,ly+30);
-  });
+  // labels removed — shown in At a Glance panel instead
 
   // breathing sheen
   const time=Date.now()*0.00022;
