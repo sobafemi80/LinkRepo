@@ -47,7 +47,7 @@
     .search svg{flex:0 0 auto;color:#8a97ad}
     .search input{border:0;outline:none;width:100%;background:transparent;font-size:1rem;color:var(--text);font-family:inherit}
     .search input::placeholder{color:#97a3b8}
-    .content{display:grid;grid-template-columns:280px minmax(320px,1fr) 280px;gap:18px;align-items:center}
+    .content{display:grid;grid-template-columns:220px minmax(320px,1fr) 220px;gap:14px;align-items:center}
     .panel{border:1px solid var(--stroke);background:var(--card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:24px;padding:18px;box-shadow:var(--shadow);transition:background 0.4s,border-color 0.4s}
     .panel h3{margin:0 0 14px;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;color:#7a869d;font-weight:700}
     .stat-list{display:grid;gap:10px}
@@ -57,7 +57,7 @@
     .stat b{font-size:0.93rem;color:var(--text)}
     .stat span{color:var(--muted);font-size:0.85rem;font-weight:600}
     .wheel-wrap{display:flex;align-items:center;justify-content:center;padding:8px;width:100%}
-    #pieCanvas{display:block;width:min(60vw,560px);height:min(60vw,560px);cursor:crosshair}
+    #pieCanvas{display:block;width:min(58vw,600px);height:min(58vw,600px);cursor:crosshair}
     #tip{position:fixed;background:rgba(255,255,255,0.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(231,237,245,0.9);color:var(--text);padding:12px 15px;border-radius:16px;font-size:12px;pointer-events:none;display:none;max-width:250px;line-height:1.55;z-index:100;box-shadow:0 16px 40px rgba(15,23,42,.14)}
     #status{text-align:center;font-size:12px;color:var(--muted);padding:8px 0 0;min-height:20px}
     .badge-grid{display:grid;gap:10px}
@@ -100,17 +100,19 @@
 
     @media(max-width:1100px){
       .content{grid-template-columns:1fr}
-      #pieCanvas{width:min(80vw,560px);height:min(80vw,560px)}
+      #pieCanvas{width:min(86vw,620px);height:min(86vw,620px)}
       .wheel-wrap{order:1;margin:8px 0 16px}
       .panel:first-of-type{order:2}
       .panel:last-of-type{order:3}
     }
     @media(max-width:700px){
-      .shell{padding:18px 14px 28px}
-      .hero{padding:18px;border-radius:24px}
+      .shell{padding:14px 10px 28px}
+      .hero{padding:14px;border-radius:24px}
       .hero-head{flex-direction:column}
       .mgrid{grid-template-columns:1fr}
-      #pieCanvas{width:min(94vw,460px);height:min(94vw,460px)}
+      #pieCanvas{width:min(98vw,500px);height:min(98vw,500px)}
+      .wheel-wrap{padding:0}
+      .content{gap:10px}
     }
   </style>
 </head>
@@ -167,7 +169,7 @@
     <div class="hero-head">
       <div class="copy">
         <h1>Find your saved links instantly.</h1>
-        <p>Hover the wheel to reveal any link. Search to pin matching dots. Click to open.</p>
+        
       </div>
     </div>
 
@@ -203,7 +205,7 @@
 
       <!-- Wheel -->
       <div class="wheel-wrap">
-        <canvas id="pieCanvas" width="1400" height="1400"></canvas>
+        <canvas id="pieCanvas" width="1600" height="1600"></canvas>
         <div id="tip"></div>
       </div>
 
@@ -250,7 +252,7 @@ const CATS=[
   {id:'lifestyle',    label:'Lifestyle',    dark:[70,40,0],   light:[255,215,140],angle:[180,270]},
 ];
 
-const S=1400,CX=700,CY=700,R=330,INNER=0,BANDS=180;
+const S=1600,CX=800,CY=800,R=420,INNER=0,BANDS=180;
 const canvas=document.getElementById('pieCanvas');
 const ctx=canvas.getContext('2d');
 let allDots=[],linksMap={},activeHit=null,srchHits=[];
@@ -456,33 +458,27 @@ function draw(){
   // outside labels
   const isDarkMode=document.body.classList.contains('dark');
   const labelColor=isDarkMode?'rgba(235,242,255,0.98)':'rgba(15,23,42,0.95)';
-  const countColor=isDarkMode?'rgba(180,200,230,0.80)':'rgba(15,23,42,0.45)';
-  const LR=R+120;
+  const countColor=isDarkMode?'rgba(180,200,230,0.75)':'rgba(15,23,42,0.45)';
+  const LR=R+115;
   CATS.forEach(cat=>{
     const mid=(cat.angle[0]+cat.angle[1])/2;
     const rad=toRad(mid);
-    const lx=CX+LR*Math.cos(rad),ly=CY+LR*Math.sin(rad);
-    const isLeft=lx<CX-5;
-    const isRight=lx>CX+5;
-    const ox=isLeft?-14:isRight?14:0;
-    // tick line
+    const lx=CX+LR*Math.cos(rad), ly=CY+LR*Math.sin(rad);
+    // tick
     ctx.beginPath();
-    ctx.moveTo(CX+(R+9)*Math.cos(rad),CY+(R+9)*Math.sin(rad));
+    ctx.moveTo(CX+(R+8)*Math.cos(rad),CY+(R+8)*Math.sin(rad));
     ctx.lineTo(lx,ly);
-    ctx.strokeStyle=isDarkMode?'rgba(255,255,255,0.18)':'rgba(15,23,42,0.13)';ctx.lineWidth=1;ctx.stroke();
+    ctx.strokeStyle=isDarkMode?'rgba(255,255,255,0.18)':'rgba(15,23,42,0.13)';
+    ctx.lineWidth=1;ctx.stroke();
     const cl=linksMap[cat.id]||[];
-    // label — left/right aligned from anchor
-    ctx.font='800 52px Inter,sans-serif';
-    ctx.textAlign=isLeft?'right':isRight?'left':'center';
-    ctx.fillStyle=labelColor;
-    ctx.fillText(cat.label,lx+ox,ly);
-    // count — centered under label
-    const labelW=ctx.measureText(cat.label).width;
-    const countX=isLeft?(lx+ox-labelW/2):isRight?(lx+ox+labelW/2):(lx+ox);
-    ctx.font='600 28px Inter,sans-serif';
+    // always center-align at the label anchor point
     ctx.textAlign='center';
+    ctx.font='800 52px Inter,sans-serif';
+    ctx.fillStyle=labelColor;
+    ctx.fillText(cat.label,lx,ly-6);
+    ctx.font='700 28px Inter,sans-serif';
     ctx.fillStyle=countColor;
-    ctx.fillText(cl.length+' links',countX,ly+36);
+    ctx.fillText(cl.length+' links',lx,ly+30);
   });
 
   // breathing sheen
