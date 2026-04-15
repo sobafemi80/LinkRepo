@@ -12,23 +12,34 @@
       --bg:#f5f7fb;--card:rgba(255,255,255,0.82);--stroke:rgba(25,39,69,0.08);
       --text:#172033;--muted:#6f7b91;--shadow:0 18px 50px rgba(33,52,88,0.10);
       --blue:#2563ff;--blue-dark:#1d4ed8;--line:#e7edf5;
+      --body-bg1:rgba(154,180,255,0.18);--body-bg2:rgba(242,207,130,0.18);--body-bg3:rgba(146,236,210,0.18);
+      --body-grad1:#f8fbff;--body-grad2:#f1f5fb;
+    }
+    body.dark{--modal-bg:#111827;--field-bg:#1e2d45;
+
+      --card:rgba(18,24,38,0.88);--stroke:rgba(255,255,255,0.07);
+      --text:#e8edf5;--muted:#7a8ba8;--shadow:0 18px 50px rgba(0,0,0,0.40);
+      --line:#1e2d45;
+      --body-bg1:rgba(20,50,120,0.22);--body-bg2:rgba(80,50,10,0.18);--body-bg3:rgba(10,80,60,0.18);
+      --body-grad1:#090e1a;--body-grad2:#0d1526;
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{
       font-family:Inter,system-ui,sans-serif;color:var(--text);
       background:
-        radial-gradient(circle at 15% 20%,rgba(154,180,255,0.18),transparent 26%),
-        radial-gradient(circle at 85% 30%,rgba(242,207,130,0.18),transparent 28%),
-        radial-gradient(circle at 50% 85%,rgba(146,236,210,0.18),transparent 30%),
-        linear-gradient(180deg,#f8fbff 0%,#f1f5fb 100%);
+        radial-gradient(circle at 15% 20%,var(--body-bg1),transparent 26%),
+        radial-gradient(circle at 85% 30%,var(--body-bg2),transparent 28%),
+        radial-gradient(circle at 50% 85%,var(--body-bg3),transparent 30%),
+        linear-gradient(180deg,var(--body-grad1) 0%,var(--body-grad2) 100%);
+      transition:background 0.4s ease,color 0.3s ease;
       min-height:100vh;
     }
     .shell{max-width:1220px;margin:0 auto;padding:26px 22px 42px}
     .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
-    .brand{font-family:"Playfair Display",serif;font-weight:800;font-size:2.1rem;letter-spacing:-0.03em;font-style:italic;color:#17233a;text-decoration:none}
+    .brand{font-family:"Playfair Display",serif;font-weight:800;font-size:2.1rem;letter-spacing:-0.03em;font-style:italic;color:var(--text);text-decoration:none;transition:color 0.3s}
     .cta{border:1px solid rgba(48,79,146,0.12);background:rgba(255,255,255,0.82);color:#4f678b;padding:12px 18px;border-radius:999px;font-weight:700;box-shadow:0 10px 24px rgba(35,54,88,0.07);cursor:pointer;font-family:inherit;font-size:14px}
     .cta:hover{background:#fff;color:#2563ff}
-    .hero{border:1px solid var(--stroke);background:var(--card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:30px;box-shadow:var(--shadow);padding:26px}
+    .hero{border:1px solid var(--stroke);background:var(--card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:30px;box-shadow:var(--shadow);padding:26px;transition:background 0.4s,border-color 0.4s}
     .hero-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:22px}
     .copy h1{margin:0 0 8px;font-size:clamp(1.8rem,4vw,3.2rem);line-height:0.98;letter-spacing:-0.05em}
     .copy p{margin:0;max-width:620px;color:var(--muted);font-size:1rem;line-height:1.55}
@@ -37,23 +48,23 @@
     .search input{border:0;outline:none;width:100%;background:transparent;font-size:1rem;color:var(--text);font-family:inherit}
     .search input::placeholder{color:#97a3b8}
     .content{display:grid;grid-template-columns:280px minmax(320px,1fr) 280px;gap:18px;align-items:center}
-    .panel{border:1px solid var(--stroke);background:rgba(255,255,255,0.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:24px;padding:18px;box-shadow:0 12px 28px rgba(28,44,76,0.07)}
+    .panel{border:1px solid var(--stroke);background:var(--card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:24px;padding:18px;box-shadow:var(--shadow);transition:background 0.4s,border-color 0.4s}
     .panel h3{margin:0 0 14px;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;color:#7a869d;font-weight:700}
     .stat-list{display:grid;gap:10px}
-    .stat{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,0.95),rgba(247,250,255,0.88));border:1px solid rgba(30,50,90,0.06)}
+    .stat{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:16px;background:var(--card);border:1px solid var(--stroke);transition:background 0.3s}
     .stat .left{display:flex;align-items:center;gap:10px}
     .sdot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
-    .stat b{font-size:0.93rem}
+    .stat b{font-size:0.93rem;color:var(--text)}
     .stat span{color:var(--muted);font-size:0.85rem;font-weight:600}
-    .wheel-wrap{display:flex;align-items:center;justify-content:center;padding:8px}
+    .wheel-wrap{display:flex;align-items:center;justify-content:center;padding:8px;width:100%}
     #pieCanvas{display:block;width:min(60vw,560px);height:min(60vw,560px);cursor:crosshair}
     #tip{position:fixed;background:rgba(255,255,255,0.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(231,237,245,0.9);color:var(--text);padding:12px 15px;border-radius:16px;font-size:12px;pointer-events:none;display:none;max-width:250px;line-height:1.55;z-index:100;box-shadow:0 16px 40px rgba(15,23,42,.14)}
     #status{text-align:center;font-size:12px;color:var(--muted);padding:8px 0 0;min-height:20px}
     .badge-grid{display:grid;gap:10px}
-    .pill{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;border-radius:18px;background:rgba(255,255,255,0.84);border:1px solid rgba(29,49,88,0.07);cursor:pointer;transition:box-shadow .15s}
+    .pill{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;border-radius:18px;background:var(--card);border:1px solid var(--stroke);cursor:pointer;transition:box-shadow .15s,background 0.3s}
     .pill:hover{box-shadow:0 4px 16px rgba(37,99,255,0.10)}
-    .pill strong{font-size:0.9rem;display:block;margin-bottom:3px}
-    .pill small{color:var(--muted);font-size:0.82rem}
+    .pill strong{font-size:0.9rem;display:block;margin-bottom:3px;color:var(--text)}
+    .pill small{color:var(--muted);font-size:0.82rem;transition:color 0.3s}
     .pill .count{padding:8px 10px;border-radius:999px;background:#eef3ff;color:#53698f;font-weight:800;font-size:0.82rem;min-width:44px;text-align:center;white-space:nowrap}
 
     /* Modal */
@@ -61,14 +72,14 @@
     .modal-overlay.open{display:flex}
     .modal{background:#fff;border-radius:24px;padding:32px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.18)}
     .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
-    .mh h2{margin:0;font-size:20px;font-weight:700}
+    .mh h2{margin:0;font-size:20px;font-weight:700;color:var(--text)}
     .mc{background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted)}
     .mtag{font-size:13px;color:var(--muted);margin:0 0 22px}
     .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
     .mf{margin-bottom:14px}
-    .mf label{display:flex;gap:4px;font-size:12px;font-weight:600;margin-bottom:6px}
+    .mf label{display:flex;gap:4px;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--text)}
     .req{color:#dc2626}.hint{font-size:11px;font-weight:400;color:var(--muted)}
-    .mf input,.mf select{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;font-family:inherit;font-size:14px;color:var(--text);background:#fff;outline:none}
+    .mf input,.mf select{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;font-family:inherit;font-size:14px;color:var(--text);background:var(--field-bg,#fff);outline:none}
     .mf input:focus,.mf select:focus{border-color:rgba(37,99,255,.5);box-shadow:0 0 0 4px rgba(37,99,255,.08)}
     .mf select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px}
     .mdiv{border:none;border-top:1px solid var(--line);margin:16px 0}
@@ -108,40 +119,31 @@
 <!-- Drop Modal -->
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <div class="mh"><h2>Drop a link</h2><button class="mc" onclick="closeModal()">&#10005;</button></div>
-    <p class="mtag">No noise. Just the link + a tight summary. Goes live instantly.</p>
-    <div class="mgrid">
-      <div class="mf"><label>Your name <span class="req">*</span></label><input id="m_name" type="text" placeholder="e.g. Amara Osei"/></div>
-      <div class="mf"><label>Social link <span class="hint">optional</span></label><input id="m_social" type="url" placeholder="https://linktr.ee/you"/></div>
-    </div>
-    <hr class="mdiv"/>
+    <div class="mh"><h2>Save a link</h2><button class="mc" onclick="closeModal()">&#10005;</button></div>
+    <p class="mtag">Paste any URL — we'll read it and sort it automatically.</p>
+
     <div class="mf">
-      <label>Paste the link <span class="req">*</span></label>
+      <label>Your link <span class="req">*</span></label>
       <div style="position:relative">
         <input id="m_url" type="url" placeholder="https://..." oninput="onUrlInput()" onpaste="onUrlPaste()"/>
-        <span id="fetchSpinner" style="display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted)">fetching...</span>
+        <span id="fetchSpinner" style="display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted)">reading...</span>
       </div>
     </div>
+
+    <div class="mf" id="preview_wrap" style="display:none;background:var(--field-bg,#f8faff);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:4px">
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Detected</div>
+      <div id="preview_title" style="font-weight:700;font-size:14px;color:var(--text);line-height:1.4;margin-bottom:8px"></div>
+      <div id="preview_cat" style="font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px"></div>
+    </div>
+
     <div class="mf">
-      <label>Summary <span class="req">*</span> <span class="hint" id="posHint">max 150 chars, be sharp</span></label>
-      <input id="m_position" type="text" placeholder="Auto-filled from link — edit to be punchy" maxlength="150" oninput="updateCharCount()"/>
-      <div class="crow"><span class="cc" id="charCount">0 / 150</span></div>
+      <label>Your name <span class="req">*</span></label>
+      <input id="m_name" type="text" placeholder="e.g. Amara Osei"/>
     </div>
-    <div class="mf"><label>Source <span class="hint">platform or org</span></label><input id="m_org" type="text" placeholder="e.g. YouTube, Google, Oxford..."/></div>
-    <div class="mgrid">
-      <div class="mf"><label>Category <span class="req">*</span></label>
-        <select id="m_category">
-          <option value="opportunities">Opportunities</option>
-          <option value="tech">Tech</option>
-          <option value="entertainment">Entertainment</option>
-          <option value="lifestyle">Lifestyle</option>
-        </select>
-      </div>
-      <div class="mf"><label>Location <span class="hint">optional</span></label><input id="m_location" type="text" placeholder="UK, Remote, Nigeria..."/></div>
-    </div>
+
     <div class="merr" id="m_error"></div>
-    <button class="msub" id="m_submit" onclick="submitLink()">Go live</button>
-    <p class="mfn">Active for 5 days &middot; No media &middot; No comments</p>
+    <button class="msub" id="m_submit" onclick="submitLink()">Save link</button>
+    <p class="mfn">Sorted automatically &middot; Active for 5 days &middot; No media</p>
   </div>
 </div>
 
@@ -158,13 +160,13 @@
 <div class="shell">
   <div class="topbar">
     <a href="#" class="brand">Skim</a>
-    <button class="cta" onclick="openModal()">+ Drop your Link</button>
+    <div style="display:flex;align-items:center;gap:12px"><button id="themeBtn" onclick="toggleTheme()" style="border:1px solid rgba(48,79,146,0.12);background:rgba(255,255,255,0.82);color:#4f678b;padding:10px 14px;border-radius:999px;font-weight:700;box-shadow:0 10px 24px rgba(35,54,88,0.07);cursor:pointer;font-family:inherit;font-size:14px;transition:all 0.3s">🌙 Dark</button><button class="cta" onclick="openModal()">+ Drop your Link</button></div>
   </div>
 
   <section class="hero">
     <div class="hero-head">
       <div class="copy">
-        <h1>What do you want to skim?</h1>
+        <h1>Find your saved links instantly.</h1>
         <p>Hover the wheel to reveal any link. Search to pin matching dots. Click to open.</p>
       </div>
     </div>
@@ -201,7 +203,7 @@
 
       <!-- Wheel -->
       <div class="wheel-wrap">
-        <canvas id="pieCanvas" width="1000" height="1000"></canvas>
+        <canvas id="pieCanvas" width="1400" height="1400"></canvas>
         <div id="tip"></div>
       </div>
 
@@ -222,8 +224,12 @@
             <div class="count">Reset</div>
           </div>
           <div class="pill" id="threadTogglePill" onclick="showThreads=!showThreads;document.getElementById('threadToggleCount').textContent=showThreads?'On':'Off';document.getElementById('threadTogglePill').style.opacity=showThreads?'1':'0.55';draw()">
-            <div><strong>Radii lines</strong><small>Show / hide thread guides</small></div>
+            <div><strong>Radii &amp; dots</strong><small>Show / hide radial guides</small></div>
             <div class="count" id="threadToggleCount">On</div>
+          </div>
+          <div class="pill" id="shapePill" onclick="shapeIdx=(shapeIdx+1)%SHAPES.length;const names=['Circle','Heart','Star','Diamond'];document.getElementById('shapeLabel').textContent=names[shapeIdx];draw()">
+            <div><strong>Shape</strong><small>Cycle the wheel shape</small></div>
+            <div class="count" id="shapeLabel">Circle</div>
           </div>
         </div>
         <div id="status" style="margin-top:12px"></div>
@@ -244,16 +250,63 @@ const CATS=[
   {id:'lifestyle',    label:'Lifestyle',    dark:[70,40,0],   light:[255,215,140],angle:[180,270]},
 ];
 
-const S=1000,CX=500,CY=500,R=330,INNER=0,BANDS=180;
+const S=1400,CX=700,CY=700,R=330,INNER=0,BANDS=180;
 const canvas=document.getElementById('pieCanvas');
 const ctx=canvas.getContext('2d');
 let allDots=[],linksMap={},activeHit=null,srchHits=[];
 let zoom=1,panX=0,panY=0,isPanning=false,lastPan={x:0,y:0};
 let showThreads=true;
+const SHAPES=['circle','heart','star','diamond'];
+let shapeIdx=0;
 
 const toRad=d=>d*Math.PI/180;
 function lerp(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t));}
 function rgb(c){return`rgb(${c[0]},${c[1]},${c[2]})`;}
+
+
+/* ── Shape paths ── */
+function shapePath(ctx,cx,cy,r){
+  const sh=SHAPES[shapeIdx];
+  if(sh==='circle'){
+    ctx.arc(cx,cy,r,0,Math.PI*2);
+    return;
+  }
+  if(sh==='heart'){
+    // parametric heart scaled to r
+    const steps=120;
+    ctx.moveTo(cx,cy+r*0.85);
+    for(let i=1;i<=steps;i++){
+      const t=(i/steps)*Math.PI*2;
+      const x=r*0.0625*16*Math.pow(Math.sin(t),3);
+      const y=-r*0.0625*(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
+      ctx.lineTo(cx+x*1.05,cy+y*1.05+r*0.05);
+    }
+    ctx.closePath();
+    return;
+  }
+  if(sh==='star'){
+    const pts=5,outer=r,inner=r*0.42;
+    for(let i=0;i<pts*2;i++){
+      const rad=(i*Math.PI/pts)-(Math.PI/2);
+      const rr=i%2===0?outer:inner;
+      if(i===0)ctx.moveTo(cx+rr*Math.cos(rad),cy+rr*Math.sin(rad));
+      else ctx.lineTo(cx+rr*Math.cos(rad),cy+rr*Math.sin(rad));
+    }
+    ctx.closePath();
+    return;
+  }
+  if(sh==='diamond'){
+    ctx.moveTo(cx,       cy-r*1.08);
+    ctx.lineTo(cx+r*0.78,cy);
+    ctx.lineTo(cx,       cy+r*1.08);
+    ctx.lineTo(cx-r*0.78,cy);
+    ctx.closePath();
+    return;
+  }
+}
+function shapeClip(ctx,cx,cy,r){
+  ctx.beginPath();shapePath(ctx,cx,cy,r);ctx.clip();
+}
 
 function draw(){
   ctx.clearRect(0,0,S,S);
@@ -261,13 +314,11 @@ function draw(){
   ctx.translate(panX,panY);
   ctx.scale(zoom,zoom);
 
-  // soft halo
-  const bg=ctx.createRadialGradient(CX,CY,60,CX,CY,R+100);
-  bg.addColorStop(0,'rgba(255,255,255,0.88)');
-  bg.addColorStop(0.6,'rgba(248,250,255,0.65)');
-  bg.addColorStop(1,'rgba(255,255,255,0)');
-  ctx.beginPath();ctx.arc(CX,CY,R+80,0,Math.PI*2);
-  ctx.fillStyle=bg;ctx.fill();
+  // halo removed
+
+  // clip everything to current shape
+  ctx.save();
+  shapeClip(ctx,CX,CY,R);
 
   // smooth gradient slices via clipped radial gradients
   CATS.forEach(cat=>{
@@ -298,11 +349,17 @@ function draw(){
     ctx.restore();
   });
 
-  // outer ring
-  ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);
-  ctx.strokeStyle='rgba(15,23,42,0.08)';ctx.lineWidth=1.5;ctx.stroke();
+  // restore from shape clip
+  ctx.restore();
 
-  // soft dividers
+  // shape outline stroke
+  ctx.save();
+  ctx.beginPath();shapePath(ctx,CX,CY,R);
+  ctx.strokeStyle='rgba(15,23,42,0.10)';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.restore();
+
+  // soft dividers — clipped to shape
+  ctx.save();shapeClip(ctx,CX,CY,R);
   [-90,0,90,180].forEach(a=>{
     const rad=toRad(a);
     ctx.beginPath();ctx.moveTo(CX,CY);
@@ -310,8 +367,11 @@ function draw(){
     ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.lineWidth=1.5;ctx.stroke();
   });
 
-  // thread lines (radial guides)
+  ctx.restore(); // end dividers shape clip
+
+  // radial thread lines — clipped to shape
   if(showThreads){
+    ctx.save();shapeClip(ctx,CX,CY,R);
     const threadsSeen=new Set();
     allDots.forEach(d=>{
       if(!d.threadAngle&&d.threadAngle!==0)return;
@@ -319,7 +379,6 @@ function draw(){
       if(threadsSeen.has(key))return;
       threadsSeen.add(key);
       const rad=toRad(d.threadAngle);
-      // clip to quadrant slice
       ctx.save();
       const a1=toRad(d.cat.angle[0]),a2=toRad(d.cat.angle[1]);
       ctx.beginPath();ctx.moveTo(CX,CY);ctx.arc(CX,CY,R,a1,a2);ctx.closePath();
@@ -332,30 +391,32 @@ function draw(){
       ctx.stroke();
       ctx.restore();
     });
+    ctx.restore();
   }
 
   // visible dots when threads are on
   if(showThreads&&allDots.length){
+    ctx.save();shapeClip(ctx,CX,CY,R);
     allDots.forEach(d=>{
       ctx.save();
       const a1=toRad(d.cat.angle[0]),a2=toRad(d.cat.angle[1]);
       ctx.beginPath();ctx.moveTo(CX,CY);ctx.arc(CX,CY,R,a1,a2);ctx.closePath();
       ctx.clip();
-      // subtle glow behind dot
       const dg=ctx.createRadialGradient(d.x,d.y,0,d.x,d.y,9);
       dg.addColorStop(0,'rgba(255,255,255,0.55)');
       dg.addColorStop(1,'rgba(255,255,255,0)');
       ctx.beginPath();ctx.arc(d.x,d.y,9,0,Math.PI*2);
       ctx.fillStyle=dg;ctx.fill();
-      // dot
       ctx.beginPath();ctx.arc(d.x,d.y,3.5,0,Math.PI*2);
       ctx.fillStyle='rgba(255,255,255,0.88)';ctx.fill();
       ctx.strokeStyle='rgba(15,23,42,0.25)';ctx.lineWidth=0.8;ctx.stroke();
       ctx.restore();
     });
+    ctx.restore();
   }
 
   // search hits
+  ctx.save();shapeClip(ctx,CX,CY,R);
   if(srchHits.length){
     srchHits.forEach(h=>{
       const sg=ctx.createRadialGradient(h.x,h.y,0,h.x,h.y,22);
@@ -370,7 +431,9 @@ function draw(){
     });
   }
 
+  ctx.restore();
   // hover reveal
+  ctx.save();shapeClip(ctx,CX,CY,R);
   if(activeHit){
     const g=ctx.createRadialGradient(activeHit.x,activeHit.y,0,activeHit.x,activeHit.y,26);
     g.addColorStop(0,'rgba(255,255,255,0.92)');
@@ -382,6 +445,7 @@ function draw(){
     ctx.fillStyle='#0f172a';ctx.fill();
   }
 
+  ctx.restore();
   // center: white circle + dark dot
   ctx.beginPath();ctx.arc(CX,CY,20,0,Math.PI*2);
   ctx.fillStyle='#ffffff';ctx.fill();
@@ -390,25 +454,35 @@ function draw(){
   ctx.fillStyle='#0f172a';ctx.fill();
 
   // outside labels
-  const LR=R+90;
+  const isDarkMode=document.body.classList.contains('dark');
+  const labelColor=isDarkMode?'rgba(235,242,255,0.98)':'rgba(15,23,42,0.95)';
+  const countColor=isDarkMode?'rgba(180,200,230,0.80)':'rgba(15,23,42,0.45)';
+  const LR=R+120;
   CATS.forEach(cat=>{
     const mid=(cat.angle[0]+cat.angle[1])/2;
     const rad=toRad(mid);
     const lx=CX+LR*Math.cos(rad),ly=CY+LR*Math.sin(rad);
     const isLeft=lx<CX-5;
-    ctx.textAlign=isLeft?'right':lx>CX+5?'left':'center';
-    const ox=isLeft?-12:lx>CX+5?12:0;
+    const isRight=lx>CX+5;
+    const ox=isLeft?-14:isRight?14:0;
+    // tick line
     ctx.beginPath();
     ctx.moveTo(CX+(R+9)*Math.cos(rad),CY+(R+9)*Math.sin(rad));
     ctx.lineTo(lx,ly);
-    ctx.strokeStyle='rgba(15,23,42,0.13)';ctx.lineWidth=1;ctx.stroke();
+    ctx.strokeStyle=isDarkMode?'rgba(255,255,255,0.18)':'rgba(15,23,42,0.13)';ctx.lineWidth=1;ctx.stroke();
     const cl=linksMap[cat.id]||[];
-    ctx.font='800 26px Inter,sans-serif';
-    ctx.fillStyle='rgba(15,23,42,0.95)';
-    ctx.fillText(cat.label,lx+ox,ly-3);
-    ctx.font='700 15px Inter,sans-serif';
-    ctx.fillStyle='rgba(15,23,42,0.55)';
-    ctx.fillText(cl.length+' links',lx+ox,ly+14);
+    // label — left/right aligned from anchor
+    ctx.font='800 52px Inter,sans-serif';
+    ctx.textAlign=isLeft?'right':isRight?'left':'center';
+    ctx.fillStyle=labelColor;
+    ctx.fillText(cat.label,lx+ox,ly);
+    // count — centered under label
+    const labelW=ctx.measureText(cat.label).width;
+    const countX=isLeft?(lx+ox-labelW/2):isRight?(lx+ox+labelW/2):(lx+ox);
+    ctx.font='600 28px Inter,sans-serif';
+    ctx.textAlign='center';
+    ctx.fillStyle=countColor;
+    ctx.fillText(cl.length+' links',countX,ly+36);
   });
 
   // breathing sheen
@@ -425,18 +499,14 @@ function draw(){
 function placeDots(links,a1,a2,cat){
   if(!links.length)return[];
   const n=links.length;
-  const angSpan=a2-a1; // 90 degrees
-  // Determine number of threads that fit nicely
-  // Each thread needs ~8deg minimum, max ~18deg spacing for aesthetics
+  const angSpan=a2-a1;
   const maxThreads=Math.floor(angSpan/7);
   const minThreads=Math.max(2,Math.floor(angSpan/20));
-  // Dots per thread: at most 12 per thread looks good
   const dotsPerThread=12;
   const nThreads=Math.max(minThreads,Math.min(maxThreads,Math.ceil(n/dotsPerThread)));
-  // Radial range: 8% to 94% of R
-  const rMin=R*0.08, rMax=R*0.94;
+  const rMin=R*0.08,rMax=R*0.94;
   const dotsPerT=Math.ceil(n/nThreads);
-  const pad=4; // angular padding from quadrant edges
+  const pad=4;
   const out=[];let k=0;
   for(let t=0;t<nThreads&&k<n;t++){
     const frac=nThreads===1?0.5:t/(nThreads-1);
@@ -485,11 +555,8 @@ function rawXY(e){
 
 function titleAndDesc(l){
   const raw=(l.title||'');
-  const parts=raw.split(' — ');
-  const title=parts[0].split(' - ')[0].trim();
-  // description: use location + source as context, or shorten title remainder
-  const desc=l.location||'';
-  return{title,desc};
+  const title=raw.split(' — ')[0].split(' - ')[0].trim();
+  return{title};
 }
 function showTip(e,hit){
   const tip=document.getElementById('tip');
@@ -498,7 +565,7 @@ function showTip(e,hit){
   tip.innerHTML=
     `<div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:700;text-transform:uppercase;letter-spacing:.06em">${hit.cat.label}${l.location?' · '+l.location:''}</div>`
     +`<div style="font-weight:600;font-size:13px;color:#0f172a;line-height:1.4;margin-bottom:6px">${title}</div>`
-    +`<div style="font-size:10px;color:#94a3b8">click dot to open</div>`;
+    +`<div style="font-size:10px;color:#94a3b8">click to see link</div>`;
   tip.style.left=(e.clientX+16)+'px';
   tip.style.top=(e.clientY-16)+'px';
   tip.style.display='block';
@@ -535,8 +602,7 @@ canvas.addEventListener('mousemove',e=>{
   if(hit){
     if(!stickyTipHit)showTip(e,hit);
     canvas.style.cursor='pointer';
-  }
-  else{
+  } else {
     if(!stickyTipHit)document.getElementById('tip').style.display='none';
     canvas.style.cursor=isPanning?'grabbing':'crosshair';
   }
@@ -544,11 +610,11 @@ canvas.addEventListener('mousemove',e=>{
 canvas.addEventListener('mouseleave',()=>{activeHit=null;draw();if(!stickyTipHit)document.getElementById('tip').style.display='none';});
 canvas.addEventListener('click',e=>{
   const[mx,my]=canvasXY(e);const h=nearest(mx,my);
-  if(h) showStickyTip(e,h);
+  if(h)showStickyTip(e,h);
   else hideStickyTip();
 });
 
-/* ── Zoom / Pan (mouse) ── */
+/* ── Zoom / Pan ── */
 const MIN_ZOOM=0.5,MAX_ZOOM=6;
 function clampPan(){
   panX=Math.max(-S*(zoom-1)-100,Math.min(100,panX));
@@ -562,7 +628,6 @@ canvas.addEventListener('wheel',e=>{
   panX=rx-(rx-panX)*(nz/zoom);panY=ry-(ry-panY)*(nz/zoom);
   zoom=nz;clampPan();draw();
 },{passive:false});
-
 canvas.addEventListener('mousedown',e=>{
   const[mx,my]=canvasXY(e);
   if(!nearest(mx,my)){isPanning=true;lastPan={x:e.clientX,y:e.clientY};canvas.style.cursor='grabbing';}
@@ -621,9 +686,9 @@ function onSearch(){
   const st=document.getElementById('status');
   if(!q){draw();st.textContent=allDots.length+' links — hover anywhere to reveal';return;}
   srchHits=allDots.filter(d=>
-    (d.link.title||''). toLowerCase().includes(q)||
-    (d.link.location||''). toLowerCase().includes(q)||
-    (d.link.posted_by||''). toLowerCase().includes(q)
+    (d.link.title||'').toLowerCase().includes(q)||
+    (d.link.location||'').toLowerCase().includes(q)||
+    (d.link.posted_by||'').toLowerCase().includes(q)
   );
   draw();
   if(!srchHits.length){st.textContent='No match found';return;}
@@ -640,15 +705,13 @@ async function fetchCat(id){
     return res.ok?res.json():[];
   }catch{return[];}
 }
-
 async function loadAll(){
   document.getElementById('status').textContent='Loading...';
   const res=await Promise.all(CATS.map(c=>fetchCat(c.id)));
   CATS.forEach((c,i)=>{
     linksMap[c.id]=res[i];
-    const cnt=res[i].length;
     const el=document.getElementById('cnt-'+c.id);
-    if(el)el.textContent=cnt+' links';
+    if(el)el.textContent=res[i].length+' links';
   });
   buildDots();draw();
   const total=res.reduce((s,a)=>s+a.length,0);
@@ -656,52 +719,72 @@ async function loadAll(){
 }
 
 /* ── Modal ── */
-function updateCharCount(){
-  const n=document.getElementById('m_position').value.length;
-  const el=document.getElementById('charCount');el.textContent=n+' / 150';el.classList.toggle('over',n>=140);
+let ft=null,detectedCat='opportunities',detectedTitle='';
+const CAT_META={
+  opportunities:{label:'Opportunities',color:'#3b5fc0',emoji:'🎯'},
+  tech:{label:'Tech',color:'#2b7b6e',emoji:'💻'},
+  entertainment:{label:'Entertainment',color:'#9a4d86',emoji:'🎭'},
+  lifestyle:{label:'Lifestyle',color:'#9b7027',emoji:'🌿'},
+};
+function catFromContent(title,url){
+  const t=(title+' '+url).toLowerCase();
+  if(/phd|scholarship|fellowship|postdoc|job|career|intern|hiring|apply|graduate|masters|university|professor|faculty|research|grant|award/i.test(t)) return 'opportunities';
+  if(/github|code|dev|software|ai|ml|tech|api|launch|product|startup|tool|engineer|data|model|openai|google|microsoft|programming|javascript|python/i.test(t)) return 'tech';
+  if(/film|movie|music|song|artist|netflix|spotify|youtube|show|series|album|game|entertainment|watch|listen|stream|tv|cinema/i.test(t)) return 'entertainment';
+  if(/recipe|food|travel|health|fitness|wellness|lifestyle|fashion|beauty|home|cook|exercise|meditation|diet|restaurant/i.test(t)) return 'lifestyle';
+  return 'opportunities';
 }
-let ft=null;
 function onUrlPaste(){setTimeout(triggerTitleFetch,100);}
-function onUrlInput(){clearTimeout(ft);ft=setTimeout(triggerTitleFetch,800);}
+function onUrlInput(){clearTimeout(ft);ft=setTimeout(triggerTitleFetch,900);}
 async function triggerTitleFetch(){
-  const url=document.getElementById('m_url').value.trim();if(!url.startsWith('http'))return;
-  const sp=document.getElementById('fetchSpinner'),pos=document.getElementById('m_position'),hint=document.getElementById('posHint');
-  sp.style.display='inline';hint.textContent='fetching...';
-  try{const r=await fetch('https://api.microlink.io?url='+encodeURIComponent(url)+'&palette=false&screenshot=false');
+  const url=document.getElementById('m_url').value.trim();
+  if(!url.startsWith('http'))return;
+  const sp=document.getElementById('fetchSpinner');
+  sp.style.display='inline';
+  try{
+    const r=await fetch('https://api.microlink.io?url='+encodeURIComponent(url)+'&palette=false&screenshot=false');
     const d=await r.json();
-    if(d.status==='success'&&d.data?.title&&!pos.value.trim()){pos.value=d.data.title.slice(0,150);updateCharCount();hint.textContent='auto-filled, edit to sharpen';}
-    else hint.textContent='type your summary';
-  }catch{hint.textContent='type your summary';}
+    if(d.status==='success'&&d.data?.title){
+      detectedTitle=d.data.title.slice(0,150);
+      detectedCat=catFromContent(detectedTitle,url);
+      document.getElementById('preview_title').textContent=detectedTitle;
+      const meta=CAT_META[detectedCat];
+      const catEl=document.getElementById('preview_cat');
+      catEl.textContent=meta.emoji+' '+meta.label;
+      catEl.style.cssText='font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:'+meta.color+'22;color:'+meta.color+';border:1px solid '+meta.color+'44';
+      document.getElementById('preview_wrap').style.display='block';
+    }
+  }catch{}
   finally{sp.style.display='none';}
 }
-function openModal(){document.getElementById('modalOverlay').classList.add('open');document.getElementById('m_name').focus();}
+function openModal(){document.getElementById('modalOverlay').classList.add('open');document.getElementById('m_url').focus();}
 function closeModal(){
   document.getElementById('modalOverlay').classList.remove('open');
   document.getElementById('m_error').style.display='none';
-  ['m_name','m_social','m_position','m_org','m_url','m_location'].forEach(id=>{document.getElementById(id).value='';});
-  document.getElementById('posHint').textContent='max 150 chars, be sharp';
-  document.getElementById('charCount').textContent='0 / 150';
-  const btn=document.getElementById('m_submit');btn.disabled=false;btn.textContent='Go live';
+  ['m_name','m_url'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const pw=document.getElementById('preview_wrap');if(pw)pw.style.display='none';
+  detectedTitle='';detectedCat='opportunities';
+  const btn=document.getElementById('m_submit');btn.disabled=false;btn.textContent='Save link';
 }
 async function submitLink(){
-  const get=id=>document.getElementById(id).value.trim();
-  const name=get('m_name'),social=get('m_social'),summary=get('m_position'),org=get('m_org'),
-        url=get('m_url'),cat=document.getElementById('m_category').value,loc=get('m_location');
+  const name=(document.getElementById('m_name').value||'').trim();
+  const url=(document.getElementById('m_url').value||'').trim();
   const errEl=document.getElementById('m_error'),btn=document.getElementById('m_submit');
   errEl.style.display='none';
+  if(!url||!url.startsWith('http')){errEl.textContent='Paste a valid URL.';errEl.style.display='block';return;}
   if(!name){errEl.textContent='Add your name.';errEl.style.display='block';return;}
-  if(!summary){errEl.textContent='Add a summary.';errEl.style.display='block';return;}
-  if(!url||!url.startsWith('http')){errEl.textContent='Paste a valid https:// link.';errEl.style.display='block';return;}
-  btn.disabled=true;btn.textContent='Going live...';
+  btn.disabled=true;btn.textContent='Saving...';
+  const title=detectedTitle||url;
+  const cat=detectedCat||catFromContent('',url);
   try{
     const res=await fetch(SB_URL+'/rest/v1/links',{
       method:'POST',
       headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=representation'},
-      body:JSON.stringify({url,category:cat,title:org?summary+' - '+org:summary,location:loc||null,posted_by:name,social_handle:social||null})
+      body:JSON.stringify({url,category:cat,title,posted_by:name,social_handle:null,location:null})
     });
     if(!res.ok){const e=await res.json();throw new Error(e.message||'Failed');}
     closeModal();loadAll();
-  }catch(err){errEl.textContent='Error: '+err.message;errEl.style.display='block';btn.disabled=false;btn.textContent='Go live';}
+  }catch(err){errEl.textContent='Error: '+err.message;errEl.style.display='block';btn.disabled=false;btn.textContent='Save link';}
 }
 function openProfile(item){
   const name=item.posted_by||'Anonymous';
@@ -712,6 +795,22 @@ function openProfile(item){
     ?`<a class="profile-social-btn" href="${item.social_handle}" target="_blank" rel="noopener">View Profile ↗</a>`
     :'<p style="font-size:13px;color:var(--muted)">No profile link added.</p>';
   document.getElementById('profilePopup').classList.add('open');
+}
+
+function toggleTheme(){
+  const isDark=document.body.classList.toggle('dark');
+  const btn=document.getElementById('themeBtn');
+  btn.textContent=isDark?'☀️ Light':'🌙 Dark';
+  btn.style.background=isDark?'rgba(20,32,58,0.88)':'rgba(255,255,255,0.82)';
+  btn.style.color=isDark?'#a0b4d0':'#4f678b';
+  btn.style.borderColor=isDark?'rgba(100,140,200,0.18)':'rgba(48,79,146,0.12)';
+  localStorage.setItem('skim_theme',isDark?'dark':'light');
+}
+// restore saved theme
+if(localStorage.getItem('skim_theme')==='dark'){
+  document.body.classList.add('dark');
+  const btn=document.getElementById('themeBtn');
+  if(btn){btn.textContent='☀️ Light';btn.style.background='rgba(20,32,58,0.88)';btn.style.color='#a0b4d0';btn.style.borderColor='rgba(100,140,200,0.18)';}
 }
 
 (function loop(){draw();requestAnimationFrame(loop);})();
