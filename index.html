@@ -884,8 +884,15 @@ const GENERAL_CATS=[...CATS.map(c=>({...c}))];
 function renderStatPanel(){
   const list=document.getElementById('statList');
   if(!list)return;
+  // apply theme first so cat.dark/light are current
+  applyTheme();
   list.innerHTML=CATS.map(cat=>{
-    const col=`rgb(${cat.dark[0]},${cat.dark[1]},${cat.dark[2]})`;
+    // use a vivid midpoint (40% from dark toward light) for the dot
+    const d=cat.dark,l=cat.light;
+    const r=Math.round(d[0]+(l[0]-d[0])*0.42);
+    const g=Math.round(d[1]+(l[1]-d[1])*0.42);
+    const b=Math.round(d[2]+(l[2]-d[2])*0.42);
+    const col=`rgb(${r},${g},${b})`;
     const cnt=(linksMap[cat.id]||[]).length;
     return `<div class="stat"><div class="left"><span class="sdot" style="background:${col}"></span><b>${cat.label}</b></div><span id="cnt-${cat.id}">${cnt} links</span></div>`;
   }).join('');
