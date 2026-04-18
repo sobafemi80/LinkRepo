@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Skim</title>
+  <title>nofoldr</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,700;1,800&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
       --body-bg1:rgba(154,180,255,0.18);--body-bg2:rgba(242,207,130,0.18);--body-bg3:rgba(146,236,210,0.18);
       --body-grad1:#f8fbff;--body-grad2:#f1f5fb;
     }
-    body.dark{--modal-bg:#111827;--field-bg:#1e2d45;
+    body.dark{--modal-bg:#111827;--field-bg:#1e2d45;--modal-label:#94a6c0;
 
       --card:rgba(18,24,38,0.88);--stroke:rgba(255,255,255,0.07);
       --text:#e8edf5;--muted:#7a8ba8;--shadow:0 18px 50px rgba(0,0,0,0.40);
@@ -52,13 +52,13 @@
     .panel h3{margin:0 0 10px;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:#7a869d;font-weight:700}
     .stat-list{display:grid;gap:10px}
     .stat{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:16px;background:var(--card);border:1px solid var(--stroke);transition:background 0.3s}
-    .stat .left{display:flex;align-items:center;gap:10px}
+    .stat .left{display:flex;align-items:center;gap:10px;min-width:0;flex:1;overflow:hidden}
     .sdot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
-    .stat b{font-size:0.93rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px}
+    .stat b{font-size:0.93rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .stat span{color:var(--muted);font-size:0.85rem;font-weight:600}
     .wheel-wrap{display:flex;align-items:center;justify-content:center;padding:8px;width:100%}
     #pieCanvas{display:block;width:min(58vw,660px);height:min(58vw,660px);cursor:crosshair}
-    #tip{position:fixed;background:rgba(255,255,255,0.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(231,237,245,0.9);color:var(--text);padding:12px 15px;border-radius:16px;font-size:12px;pointer-events:none;display:none;max-width:250px;line-height:1.55;z-index:100;box-shadow:0 16px 40px rgba(15,23,42,.14)}
+    #tip{position:fixed;background:rgba(255,255,255,0.96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(231,237,245,0.9);color:var(--text);padding:12px 15px;border-radius:16px;font-size:12px;pointer-events:none;display:none;max-width:min(250px,80vw);line-height:1.55;z-index:100;box-shadow:0 16px 40px rgba(15,23,42,.14)}
     #status{text-align:center;font-size:12px;color:var(--muted);padding:8px 0 0;min-height:20px}
     .badge-grid{display:grid;gap:10px}
     .pill{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;border-radius:18px;background:var(--card);border:1px solid var(--stroke);cursor:pointer;transition:box-shadow .15s,background 0.3s}
@@ -72,12 +72,12 @@
     .modal-overlay.open{display:flex}
     .modal{background:#fff;border-radius:24px;padding:32px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.18)}
     .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
-    .mh h2{margin:0;font-size:20px;font-weight:700;color:var(--text)}
+    .mh h2{margin:0;font-size:20px;font-weight:700;color:#334155 !important}
     .mc{background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted)}
     .mtag{font-size:13px;color:var(--muted);margin:0 0 22px}
     .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
     .mf{margin-bottom:14px}
-    .mf label{display:flex;gap:4px;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--text)}
+    .mf label{display:flex;gap:4px;font-size:12px;font-weight:600;margin-bottom:6px;color:#334155}
     .req{color:#dc2626}.hint{font-size:11px;font-weight:400;color:var(--muted)}
     .mf input,.mf select{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;font-family:inherit;font-size:14px;color:var(--text);background:var(--field-bg,#fff);outline:none}
     .mf input:focus,.mf select:focus{border-color:rgba(37,99,255,.5);box-shadow:0 0 0 4px rgba(37,99,255,.08)}
@@ -114,6 +114,10 @@
       .wheel-wrap{padding:0}
       .content{gap:10px}
     }
+  
+    body.dark .mf label{color:var(--modal-label,#94a6c0)}
+  
+    body.dark .mh h2{color:#94a6c0 !important}
   </style>
 </head>
 <body>
@@ -139,13 +143,13 @@
     </div>
 
     <div class="mf">
-      <label>Your name <span class="req">*</span></label>
-      <input id="m_name" type="text" placeholder="e.g. Amara Osei"/>
+      <label>Save as <span class="req">*</span></label>
+      <input id="m_name" type="text" placeholder="e.g. your name or handle"/>
     </div>
 
     <div class="merr" id="m_error"></div>
     <button class="msub" id="m_submit" onclick="submitLink()">Save link</button>
-    <p class="mfn">Sorted automatically &middot; Active for 5 days &middot; No media</p>
+    
   </div>
 </div>
 
@@ -161,8 +165,8 @@
 
 <div class="shell">
   <div class="topbar">
-    <a href="#" class="brand">Skim</a>
-    <div style="display:flex;align-items:center;gap:12px"><button id="themeBtn" onclick="toggleTheme()" style="border:1px solid rgba(48,79,146,0.12);background:rgba(255,255,255,0.82);color:#4f678b;padding:10px 14px;border-radius:999px;font-weight:700;box-shadow:0 10px 24px rgba(35,54,88,0.07);cursor:pointer;font-family:inherit;font-size:14px;transition:all 0.3s">🌙 Dark</button><button class="cta" onclick="openModal()">+ Drop your Link</button></div>
+    <a href="#" class="brand">nofoldr</a>
+    <div style="display:flex;align-items:center;gap:12px"><div style="position:relative"><button onclick="document.getElementById('modeDropdown').style.display=document.getElementById('modeDropdown').style.display==='none'?'block':'none'" style="border:1px solid rgba(48,79,146,0.12);background:rgba(255,255,255,0.82);color:#4f678b;padding:10px 14px;border-radius:999px;font-weight:700;box-shadow:0 10px 24px rgba(35,54,88,0.07);cursor:pointer;font-family:inherit;font-size:14px;transition:all 0.3s" id="modeBtnLabel">▶ Videos</button><div id="modeDropdown" style="display:none;position:absolute;right:0;top:calc(100% + 8px);background:var(--card);border:1px solid var(--stroke);border-radius:16px;padding:6px;min-width:150px;z-index:500;box-shadow:0 16px 40px rgba(0,0,0,0.18)"><div onclick="setMode('general')" style="padding:10px 14px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text)">◉ General</div><div onclick="setMode('videos')" style="padding:10px 14px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text)">▶ Videos</div></div></div><button id="themeBtn" onclick="toggleTheme()" style="border:1px solid rgba(48,79,146,0.12);background:rgba(255,255,255,0.82);color:#4f678b;padding:10px 14px;border-radius:999px;font-weight:700;box-shadow:0 10px 24px rgba(35,54,88,0.07);cursor:pointer;font-family:inherit;font-size:14px;transition:all 0.3s">🌙 Dark</button><button class="cta" onclick="openModal()">+ Save your Link</button></div>
   </div>
 
   <section class="hero">
@@ -183,31 +187,26 @@
       <!-- Left panel -->
       <aside class="panel">
         <h3>At a glance</h3>
-        <div class="stat-list">
-          <div class="stat">
-            <div class="left"><span class="sdot" style="background:#3b5fc0"></span><b>Opportunities</b></div>
-            <span id="cnt-opportunities">—</span>
-          </div>
-          <div class="stat">
-            <div class="left"><span class="sdot" style="background:#2b7b6e"></span><b>Tech</b></div>
-            <span id="cnt-tech">—</span>
-          </div>
-          <div class="stat">
-            <div class="left"><span class="sdot" style="background:#9a4d86"></span><b>Entertainment</b></div>
-            <span id="cnt-entertainment">—</span>
-          </div>
-          <div class="stat">
-            <div class="left"><span class="sdot" style="background:#9b7027"></span><b>Lifestyle</b></div>
-            <span id="cnt-lifestyle">—</span>
-          </div>
-        </div>
+        <div class="stat-list" id="statList"></div>
       </aside>
 
       <!-- Wheel -->
-      <div class="wheel-wrap">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;width:100%">
+<div class="wheel-wrap">
         <canvas id="pieCanvas" width="1200" height="1200"></canvas>
         <div id="tip"></div>
       </div>
+      <div style="font-size:12px;color:var(--muted);text-align:center;max-width:400px;padding:0 8px">
+        Hover a dot to preview · click to open · search to find all matches
+      </div>
+      <!-- Dot size control -->
+      <div style="display:flex;align-items:center;gap:10px;padding:7px 16px;background:var(--card);border:1px solid var(--stroke);border-radius:999px;backdrop-filter:blur(10px)">
+        <span style="font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap">⚬ Dot size</span>
+        <input type="range" id="dotSizeSlider" min="1" max="8" value="3" step="0.5"
+          style="width:100px;accent-color:var(--blue);cursor:pointer"
+          oninput="dotRadius=+this.value;draw()"/>
+      </div>
+</div>
 
       <!-- Right panel -->
       <aside class="panel">
@@ -229,9 +228,13 @@
             <div><strong>Radii &amp; dots</strong></div>
             <div class="count" id="threadToggleCount">On</div>
           </div>
-          <div class="pill" id="shapePill" onclick="shapeIdx=(shapeIdx+1)%SHAPES.length;const names=['Circle','Heart','Star','Diamond'];document.getElementById('shapeLabel').textContent=names[shapeIdx];draw()">
-            <div><strong>Shape</strong></div>
-            <div class="count" id="shapeLabel">Circle</div>
+          <div class="pill" onclick="if(confirm('Clear all your saved links?')){localStorage.removeItem(lsKey());loadAll();}">
+            <div><strong>My links</strong></div>
+            <div class="count" id="myLinksCount">0</div>
+          </div>
+          <div class="pill" id="colorPill" onclick="themeIdx=(themeIdx+1)%COLOR_THEMES.length;document.getElementById('colorLabel').textContent=COLOR_THEMES[themeIdx].name;draw()">
+            <div><strong>Colors</strong></div>
+            <div class="count" id="colorLabel">Default</div>
           </div>
         </div>
         <div id="status" style="margin-top:12px"></div>
@@ -258,6 +261,7 @@ const ctx=canvas.getContext('2d');
 let allDots=[],linksMap={},activeHit=null,srchHits=[];
 let zoom=1,panX=0,panY=0,isPanning=false,lastPan={x:0,y:0};
 let showThreads=true;
+let dotRadius=3.5,wheelDisplaySize=420;
 const SHAPES=['circle','heart','star','diamond'];
 let shapeIdx=0;
 
@@ -266,6 +270,45 @@ function lerp(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t));}
 function rgb(c){return`rgb(${c[0]},${c[1]},${c[2]})`;}
 
 
+
+/* ── Color themes ── */
+const COLOR_THEMES=[
+  {name:'Default',  cats:[
+    {dark:[10,30,90],  light:[190,215,255]},  // navy-sky
+    {dark:[10,60,50],  light:[160,235,210]},  // teal-mint
+    {dark:[90,15,55],  light:[255,185,220]},  // plum-blush
+    {dark:[70,40,0],   light:[255,215,140]},  // amber-gold
+  ]},
+  {name:'Vivid', cats:[
+    {dark:[180,0,0],   light:[255,160,160]},  // red
+    {dark:[0,100,180], light:[140,210,255]},  // blue
+    {dark:[0,130,60],  light:[140,240,180]},  // green
+    {dark:[160,80,0],  light:[255,200,100]},  // orange
+  ]},
+  {name:'Neon', cats:[
+    {dark:[120,0,180], light:[230,140,255]},  // purple
+    {dark:[0,150,180], light:[100,240,255]},  // cyan
+    {dark:[180,0,100], light:[255,120,200]},  // hot pink
+    {dark:[0,160,0],   light:[120,255,120]},  // lime
+  ]},
+  {name:'Pastel', cats:[
+    {dark:[100,120,200],light:[210,220,255]},  // lavender
+    {dark:[80,160,140], light:[200,245,230]},  // sage
+    {dark:[180,100,140],light:[255,210,225]},  // rose
+    {dark:[180,150,60], light:[255,240,190]},  // cream
+  ]},
+  {name:'Mono', cats:[
+    {dark:[20,40,70],  light:[180,200,230]},
+    {dark:[30,55,40],  light:[160,200,170]},
+    {dark:[70,30,50],  light:[200,170,185]},
+    {dark:[60,50,20],  light:[200,190,150]},
+  ]},
+];
+let themeIdx=0;
+function applyTheme(){
+  const th=COLOR_THEMES[themeIdx];
+  CATS.forEach((cat,i)=>{cat.dark=th.cats[i%4].dark;cat.light=th.cats[i%4].light;});
+}
 /* ── Shape paths ── */
 function shapePath(ctx,cx,cy,r){
   const sh=SHAPES[shapeIdx];
@@ -311,6 +354,7 @@ function shapeClip(ctx,cx,cy,r){
 }
 
 function draw(){
+  applyTheme();
   ctx.clearRect(0,0,S,S);
   ctx.save();
   ctx.translate(panX,panY);
@@ -404,14 +448,14 @@ function draw(){
       const a1=toRad(d.cat.angle[0]),a2=toRad(d.cat.angle[1]);
       ctx.beginPath();ctx.moveTo(CX,CY);ctx.arc(CX,CY,R,a1,a2);ctx.closePath();
       ctx.clip();
-      const dg=ctx.createRadialGradient(d.x,d.y,0,d.x,d.y,9);
+      const dg=ctx.createRadialGradient(d.x,d.y,0,d.x,d.y,dotRadius*2.5);
       dg.addColorStop(0,'rgba(255,255,255,0.55)');
       dg.addColorStop(1,'rgba(255,255,255,0)');
-      ctx.beginPath();ctx.arc(d.x,d.y,9,0,Math.PI*2);
+      ctx.beginPath();ctx.arc(d.x,d.y,dotRadius*2.5,0,Math.PI*2);
       ctx.fillStyle=dg;ctx.fill();
-      ctx.beginPath();ctx.arc(d.x,d.y,3.5,0,Math.PI*2);
-      ctx.fillStyle='rgba(255,255,255,0.88)';ctx.fill();
-      ctx.strokeStyle='rgba(15,23,42,0.25)';ctx.lineWidth=0.8;ctx.stroke();
+      ctx.beginPath();ctx.arc(d.x,d.y,dotRadius,0,Math.PI*2);
+      ctx.fillStyle=d.link._local?'rgba(255,230,80,0.95)':'rgba(255,255,255,0.88)';ctx.fill();
+      ctx.strokeStyle=d.link._local?'rgba(200,160,0,0.6)':'rgba(15,23,42,0.25)';ctx.lineWidth=0.8;ctx.stroke();
       ctx.restore();
     });
     ctx.restore();
@@ -530,6 +574,36 @@ function titleAndDesc(l){
   const title=raw.split(' — ')[0].split(' - ')[0].trim();
   return{title};
 }
+function dotToScreen(dot){
+  const rc=canvas.getBoundingClientRect();
+  const scl=rc.width/S;
+  // dot is in canvas space, apply inverse of canvasXY transform
+  const cos=Math.cos(0),sin=Math.sin(0); // no rotation
+  const sx=(dot.x*zoom+panX)*scl+rc.left;
+  const sy=(dot.y*zoom+panY)*scl+rc.top;
+  return{sx,sy};
+}
+
+function positionTip(tip,hit){
+  const rc=canvas.getBoundingClientRect();
+  const scl=rc.width/S;
+  const sx=(hit.x*zoom+panX)*scl+rc.left;
+  const sy=(hit.y*zoom+panY)*scl+rc.top;
+  const tipW=Math.min(230,rc.width*0.65);
+  const tipH=170;
+  // Default: right of dot
+  let tx=sx+18, ty=sy-tipH/2;
+  // Keep inside canvas horizontally
+  if(tx+tipW>rc.right-6) tx=sx-tipW-18;
+  if(tx<rc.left+6) tx=sx+18;
+  // Keep inside canvas vertically
+  if(ty<rc.top+6) ty=rc.top+6;
+  if(ty+tipH>rc.bottom-6) ty=rc.bottom-tipH-6;
+  tip.style.left=tx+'px';
+  tip.style.top=ty+'px';
+  tip.style.maxWidth=tipW+'px';
+  tip.style.display='block';
+}
 function showTip(e,hit){
   const tip=document.getElementById('tip');
   const l=hit.link;
@@ -537,10 +611,8 @@ function showTip(e,hit){
   tip.innerHTML=
     `<div style="font-size:10px;color:#64748b;margin-bottom:3px;font-weight:700;text-transform:uppercase;letter-spacing:.06em">${hit.cat.label}${l.location?' · '+l.location:''}</div>`
     +`<div style="font-weight:600;font-size:13px;color:#0f172a;line-height:1.4;margin-bottom:6px">${title}</div>`
-    +`<div style="font-size:10px;color:#94a3b8">click to see link</div>`;
-  tip.style.left=(e.clientX+16)+'px';
-  tip.style.top=(e.clientY-16)+'px';
-  tip.style.display='block';
+    +`<div style="font-size:10px;color:#94a3b8">click to open</div>`;
+  positionTip(tip,hit);
   tip.style.pointerEvents='none';
 }
 let stickyTipHit=null;
@@ -551,14 +623,12 @@ function showStickyTip(e,hit){
   const{title}=titleAndDesc(l);
   const expiry=expiryTag(l.created_at,hit.cat);
   tip.innerHTML=
-    `<div style="font-size:10px;color:#64748b;margin-bottom:4px;font-weight:700;text-transform:uppercase;letter-spacing:.06em">${hit.cat.label}${l.location?' · '+l.location:''}</div>`
+    (l.location?`<div style="font-size:10px;color:#64748b;margin-bottom:4px;font-weight:600;letter-spacing:.04em">${l.location}</div>`:'')
     +`<div style="font-weight:700;font-size:14px;color:#0f172a;line-height:1.35;margin-bottom:8px">${title}</div>`
     +(expiry?`<div style="font-size:11px;color:#94a3b8;margin-bottom:8px">${expiry.replace(' · ','')}</div>`:'')
     +`<a href="${l.url}" target="_blank" rel="noopener" style="display:block;background:#0f172a;color:#fff;text-decoration:none;padding:9px 14px;border-radius:10px;font-size:12px;font-weight:700;text-align:center">Open link ↗</a>`
     +`<div style="margin-top:8px;font-size:10px;color:#b0bcc8;text-align:center;cursor:pointer" onclick="hideStickyTip()">dismiss</div>`;
-  tip.style.left=(e.clientX+16)+'px';
-  tip.style.top=(e.clientY-24)+'px';
-  tip.style.display='block';
+  positionTip(tip,hit);
   tip.style.pointerEvents='auto';
 }
 function hideStickyTip(){
@@ -674,8 +744,13 @@ async function fetchCat(id){
   try{
     const res=await fetch(SB_URL+'/rest/v1/links?select=id,url,title,category,location,posted_by,social_handle,created_at&category=eq.'+id+'&order=created_at.desc',
       {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
-    return res.ok?res.json():[];
-  }catch{return[];}
+    const remote=res.ok?await res.json():[];
+    const local=lsLoad().filter(l=>l.category===id);
+    return [...local,...remote];
+  }catch{
+    // offline fallback — local only
+    return lsLoad().filter(l=>l.category===id);
+  }
 }
 async function loadAll(){
   document.getElementById('status').textContent='Loading...';
@@ -685,9 +760,12 @@ async function loadAll(){
     const el=document.getElementById('cnt-'+c.id);
     if(el)el.textContent=res[i].length+' links';
   });
-  buildDots();draw();
+  buildDots();draw();renderStatPanel();
   const total=res.reduce((s,a)=>s+a.length,0);
-  document.getElementById('status').textContent=total+' links — hover anywhere to reveal';
+  const localCount=lsLoad().length;
+  const el=document.getElementById('myLinksCount');if(el)el.textContent=localCount;
+  const localNote=localCount>0?' ('+localCount+' yours 🟡)':'';
+  document.getElementById('status').textContent=total+' links'+localNote+' — hover anywhere to reveal';
 }
 
 /* ── Modal ── */
@@ -738,6 +816,11 @@ function closeModal(){
   detectedTitle='';detectedCat='opportunities';
   const btn=document.getElementById('m_submit');btn.disabled=false;btn.textContent='Save link';
 }
+function lsKey(){return'nofoldr_links';}
+function lsLoad(){try{return JSON.parse(localStorage.getItem(lsKey())||'[]');}catch{return[];}}
+function lsSave(items){localStorage.setItem(lsKey(),JSON.stringify(items));}
+function lsAdd(item){const items=lsLoad();items.unshift(item);lsSave(items);}
+
 async function submitLink(){
   const name=(document.getElementById('m_name').value||'').trim();
   const url=(document.getElementById('m_url').value||'').trim();
@@ -748,15 +831,16 @@ async function submitLink(){
   btn.disabled=true;btn.textContent='Saving...';
   const title=detectedTitle||url;
   const cat=detectedCat||catFromContent('',url);
-  try{
-    const res=await fetch(SB_URL+'/rest/v1/links',{
-      method:'POST',
-      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=representation'},
-      body:JSON.stringify({url,category:cat,title,posted_by:name,social_handle:null,location:null})
-    });
-    if(!res.ok){const e=await res.json();throw new Error(e.message||'Failed');}
-    closeModal();loadAll();
-  }catch(err){errEl.textContent='Error: '+err.message;errEl.style.display='block';btn.disabled=false;btn.textContent='Save link';}
+  const newLink={
+    id:'ls_'+Date.now(),
+    url, category:cat, title,
+    posted_by:name, location:'',
+    created_at:new Date().toISOString(),
+    _local:true
+  };
+  lsAdd(newLink);
+  closeModal();
+  loadAll();
 }
 function openProfile(item){
   const name=item.posted_by||'Anonymous';
@@ -785,8 +869,68 @@ if(localStorage.getItem('skim_theme')==='dark'){
   if(btn){btn.textContent='☀️ Light';btn.style.background='rgba(20,32,58,0.88)';btn.style.color='#a0b4d0';btn.style.borderColor='rgba(100,140,200,0.18)';}
 }
 
+
+/* ── Modes ── */
+let currentMode='videos';
+const VIDEO_CATS=[
+  {id:'youtube',   label:'YouTube',   dark:[10,30,90],  light:[190,215,255], angle:[-90,0]},
+  {id:'tiktok',    label:'TikTok',    dark:[10,60,50],  light:[160,235,210], angle:[0,90]},
+  {id:'facebook',  label:'Facebook',  dark:[90,15,55],  light:[255,185,220], angle:[90,180]},
+  {id:'instagram', label:'Instagram', dark:[70,40,0],   light:[255,215,140], angle:[180,270]},
+];
+const GENERAL_CATS=[...CATS.map(c=>({...c}))];
+
+
+function renderStatPanel(){
+  const list=document.getElementById('statList');
+  if(!list)return;
+  list.innerHTML=CATS.map(cat=>{
+    const col=`rgb(${cat.dark[0]},${cat.dark[1]},${cat.dark[2]})`;
+    const cnt=(linksMap[cat.id]||[]).length;
+    return `<div class="stat"><div class="left"><span class="sdot" style="background:${col}"></span><b>${cat.label}</b></div><span id="cnt-${cat.id}">${cnt} links</span></div>`;
+  }).join('');
+}
+function setMode(mode){
+  currentMode=mode;
+  document.getElementById('modeDropdown').style.display='none';
+  if(mode==='videos'){
+    // swap CATS with VIDEO_CATS
+    CATS.length=0;VIDEO_CATS.forEach(v=>CATS.push({...v}));
+    // load video links
+    loadVideoMode();
+  } else {
+    CATS.length=0;GENERAL_CATS.forEach(v=>CATS.push({...v}));
+    loadAll();
+  }
+  document.getElementById('modeBtnLabel').textContent=mode==='videos'?'▶ Videos':'◉ General';
+}
+
+async function loadVideoMode(){
+  document.getElementById('status').textContent='Loading...';
+  // fetch all entertainment + tech links and classify by platform
+  const res=await Promise.all(['entertainment','tech'].map(id=>fetchCat(id)));
+  const all=[...res[0],...res[1]];
+  const vmap={youtube:[],tiktok:[],facebook:[],instagram:[]};
+  all.forEach(l=>{
+    const u=(l.url||'').toLowerCase();
+    if(u.includes('youtube')||u.includes('youtu.be')) vmap.youtube.push(l);
+    else if(u.includes('tiktok')) vmap.tiktok.push(l);
+    else if(u.includes('instagram')) vmap.instagram.push(l);
+    else if(u.includes('facebook')||u.includes('fb.com')) vmap.facebook.push(l);
+    else vmap.instagram.push(l); // everything else goes to instagram bucket as 'others'
+  });
+  CATS.forEach(cat=>{linksMap[cat.id]=vmap[cat.id]||[];});
+  buildDots();draw();renderStatPanel();
+  const total=Object.values(vmap).reduce((s,a)=>s+a.length,0);
+  document.getElementById('status').textContent=total+' video links';
+  ['youtube','tiktok','facebook','instagram'].forEach(id=>{
+    const el=document.getElementById('cnt-'+id);
+    if(el)el.textContent=(vmap[id]||[]).length+' links';
+  });
+}
+document.addEventListener('click',e=>{const dd=document.getElementById('modeDropdown');if(dd&&!e.target.closest('[id="modeDropdown"]')&&!e.target.closest('[id="modeBtnLabel"]'))dd.style.display='none';});
 (function loop(){draw();requestAnimationFrame(loop);})();
-loadAll();
+setMode('videos');
 </script>
 </body>
 </html>
